@@ -1,0 +1,74 @@
+import { app, BrowserWindow, ipcMain } from 'electron';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+let mainWindow;
+
+function createWindow() {
+    mainWindow = new BrowserWindow({
+        width: 1280,
+        height: 850,
+        minWidth: 900,
+        minHeight: 600,
+        frame: false,            // No default OS chrome (Frameless)
+        transparent: false,      // DISABLED for compatibility
+        backgroundColor: '#020617', // Solid Background Color
+        show: false,             // Hide until content is loaded
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+            webSecurity: false
+        },
+        // icon config would go here
+    });
+
+    // Show window smoothly when content is ready
+    mainWindow.once('ready-to-show', () => {
+        mainWindow.show();
+    });
+
+    // In production, we load the build file. In dev, the Vite URL.
+    const isDev = process.env.NODE_ENV === 'development';
+    const startUrl = isDev
+        ? 'http://localhost:5173'
+        : `file://${path.join(__dirname, '../dist/index.html')}`;
+
+    mainWindow.loadURL(startUrl);
+
+    // Cleanup
+    mainWindow.on('closed', () => (mainWindow = null));
+}
+
+app.on('ready', createWindow);
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
+});
+
+app.on('activate', () => {
+    if (mainWindow === null) {
+        createWindow();
+    }
+});
+
+// --- IPC WINDOW CONTROLS (RESTORED) ---
+ipcMain.on('window-minimize', () => {
+    mainWindow?.minimize();
+});
+
+ipcMain.on('window-maximize', () => {
+    if (mainWindow?.isMaximized()) {
+        mainWindow.unmaximize();
+    } else {
+        mainWindow.maximize();
+    }
+});
+
+ipcMain.on('window-close', () => {
+    mainWindow?.close();
+});

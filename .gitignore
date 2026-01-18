@@ -1,0 +1,26 @@
+# Builds & Dist
+builds/
+dist/
+out/
+build/
+
+# Node
+node_modules/
+
+# IDE/Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+
+# Android/Capacitor (Specific files are handled in sub-gitignore, but adding here for safety)
+reactapp/android/.gradle/
+reactapp/android/app/build/

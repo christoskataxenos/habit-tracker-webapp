@@ -81,15 +81,7 @@ The repository contains two distinct implementations of the PULSE protocol:
 3. Run `npm run dev` to start the web interface.
    * *Note: Electron builds for Linux are possible via `npm run electron:build:linux` but untested.*
 
----
 
-### 🤖 ANDROID COMPANION
-> 🚧 **STATUS: UNDER CONSTRUCTION / EXPERIMENTAL**
-
-The project includes a native Android wrapper via **Capacitor**.
-- **Source:** `/reactapp/android`
-- **Sync:** Run `npm run android:sync` to push web updates to the native layer.
-- **Build:** Requires Android Studio (Java 17). Open via `npx cap open android`.
 
 ---
 

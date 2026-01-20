@@ -3,12 +3,10 @@
 
 ## 📥 DOWNLOAD LATEST (v1.3.0)
 
-| Platform | Type | Link |
-| :--- | :--- | :--- |
-| **Windows** | Installer (.exe) | [**Download Setup**](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/PULSE.Setup.1.3.0.exe) |
-| **Windows** | Portable (.exe) | [**Download Portable**](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/PULSE.1.3.0.exe) |
-| **Linux** | Debian/Ubuntu | [**Download .deb**](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/pulse-tracker_1.3.0_amd64.deb) |
-| **Linux** | Fedora/RHEL | [**Download .rpm**](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/pulse-tracker-1.3.0.x86_64.rpm) |
+| **Windows** | **Linux** |
+| :---: | :---: |
+| [![Windows Setup](https://img.shields.io/badge/Windows-Installer_v1.3-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/PULSE.Setup.1.3.0.exe) <br> *Standard Installation* | [![Linux Deb](https://img.shields.io/badge/Linux-Debian%2FUbuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/pulse-tracker_1.3.0_amd64.deb) <br> *Debian, Ubuntu, Mint* |
+| [![Windows Portable](https://img.shields.io/badge/Windows-Portable-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/PULSE.1.3.0.exe) <br> *No Install Needed* | [![Linux RPM](https://img.shields.io/badge/Linux-Fedora%2FRHEL-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/pulse-tracker-1.3.0.x86_64.rpm) <br> *Fedora, RedHat* |
 
 ![PULSE Dashboard](assets/dashboard_preview.png)
 

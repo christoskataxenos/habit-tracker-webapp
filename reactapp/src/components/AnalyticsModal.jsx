@@ -7,14 +7,13 @@ import {
 
 const COLORS = ['#3b82f6', '#06b6d4', '#8b5cf6', '#d946ef', '#f97316', '#10b981', '#64748b'];
 
-export default function AnalyticsModal({ isOpen, onClose, entries }) {
-    if (!isOpen) return null;
-
+export default function AnalyticsModal({ isOpen, onClose, entries, initialView = 'stats' }) {
     const [range, setRange] = useState('week'); // 'week', 'month', 'all'
-    const [showDataMgmt, setShowDataMgmt] = useState(false);
+    const [showDataMgmt, setShowDataMgmt] = useState(initialView === 'vault');
 
     // Filter Data based on Range
     const filteredEntries = useMemo(() => {
+        if (!entries) return [];
         const now = new Date();
         const cutoff = new Date();
 
@@ -27,7 +26,6 @@ export default function AnalyticsModal({ isOpen, onClose, entries }) {
 
     // 1. Total Stats
     const totalHours = filteredEntries.reduce((acc, curr) => acc + parseFloat(curr.hours), 0);
-    const avgDaily = filteredEntries.length > 0 ? (totalHours / (range === 'week' ? 7 : range === 'month' ? 30 : 1)).toFixed(1) : 0;
 
     // 2. Data for Bar Chart (Hours per Day)
     const dailyData = useMemo(() => {
@@ -53,6 +51,8 @@ export default function AnalyticsModal({ isOpen, onClose, entries }) {
             .sort((a, b) => b.value - a.value)
             .slice(0, 6); // Top 6
     }, [filteredEntries]);
+
+    if (!isOpen) return null;
 
     // --- DATA MANAGEMENT HANDLERS ---
     const handleExport = () => {
@@ -83,7 +83,7 @@ export default function AnalyticsModal({ isOpen, onClose, entries }) {
                     Object.keys(data).forEach(k => localStorage.setItem(k, data[k]));
                     window.location.reload();
                 }
-            } catch (err) { alert('Invalid File'); }
+            } catch { alert('Invalid File'); }
         };
         reader.readAsText(file);
     };

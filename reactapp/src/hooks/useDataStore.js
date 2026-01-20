@@ -5,39 +5,32 @@ const GOAL_KEY = 'ascend_daily_goal';
 const ROUTINES_KEY = 'pulse_routines_v1';
 
 export function useDataStore() {
-    const [entries, setEntries] = useState([]);
-    const [routines, setRoutines] = useState([]); // NEW: Recurring Tasks
-    const [dailyGoal, setDailyGoal] = useState(4); // Default 4 hours
-    const [loading, setLoading] = useState(true);
-
-    // Load from local storage
-    useEffect(() => {
-        const savedEntries = localStorage.getItem(STORAGE_KEY);
-        const savedGoal = localStorage.getItem(GOAL_KEY);
-        const savedRoutines = localStorage.getItem(ROUTINES_KEY);
-
-        if (savedEntries) {
-            try {
-                setEntries(JSON.parse(savedEntries));
-            } catch (e) {
-                console.error("Failed to parse entries", e);
-            }
+    const [entries, setEntries] = useState(() => {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        try {
+            return saved ? JSON.parse(saved) : [];
+        } catch (e) {
+            console.error("Failed to parse entries", e);
+            return [];
         }
+    });
 
-        if (savedRoutines) {
-            try {
-                setRoutines(JSON.parse(savedRoutines));
-            } catch (e) {
-                console.error("Failed to parse routines", e);
-            }
+    const [routines, setRoutines] = useState(() => {
+        const saved = localStorage.getItem(ROUTINES_KEY);
+        try {
+            return saved ? JSON.parse(saved) : [];
+        } catch (e) {
+            console.error("Failed to parse routines", e);
+            return [];
         }
+    });
 
-        if (savedGoal) {
-            setDailyGoal(parseFloat(savedGoal));
-        }
+    const [dailyGoal, setDailyGoal] = useState(() => {
+        const saved = localStorage.getItem(GOAL_KEY);
+        return saved ? parseFloat(saved) : 4;
+    });
 
-        setLoading(false);
-    }, []);
+    const [loading] = useState(false);
 
     // Save entries & routines
     useEffect(() => {

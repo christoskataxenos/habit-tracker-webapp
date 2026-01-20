@@ -90,8 +90,18 @@ int main() {
     set_color(8); // Gray
     printf("       (.rpm for Fedora, CentOS, RHEL)\n\n");
 
+    set_color(11); // Cyan
+    printf("   [5] LINUX ARM64\n");
+    set_color(8); // Gray
+    printf("       (.deb/.rpm for Raspberry Pi, VM)\n\n");
+
+    set_color(11); // Cyan
+    printf("   [6] WINDOWS ARM64\n");
+    set_color(8); // Gray
+    printf("       (Surface Pro X, Snapdragon Laptops)\n\n");
+
     set_color(13); // Magenta
-    printf("   [5] FULL DEPLOYMENT (ALL)\n");
+    printf("   [7] FULL DEPLOYMENT (ALL)\n");
     set_color(8); // Gray
     printf("       (Builds everything at once)\n\n");
 
@@ -116,6 +126,12 @@ int main() {
       run_build("LINUX REDHAT (.rpm)", "--linux rpm");
       break;
     case 5:
+      run_build("LINUX ARM64", "--linux --arm64");
+      break;
+    case 6:
+      run_build("WINDOWS ARM64", "--win --arm64");
+      break;
+    case 7:
       run_build("FULL SUITE (WIN + LINUX)", "--win --linux");
       break;
     case 0:

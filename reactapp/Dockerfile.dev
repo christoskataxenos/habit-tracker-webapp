@@ -1,0 +1,16 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy source selection (though volume mount will override this, it's good for caching)
+COPY . .
+
+# Expose Vite Port
+EXPOSE 5173
+
+# Run Vite with Host flag to expose to outside
+CMD ["npm", "run", "dev", "--", "--host"]

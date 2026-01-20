@@ -4,9 +4,8 @@ import { useVoiceInput } from '../hooks/useVoiceInput';
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
 export function GoalModal({ isOpen, onClose, currentGoal, onSave }) {
-    // ... (Reference implementation - keeping existing functionality)
-    if (!isOpen) return null;
     const [goal, setGoal] = useState(currentGoal);
+    if (!isOpen) return null;
     return (
         <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">
             <div className="w-full max-w-sm glass-silver p-8 rounded-2xl relative">
@@ -27,9 +26,7 @@ export function GoalModal({ isOpen, onClose, currentGoal, onSave }) {
 
 const ACTIVITY_TAGS = ['Deep Work', 'Build', 'Learn', 'Logistics', 'Health', 'Life'];
 
-export function AddEntryModal({ isOpen, onClose, onSave, uniqueCourses, recentCourses = [], initialHours = '', initialStartTime = '', initialEndTime = '', initialCourse = '', initialDate = '', initialTag = '' }) {
-    if (!isOpen) return null;
-
+export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], initialHours = '', initialStartTime = '', initialEndTime = '', initialCourse = '', initialDate = '', initialTag = '' }) {
     const [course, setCourse] = useState(initialCourse);
     const [date, setDate] = useState(initialDate || new Date().toISOString().split('T')[0]);
     const [startTime, setStartTime] = useState(initialStartTime || "09:00");
@@ -41,15 +38,32 @@ export function AddEntryModal({ isOpen, onClose, onSave, uniqueCourses, recentCo
 
     const { isListening, startListening, stopListening, hasSupport } = useVoiceInput();
 
-    // Initialize state when modal opens
     useEffect(() => {
-        if (isOpen) {
-            setCourse(initialCourse);
-            // ... (existing logic)
-            setRecurrence([]); // Reset recurrence
-            // ...
+        const calculateDuration = () => {
+            if (!startTime || !endTime) return;
+            const [h1, m1] = startTime.split(':').map(Number);
+            const [h2, m2] = endTime.split(':').map(Number);
+            if (isNaN(h1) || isNaN(m1) || isNaN(h2) || isNaN(m2)) return;
+            let diff = (h2 * 60 + m2) - (h1 * 60 + m1);
+            if (diff < 0) diff += 24 * 60; // Handle overnight
+            setDuration((diff / 60).toFixed(1));
+        };
+        calculateDuration();
+    }, [startTime, endTime]);
+
+    const handleTimeInput = (val, setter) => {
+        // Remove non-numeric
+        let clean = val.replace(/\D/g, '');
+        if (clean.length > 4) clean = clean.slice(0, 4);
+
+        if (clean.length >= 3) {
+            setter(`${clean.slice(0, 2)}:${clean.slice(2)}`);
+        } else {
+            setter(clean);
         }
-    }, [isOpen, initialCourse, initialDate, initialStartTime, initialEndTime, initialHours, initialTag]);
+    };
+
+    if (!isOpen) return null;
 
     // ... (rest of effects)
 
@@ -434,7 +448,7 @@ export function DataManagementModal({ isOpen, onClose }) {
                     alert('Data restored successfully! The app will now reload.');
                     window.location.reload();
                 }
-            } catch (err) {
+            } catch {
                 alert('Invalid backup file.');
             }
         };

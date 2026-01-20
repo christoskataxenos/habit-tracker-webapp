@@ -28,6 +28,7 @@ export default function Dashboard() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [isFocusMode, setIsFocusMode] = useState(false);
     const [editingEntry, setEditingEntry] = useState(null);
+    const [analyticsView, setAnalyticsView] = useState('stats');
 
     // Timer State
     const [timerStart, setTimerStart] = useState(null);
@@ -57,6 +58,11 @@ export default function Dashboard() {
     }, [isFocusMode, timerStart]);
 
     // --- HANDLERS ---
+    const handleOpenAnalytics = (view = 'stats') => {
+        setAnalyticsView(view);
+        setIsDataModalOpen(true);
+    };
+
     const handleDateSelect = (dateStr) => {
         if (dateStr === selectedDate && isDayDetailOpen) {
             setIsDayDetailOpen(false);
@@ -200,7 +206,7 @@ export default function Dashboard() {
                     onTabChange={setActiveTab}
                     onFocusClick={toggleFocus}
                     onManualLogClick={() => setModalOpen(true)}
-                    onDataClick={() => setIsDataModalOpen(true)}
+                    onDataClick={handleOpenAnalytics}
                 />
 
                 {/* OVERLAYS & MODALS */}
@@ -213,6 +219,7 @@ export default function Dashboard() {
                 />
 
                 <AddEntryModal
+                    key={isModalOpen ? (editingEntry?.id || 'new') : 'closed'}
                     isOpen={isModalOpen}
                     onClose={() => { setModalOpen(false); setLastSession(null); setEditingEntry(null); }}
                     onSave={handleSaveEntry}
@@ -225,7 +232,7 @@ export default function Dashboard() {
                 />
 
                 <GoalModal isOpen={isGoalModalOpen} onClose={() => setGoalModalOpen(false)} currentGoal={dailyGoal} onSave={setDailyGoal} />
-                <AnalyticsModal isOpen={isDataModalOpen} onClose={() => setIsDataModalOpen(false)} entries={entries} />
+                <AnalyticsModal isOpen={isDataModalOpen} onClose={() => setIsDataModalOpen(false)} entries={entries} initialView={analyticsView} />
 
                 <DayDetailModal
                     isOpen={isDayDetailOpen}

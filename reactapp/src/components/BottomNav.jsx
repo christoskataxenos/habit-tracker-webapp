@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Zap, List, FilePlus2, BarChart3 } from 'lucide-react';
+import { LayoutDashboard, Zap, Database, FilePlus2, BarChart3 } from 'lucide-react';
 
 export default function BottomNav({ activeTab, onTabChange, onFocusClick, onManualLogClick, onDataClick }) {
     return (
@@ -13,11 +13,11 @@ export default function BottomNav({ activeTab, onTabChange, onFocusClick, onManu
             </button>
 
             <button
-                onClick={() => onTabChange('feed')}
-                className={`flex flex-col items-center gap-1 transition-all ${activeTab === 'feed' ? 'text-cyan-400' : 'text-slate-500 hover:text-white'}`}
+                onClick={() => onDataClick('vault')}
+                className="flex flex-col items-center gap-1 text-slate-500 hover:text-white transition-all"
             >
-                <List className="w-6 h-6" />
-                <span className="text-[10px] font-bold uppercase tracking-widest">Feed</span>
+                <Database className="w-6 h-6" />
+                <span className="text-[10px] font-bold uppercase tracking-widest">Vault</span>
             </button>
 
             {/* Prominent Center Focus Button */}
@@ -41,7 +41,7 @@ export default function BottomNav({ activeTab, onTabChange, onFocusClick, onManu
             </button>
 
             <button
-                onClick={onDataClick}
+                onClick={() => onDataClick('stats')}
                 className="flex flex-col items-center gap-1 text-slate-500 hover:text-white transition-all"
             >
                 <BarChart3 className="w-6 h-6" />

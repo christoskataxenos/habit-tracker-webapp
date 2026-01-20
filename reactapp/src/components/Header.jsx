@@ -4,13 +4,9 @@ import UltraLogo from './UltraLogo';
 
 export default function Header({
     currentTime,
-    onManualLogClick,
-    onFocusClick,
-    onDataClick,
     level = 1,
     rank = "INITIATE",
-    progress = 0,
-    xpToNext = 1000
+    progress = 0
 }) {
     const isElectron = window && window.process && window.process.type;
 

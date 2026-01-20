@@ -61,14 +61,6 @@ const TemporalMatrix = ({ entries, routines = [], onSelectDate, selectedDate, ac
                     const { dateStr, dayHours, dayEntries, dayRoutines } = getDayData(day);
                     const isSelected = selectedDate === dateStr;
 
-                    // ... (Activity Color Logic remains same)
-                    const getActivityColor = (str) => {
-                        const s = str.toLowerCase();
-                        if (s.includes('gym')) return 'bg-orange-500';
-                        if (s.includes('code')) return 'bg-emerald-500';
-                        return 'bg-slate-500';
-                    };
-
                     const getFullActivityColor = (str) => {
                         const s = str.toLowerCase();
                         if (s.includes('gym') || s.includes('workout') || s.includes('run') || s.includes('sport') || s.includes('fit') || s.includes('box')) return 'bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.5)]';

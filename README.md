@@ -23,9 +23,9 @@
 ---
 
 ## 🏗️ SYSTEM ARCHITECTURE
-The repository contains two distinct implementations of the PULSE protocol:
+The system is built as a high-performance desktop application:
 
-### 1. PULSE VISUAL (`/reactapp`)
+### PULSE VISUAL (`/reactapp`)
 > *The Flagship Experience*
 - **Tech Stack:** React, Electron, TailwindCSS, Recharts.
 - **Features:**
@@ -34,32 +34,16 @@ The repository contains two distinct implementations of the PULSE protocol:
   - 📊 **Analytics Vault (v1.3):** Comprehensive filtered statistics (Weekly/Monthly) with Bar & Pie charts.
   - ⏱️ **Live Focus HUD (v1.3):** Real-time system clock and "Engaged" status in Focus Mode.
   - 👻 **Smart Ghosts:** Non-intrusive scheduled protocol visualization.
-  - 📱 **Mobile Ready:** Can be deployed to Android via Capacitor.
-
-### 2. PULSE CORE (`/pulse_core`)
-> *The Pure Efficiency Engine*
-- **Tech Stack:** C, Raylib.
-- **Features:**
-  - ⚡ **Zero Latency:** Native code performance.
-  - 💾 **Tiny Footprint:** < 5MB executable.
-  - 🌌 **Cyberpunk Aesthetics:** Custom-drawn UI with zero web dependencies.
 
 ---
 
 ## 🛠️ INSTALLATION & DEPLOYMENT
 
 ### 🪟 WINDOWS (Primary Support)
-
-#### A. The Visual Experience (React/Electron)
 1. Navigate to `\reactapp`.
 2. Run `npm install` (first time only).
 3. **Development:** Run `npm run dev` for hot-reload.
 4. **Production Build:** Run `npm run electron:build` to generate a `.exe` installer.
-
-#### B. The Core Experience (Native C)
-1. Navigate to `\pulse_core`.
-2. Run `build.bat`.
-3. The system will auto-compile (`gcc`) and launch. *No manual installation of Raylib required.*
 
 ---
 

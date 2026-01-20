@@ -66,7 +66,7 @@ export default function Header({
 
             {/* --- LAYER 2: APP COMMAND DECK (Main Header) --- */}
             {/* Conditional padding top: pt-6 for Electron (for title bar), pt-2 for Android/Web */}
-            <header className={`flex items-center justify-between mb-8 relative ${isElectron ? 'pt-6' : 'pt-2'}`}>
+            <header className={`w-full max-w-[1800px] mx-auto flex items-center justify-between mb-8 relative ${isElectron ? 'pt-6' : 'pt-2'}`}>
 
                 {/* LEFT: Identity & Rank System */}
                 <div className="flex flex-col gap-1 select-none">
@@ -96,43 +96,14 @@ export default function Header({
                     </div>
                 </div>
 
-                {/* CENTER: SYSTEM TIME - Hidden on small mobile screens to save space */}
-                <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex-col items-center pointer-events-none z-10 select-none">
+                {/* RIGHT: SYSTEM TIME */}
+                <div className="hidden md:flex flex-col items-end pointer-events-none z-10 select-none">
                     <span className="text-[10px] tracking-[0.4em] text-cyan-500/40 uppercase font-bold mb-1">System Time</span>
                     <div className="text-4xl font-light tracking-tighter text-white/90 font-mono shadow-black drop-shadow-lg">
                         {currentTime.toLocaleTimeString('en-GB', { hour12: false })}
                     </div>
                 </div>
 
-                {/* Right Side: ACTION BUTTONS */}
-                <div className="flex items-center gap-2 md:gap-4 relative z-10">
-                    <button
-                        onClick={onDataClick}
-                        className="btn-silver w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group rounded-xl"
-                        title="Database"
-                    >
-                        <Database className="w-4 h-4 md:w-5 md:h-5 text-slate-300 group-hover:text-cyan-400 transition-colors" />
-                    </button>
-
-                    <button
-                        onClick={onManualLogClick}
-                        className="btn-silver w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group rounded-xl"
-                        title="Manual Log"
-                    >
-                        <FilePlus2 className="w-4 h-4 md:w-5 md:h-5 text-slate-300 group-hover:text-white transition-colors" />
-                    </button>
-
-                    <button
-                        onClick={onFocusClick}
-                        className="h-10 md:h-12 px-3 md:px-6 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 border border-blue-400/50 flex items-center gap-2 md:gap-3 transition-all shadow-[0_0_25px_rgba(37,99,235,0.4)] hover:scale-105 active:scale-95 group"
-                    >
-                        <Play className="w-4 h-4 md:w-5 md:h-5 text-white fill-current" />
-                        <div className="flex flex-col items-start">
-                            <span className="text-[10px] md:text-xs font-bold text-white uppercase tracking-wider">Focus</span>
-                            <span className="hidden xs:inline text-[8px] md:text-[9px] text-blue-100 uppercase tracking-widest opacity-80 leading-none">Start</span>
-                        </div>
-                    </button>
-                </div>
             </header>
         </>
     );

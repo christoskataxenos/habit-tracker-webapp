@@ -1,5 +1,14 @@
-# PULSE SYSTEM v1.2
+# PULSE SYSTEM v1.3
 > *Bio-Digital Focus Enhancement Environment*
+
+## 📥 DOWNLOAD LATEST (v1.3.0)
+
+| Platform | Type | Link |
+| :--- | :--- | :--- |
+| **Windows** | Installer (.exe) | [**Download Setup**](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/PULSE.Setup.1.3.0.exe) |
+| **Windows** | Portable (.exe) | [**Download Portable**](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/PULSE.1.3.0.exe) |
+| **Linux** | Debian/Ubuntu | [**Download .deb**](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/pulse-tracker_1.3.0_amd64.deb) |
+| **Linux** | Fedora/RHEL | [**Download .rpm**](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/pulse-tracker-1.3.0.x86_64.rpm) |
 
 ![PULSE Dashboard](assets/dashboard_preview.png)
 
@@ -18,7 +27,9 @@ The repository contains two distinct implementations of the PULSE protocol:
 - **Features:**
   - 💎 **Glassmorphic UI:** A stunning, futuristic interface.
   - 🏆 **Gamification Engine:** Earn XP, Level Up, and unlock Ranks (Initiate -> Architect).
-  - 📈 **Neural Link:** Advanced analytics and weekly activity visualization.
+  - 📊 **Analytics Vault (v1.3):** Comprehensive filtered statistics (Weekly/Monthly) with Bar & Pie charts.
+  - ⏱️ **Live Focus HUD (v1.3):** Real-time system clock and "Engaged" status in Focus Mode.
+  - 👻 **Smart Ghosts:** Non-intrusive scheduled protocol visualization.
   - 📱 **Mobile Ready:** Can be deployed to Android via Capacitor.
 
 ### 2. PULSE CORE (`/pulse_core`)
@@ -92,4 +103,4 @@ The project includes a native Android wrapper via **Capacitor**.
 For a detailed breakdown of changes, features, and daily progress, view the [**Development Log (CALENDAR)**](./CALENDAR.md).
 
 ---
-*System Version: 1.2 "The Augmentation"*
+*System Version: 1.3 "The Analytics Vault"*

@@ -3,6 +3,7 @@ builds/
 dist/
 out/
 build/
+*.exe
 
 # Node
 node_modules/
@@ -20,6 +21,11 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+logs/
+
+# Secrets & Temp
+*.env
+temp/
 
 # Android/Capacitor (Specific files are handled in sub-gitignore, but adding here for safety)
 reactapp/android/.gradle/

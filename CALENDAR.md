@@ -76,3 +76,40 @@
 ## 📜 LEGACY NOTES
 - **Cleanup:** Removed deprecated `web_app` (Docker legacy) and `cleanedup_files` to establish a clean repository root.
 - **Architecture:** Project split into `pulse_core` (Minimalist) and `reactapp` (Visual/Mobile).
+
+---
+
+## 2026-01-20: THE ANALYTICS VAULT (v1.3)
+**Focus:** Data Visualization, UI Refinement, and User Guidance.
+
+### 🕒 Phase 6: The "Vault" (Analytics Engine)
+- **Objective:** Provide deep insights into user data without cluttering the main dashboard.
+- **Actions:**
+  - **Implemented `AnalyticsModal.jsx`:** A centralized hub for statistics using `recharts`.
+  - **Features:** 
+    - **Filtered Views:** Week / Month / All-Time toggles.
+    - **Visualizations:** Bar Chart (Daily Output) and Pie Chart (Subject Distribution).
+    - **KPIs:** Total Focus Hours, Session Count, Top Subject.
+  - **Integrated Data Management:** Merged Import/Export functionality into the Analytics Vault for a streamlined "Admin" experience.
+
+### 🕓 Phase 7: UI & Layout Polish (The "Air" Update)
+- **Objective:** Fix cramped layouts and improve visual hierarchy.
+- **Actions:**
+  - **Calendar Compression:** Reduced day cell height (`min-h-[140px]` -> `min-h-[80px]`) to eliminate vertical scrolling on 1080p screens.
+  - **Header Alignment:** Removed top-right action buttons (moved to Bottom Nav) and centered the System Time for a symmetric "Command Deck" feel. Then, updated to right-aligned time based on feedback.
+  - **Bottom Navigation Evolution:**
+    - Replaced generic "Vault/Database" button with **"Feed"**.
+    - Replaced old "Feed" button with **"Stats"** (Analytics).
+    - Established clear semantic grouping: **[Dash | Feed] -- [Focus] -- [Add | Stats]**.
+
+### 🕔 Phase 8: Protocol Visualization ("Smart Ghosts")
+- **Objective:** Make "To-Do" tasks visible but non-intrusive.
+- **Actions:**
+  - **Calendar:** Replaced "Dashed Border" ghosts with subtle, semi-transparent colored blocks (25% opacity).
+  - **Daily Audit:** Added a dedicated **"Scheduled Protocols"** section to the Day Detail view.
+    - Lists all recurring tasks for the day.
+    - Status indicators: **PENDING** vs **COMPLETE**.
+
+### 🕕 Phase 9: Live Focus HUD
+- **Objective:** Keep the user oriented during deep work.
+- **Action:** Added real-time System Clock to the **Focus Mode Overlay**, allowing users to track real-world time alongside their session timer.

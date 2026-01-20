@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 
 const STORAGE_KEY = 'toon_study_tracker_v1';
 const GOAL_KEY = 'ascend_daily_goal';
+const ROUTINES_KEY = 'pulse_routines_v1';
 
 export function useDataStore() {
     const [entries, setEntries] = useState([]);
+    const [routines, setRoutines] = useState([]); // NEW: Recurring Tasks
     const [dailyGoal, setDailyGoal] = useState(4); // Default 4 hours
     const [loading, setLoading] = useState(true);
 
@@ -12,12 +14,21 @@ export function useDataStore() {
     useEffect(() => {
         const savedEntries = localStorage.getItem(STORAGE_KEY);
         const savedGoal = localStorage.getItem(GOAL_KEY);
+        const savedRoutines = localStorage.getItem(ROUTINES_KEY);
 
         if (savedEntries) {
             try {
                 setEntries(JSON.parse(savedEntries));
             } catch (e) {
                 console.error("Failed to parse entries", e);
+            }
+        }
+
+        if (savedRoutines) {
+            try {
+                setRoutines(JSON.parse(savedRoutines));
+            } catch (e) {
+                console.error("Failed to parse routines", e);
             }
         }
 
@@ -28,12 +39,13 @@ export function useDataStore() {
         setLoading(false);
     }, []);
 
-    // Save entries
+    // Save entries & routines
     useEffect(() => {
         if (!loading) {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+            localStorage.setItem(ROUTINES_KEY, JSON.stringify(routines));
         }
-    }, [entries, loading]);
+    }, [entries, routines, loading]);
 
     // Save goal
     const updateDailyGoal = (newGoal) => {
@@ -56,6 +68,24 @@ export function useDataStore() {
 
     const updateEntry = (id, updatedFields) => {
         setEntries(prev => prev.map(e => e.id === id ? { ...e, ...updatedFields } : e));
+    };
+
+    // --- ROUTINE MANAGEMENT ---
+    const addRoutine = (routine) => {
+        const newRoutine = {
+            ...routine,
+            id: crypto.randomUUID(),
+            createdAt: Date.now()
+        };
+        setRoutines(prev => [...prev, newRoutine]);
+    };
+
+    const updateRoutine = (id, updatedFields) => {
+        setRoutines(prev => prev.map(r => r.id === id ? { ...r, ...updatedFields } : r));
+    };
+
+    const deleteRoutine = (id) => {
+        setRoutines(prev => prev.filter(r => r.id !== id));
     };
 
     const getStats = () => {
@@ -101,12 +131,16 @@ export function useDataStore() {
 
     return {
         entries,
+        routines,
         loading,
         dailyGoal,
         setDailyGoal: updateDailyGoal,
         addEntry,
         deleteEntry,
         updateEntry,
+        addRoutine,
+        updateRoutine,
+        deleteRoutine,
         getStats,
         uniqueCourses
     };

@@ -4,6 +4,7 @@ dist/
 out/
 build/
 *.exe
+scripts/
 
 # Node
 node_modules/

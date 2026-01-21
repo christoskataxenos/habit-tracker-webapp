@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { X, Calendar, PieChart, BarChart as BarIcon, Download, Upload } from 'lucide-react';
+import { X, Calendar, PieChart, BarChart as BarIcon, Download, Upload, Sunrise, Moon, Flame, Zap, Crown, Sword, Anchor, Hammer, Book, Heart, Trophy, Medal, FileText } from 'lucide-react';
 import {
     BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
     PieChart as RechartsPie, Pie, Cell, Legend
@@ -7,9 +7,9 @@ import {
 
 const COLORS = ['#3b82f6', '#06b6d4', '#8b5cf6', '#d946ef', '#f97316', '#10b981', '#64748b'];
 
-export default function AnalyticsModal({ isOpen, onClose, entries, initialView = 'stats' }) {
+export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], initialView = 'stats' }) {
     const [range, setRange] = useState('week'); // 'week', 'month', 'all'
-    const [showDataMgmt, setShowDataMgmt] = useState(initialView === 'vault');
+    const [currentView, setCurrentView] = useState(initialView || 'stats'); // 'stats', 'achievements', 'vault'
 
     // Filter Data based on Range
     const filteredEntries = useMemo(() => {
@@ -105,13 +105,27 @@ export default function AnalyticsModal({ isOpen, onClose, entries, initialView =
                     </div>
 
                     <div className="flex items-center gap-4">
-                        {/* Toggle Data Mgmt */}
-                        <button
-                            onClick={() => setShowDataMgmt(!showDataMgmt)}
-                            className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider border transition-all ${showDataMgmt ? 'bg-white/10 text-white border-white/20' : 'text-slate-500 border-transparent hover:text-white'}`}
-                        >
-                            {showDataMgmt ? 'View Stats' : 'Manage Data'}
-                        </button>
+                        {/* View Toggles */}
+                        <div className="flex bg-black/40 rounded-lg p-1 border border-white/5">
+                            <button
+                                onClick={() => setCurrentView('stats')}
+                                className={`px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${currentView === 'stats' ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
+                            >
+                                Stats
+                            </button>
+                            <button
+                                onClick={() => setCurrentView('achievements')}
+                                className={`px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${currentView === 'achievements' ? 'bg-purple-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
+                            >
+                                Badges
+                            </button>
+                            <button
+                                onClick={() => setCurrentView('vault')}
+                                className={`px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${currentView === 'vault' ? 'bg-cyan-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
+                            >
+                                Data
+                            </button>
+                        </div>
 
                         <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full text-slate-500 hover:text-white transition-colors">
                             <X className="w-6 h-6" />
@@ -122,7 +136,7 @@ export default function AnalyticsModal({ isOpen, onClose, entries, initialView =
                 {/* CONTENT AREA */}
                 <div className="flex-1 overflow-y-auto p-6 md:p-8">
 
-                    {showDataMgmt ? (
+                    {currentView === 'vault' && (
                         <div className="max-w-md mx-auto mt-12 space-y-8 animate-in slide-in-from-bottom-4">
                             <div className="text-center mb-8">
                                 <h3 className="text-xl text-white font-light">Data Operations</h3>
@@ -134,6 +148,33 @@ export default function AnalyticsModal({ isOpen, onClose, entries, initialView =
                                 <span className="text-cyan-400 font-bold uppercase tracking-widest">Export JSON</span>
                             </button>
 
+                            <button onClick={() => {
+                                const headers = ['ID', 'Course', 'Date', 'Hours', 'Start Time', 'End Time', 'Topic', 'Tag', 'Focus Score'];
+                                const rows = entries.map(e => [
+                                    e.id,
+                                    `"${e.course.replace(/"/g, '""')}"`, // Handle commas/quotes
+                                    e.date,
+                                    e.hours,
+                                    e.startTime,
+                                    e.endTime,
+                                    `"${(e.topic || '').replace(/"/g, '""')}"`,
+                                    e.tag,
+                                    e.score || '-'
+                                ]);
+                                const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+                                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                                const url = URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = `pulse_data_${new Date().toISOString().split('T')[0]}.csv`;
+                                document.body.appendChild(a);
+                                a.click();
+                                document.body.removeChild(a);
+                            }} className="w-full p-6 bg-gradient-to-r from-emerald-900/30 to-teal-900/30 border border-emerald-500/30 rounded-xl flex items-center justify-center gap-4 group hover:border-emerald-400/60 transition-all">
+                                <FileText className="w-6 h-6 text-emerald-400" />
+                                <span className="text-emerald-400 font-bold uppercase tracking-widest">Export CSV</span>
+                            </button>
+
                             <div className="relative">
                                 <input type="file" accept=".json" onChange={handleImport} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20" />
                                 <button className="w-full p-6 bg-gradient-to-r from-fuchsia-900/30 to-purple-900/30 border border-fuchsia-500/30 rounded-xl flex items-center justify-center gap-4 group hover:border-fuchsia-400/60 transition-all">
@@ -142,7 +183,56 @@ export default function AnalyticsModal({ isOpen, onClose, entries, initialView =
                                 </button>
                             </div>
                         </div>
-                    ) : (
+                    )}
+
+                    {currentView === 'achievements' && (
+                        <div className="animate-in slide-in-from-bottom-4">
+                            <div className="text-center mb-12">
+                                <h3 className="text-3xl text-white font-thin tracking-tight mb-2">Hall of Trophies</h3>
+                                <p className="text-slate-500 text-sm max-w-md mx-auto">
+                                    Your dedication is immortalized here. Earn badges by maintaining streaks, working late, and mastering your craft.
+                                </p>
+                            </div>
+
+                            {badges.length === 0 ? (
+                                <div className="flex flex-col items-center justify-center py-20 opacity-50">
+                                    <Trophy className="w-24 h-24 text-slate-700 mb-4" />
+                                    <p className="text-slate-500 font-mono text-sm uppercase tracking-widest">No Achievements Yet</p>
+                                    <p className="text-slate-600 text-xs mt-2">Start logging sessions to unlock greatness.</p>
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                                    {badges.map((badge, idx) => {
+                                        // Icon Mapping based on ID/String
+                                        const IconComponent = {
+                                            'Sunrise': Sunrise,
+                                            'Moon': Moon,
+                                            'Flame': Flame,
+                                            'Zap': Zap,
+                                            'Crown': Crown,
+                                            'Sword': Sword,
+                                            'Anchor': Anchor,
+                                            'Hammer': Hammer,
+                                            'Book': Book,
+                                            'Heart': Heart
+                                        }[badge.icon] || Medal;
+
+                                        return (
+                                            <div key={idx} className="group relative bg-gradient-to-br from-white/5 to-transparent p-6 rounded-2xl border border-white/5 hover:border-purple-500/50 hover:bg-purple-900/10 transition-all hover:-translate-y-1 flex flex-col items-center text-center">
+                                                <div className="w-16 h-16 rounded-full bg-black/50 flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] transition-all border border-white/10 group-hover:border-purple-500/50">
+                                                    <IconComponent className="w-8 h-8 text-slate-400 group-hover:text-purple-400 transition-colors" />
+                                                </div>
+                                                <h4 className="text-white font-bold tracking-tight mb-1 group-hover:text-purple-200">{badge.name}</h4>
+                                                <p className="text-xs text-slate-500 leading-relaxed">{badge.desc}</p>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {currentView === 'stats' && (
                         <div className="space-y-8 animate-in slide-in-from-bottom-4">
 
                             {/* RANGE SELECTOR */}

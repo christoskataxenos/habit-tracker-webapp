@@ -1,12 +1,13 @@
 import React from 'react';
-import { FilePlus2, Play, Database } from 'lucide-react';
+import { FilePlus2, Play, Database, Sunrise, Moon, Flame, Zap, Crown, Sword, Anchor, Hammer, Book, Heart, Trophy, Medal } from 'lucide-react';
 import UltraLogo from './UltraLogo';
 
 export default function Header({
     currentTime,
     level = 1,
     rank = "INITIATE",
-    progress = 0
+    progress = 0,
+    badges = []
 }) {
     const isElectron = window && window.process && window.process.type;
 

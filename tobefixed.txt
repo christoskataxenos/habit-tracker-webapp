@@ -1,0 +1,23 @@
+# 🔜 PULSE v1.5 ROADMAP: "THE POLISH & POWER UPDATE"
+
+## 1. Project & Goal Tracking (The "Power" Layer)
+- [ ] **Goal Setting per Course:** 
+  - Allow users to set specific hour targets for individual tags/courses (e.g., "Python: 50h/month").
+  - Visual progress bars for these specific goals.
+
+## 2. Interaction Design (The "Polish" Layer)
+- [ ] **Drag & Drop Rescheduling:**
+  - Implement `dnd-kit` or similar to allow moving sessions between days in the calendar.
+  - Handle conflict logic.
+- [ ] **Mobile Gestures:**
+  - Swipe-to-delete on Feed items.
+  - Pull-to-refresh (if applicable).
+  - Haptic feedback on interactions (using navigator.vibrate).
+
+## 3. Data Integrity & Portable "Zen"
+- [ ] **CSV Import Validation:** Ensure the import function handles the CSV format we just created (bi-directional sync).
+- [ ] **Lightweight Zen Mode:** Explore CSS-only or low-res asset implementation for "Atmosphere" without bloating the app size.
+
+## 4. Maintenance
+- [ ] **Performance Audit:** Check render counts on the Dashboard grid.
+- [ ] **Accessibility:** Improve ARIA labels for screen readers.

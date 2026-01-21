@@ -113,3 +113,38 @@
 ### 🕕 Phase 9: Live Focus HUD
 - **Objective:** Keep the user oriented during deep work.
 - **Action:** Added real-time System Clock to the **Focus Mode Overlay**, allowing users to track real-world time alongside their session timer.
+
+---
+
+## 2026-01-21: THE ENGAGEMENT UPDATE (v1.4)
+**Focus:** Reliability, Motivation, and Data Ownership.
+
+### 🕖 Phase 10: Critical Infrastructure (Bug Fix)
+- **Problem:** Focus Sessions were incorrectly logging to a selected *past date* if the calendar was viewing that date, instead of logging to *Today*.
+- **Fix:** Implemented logic in `Dashboard.jsx` to force `today` date on session termination, regardless of calendar view state.
+
+### 🕗 Phase 11: Workflow Velocity
+- **Feature:** Added **"Quick-Add" (+)** button inside the `DayDetailModal` (Daily Log).
+- **Benefit:** Allows users to rapidly add missed entries for a specific day without closing the review window.
+
+### 🕘 Phase 12: Gamification 2.0 (The Badge System)
+- **Objective:** Reward behavior, consistency, and breadth of activity—not just raw hours.
+- **System Architecture:**
+  - **Universal Badges:** `Early Bird` (Morning), `Night Owl` (Late Night), `Marathoner` (3h+ Sessions), `Streak Master` (3/7/30 days).
+  - **Adaptive Badges:** Tag-based achievements (e.g., `Deep Diver` for 50h Deep Work, `The Architect` for 50h Build).
+- **UI Implementation:**
+  - Added **"Badges" Tab** to the Analytics Vault.
+  - Designed "Hall of Trophies" grid with dynamic lucide-react icons and unlock criteria.
+  - *Decision:* Kept the main Dashboard clean; badges live in the Vault.
+
+### 🕙 Phase 13: Qualitative Data (Focus Score)
+- **Objective:** Move beyond "Time Tracking" to "Quality Tracking".
+- **Action:**
+  - Added a **Focus Score (1-10)** slider to the Entry Modal.
+  - Allows users to rate the intensity/quality of their session.
+  - Added **CSV Export** functionality to the Vault, enabling "Power Users" to download raw data (including Focus Scores) for external analysis (Excel/Python).
+
+### 🔜 FUTURE ROADMAP (v1.5+)
+- **Project Tracking:** Set goals per subject/project.
+- **UI Polish:** Drag & Drop Rescheduling, Swipe Gestures (Deferred for stability).
+- **Zen Mode 2.0:** Ambient sounds/backgrounds (Deferred to keep app lightweight).

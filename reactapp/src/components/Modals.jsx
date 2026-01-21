@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Target, X, Edit3, Mic, MicOff, Calendar, Clock, Activity, Zap } from 'lucide-react';
+import { Target, X, Edit3, Mic, MicOff, Calendar, Clock, Activity, Zap, Plus } from 'lucide-react';
 import { useVoiceInput } from '../hooks/useVoiceInput';
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
@@ -26,7 +26,7 @@ export function GoalModal({ isOpen, onClose, currentGoal, onSave }) {
 
 const ACTIVITY_TAGS = ['Deep Work', 'Build', 'Learn', 'Logistics', 'Health', 'Life'];
 
-export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], initialHours = '', initialStartTime = '', initialEndTime = '', initialCourse = '', initialDate = '', initialTag = '' }) {
+export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], initialHours = '', initialStartTime = '', initialEndTime = '', initialCourse = '', initialDate = '', initialTag = '', initialScore = 5 }) {
     const [course, setCourse] = useState(initialCourse);
     const [date, setDate] = useState(initialDate || new Date().toISOString().split('T')[0]);
     const [startTime, setStartTime] = useState(initialStartTime || "09:00");
@@ -34,6 +34,7 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
     const [topic, setTopic] = useState('');
     const [duration, setDuration] = useState(initialHours || "1.0");
     const [tag, setTag] = useState(initialTag || 'Self-Study');
+    const [score, setScore] = useState(initialScore);
     const [recurrence, setRecurrence] = useState([]); // Days 0-6
 
     const { isListening, startListening, stopListening, hasSupport } = useVoiceInput();
@@ -72,7 +73,7 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!course) return;
-        onSave({ course, date, hours: duration, startTime, endTime, topic, tag, recurrence });
+        onSave({ course, date, hours: duration, startTime, endTime, topic, tag, score, recurrence });
         onClose();
     };
 
@@ -82,7 +83,7 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
     };
 
     return (
-        <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">
+        <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-[60] flex items-center justify-center p-4 animate-in fade-in duration-300">
             <div className="w-full max-w-lg relative glass-silver p-5 lg:p-8 rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh]">
                 <button onClick={onClose} className="absolute right-4 top-4 lg:right-6 lg:top-6 text-slate-500 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10"><X className="w-6 h-6" strokeWidth={2} /></button>
                 <h2 className="text-2xl lg:text-3xl font-light text-platinum mb-2 tracking-tighter flex items-center gap-2"><Edit3 className="w-6 h-6 lg:w-8 lg:h-8 text-slate-400" /> Log <span className="font-bold">Entry</span></h2>
@@ -112,21 +113,39 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Activity Type</label>
-                        <div className="flex flex-wrap gap-2">
-                            {ACTIVITY_TAGS.map(t => (
-                                <button
-                                    key={t}
-                                    type="button"
-                                    onClick={() => setTag(t)}
-                                    className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider border transition-all ${tag === t
-                                        ? 'bg-blue-600 border-blue-500 text-white shadow-[0_0_15px_rgba(37,99,235,0.5)]'
-                                        : 'bg-black/40 border-white/5 text-slate-500 hover:text-slate-300 hover:border-white/10'
-                                        }`}
-                                >
-                                    {t}
-                                </button>
-                            ))}
+                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex justify-between">
+                            Activity Type
+                            <span className="text-blue-400">Rate: {score}/10</span>
+                        </label>
+                        <div className="grid grid-cols-[1fr_auto] gap-4 items-center">
+                            <div className="flex flex-wrap gap-2">
+                                {ACTIVITY_TAGS.map(t => (
+                                    <button
+                                        key={t}
+                                        type="button"
+                                        onClick={() => setTag(t)}
+                                        className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider border transition-all ${tag === t
+                                            ? 'bg-blue-600 border-blue-500 text-white shadow-[0_0_15px_rgba(37,99,235,0.5)]'
+                                            : 'bg-black/40 border-white/5 text-slate-500 hover:text-slate-300 hover:border-white/10'
+                                            }`}
+                                    >
+                                        {t}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Focus Score Slider */}
+                            <div className="bg-black/20 p-2 rounded-lg border border-white/5 w-32">
+                                <input
+                                    type="range"
+                                    min="1"
+                                    max="10"
+                                    value={score}
+                                    onChange={(e) => setScore(Number(e.target.value))}
+                                    className="w-full accent-blue-500 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer"
+                                    title="Focus Score"
+                                />
+                            </div>
                         </div>
                     </div>
 
@@ -208,7 +227,7 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
     );
 }
 
-export function DayDetailModal({ isOpen, onClose, dateStr, entries, routines = [] }) {
+export function DayDetailModal({ isOpen, onClose, dateStr, entries, routines = [], onAddEntry }) {
     if (!isOpen || !dateStr) return null;
 
     const dateObj = new Date(dateStr);
@@ -351,6 +370,13 @@ export function DayDetailModal({ isOpen, onClose, dateStr, entries, routines = [
                     <h3 className="text-xl text-platinum/80 font-light mb-6 flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                         Activity Log
+                        <button
+                            onClick={onAddEntry}
+                            className="ml-2 p-1.5 rounded-full bg-white/5 hover:bg-blue-600 text-slate-400 hover:text-white transition-all border border-white/5 hover:border-blue-500/50 group"
+                            title="Add Entry"
+                        >
+                            <Plus className="w-4 h-4" />
+                        </button>
                     </h3>
 
                     {entries.length === 0 ? (

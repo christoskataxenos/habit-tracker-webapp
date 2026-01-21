@@ -228,11 +228,11 @@ export default function Dashboard() {
                     initialStartTime={editingEntry?.startTime || (lastSession ? new Date(lastSession.start).toTimeString().slice(0, 5) : '')}
                     initialEndTime={editingEntry?.endTime || (lastSession ? new Date(lastSession.end).toTimeString().slice(0, 5) : '')}
                     initialCourse={editingEntry?.course || smartCourse || ''}
-                    initialDate={editingEntry?.date || selectedDate || ''}
+                    initialDate={editingEntry?.date || (lastSession ? new Date().toISOString().split('T')[0] : (selectedDate || ''))}
                 />
 
                 <GoalModal isOpen={isGoalModalOpen} onClose={() => setGoalModalOpen(false)} currentGoal={dailyGoal} onSave={setDailyGoal} />
-                <AnalyticsModal isOpen={isDataModalOpen} onClose={() => setIsDataModalOpen(false)} entries={entries} initialView={analyticsView} />
+                <AnalyticsModal isOpen={isDataModalOpen} onClose={() => setIsDataModalOpen(false)} entries={entries} badges={stats.badges} initialView={analyticsView} />
 
                 <DayDetailModal
                     isOpen={isDayDetailOpen}
@@ -240,6 +240,7 @@ export default function Dashboard() {
                     dateStr={selectedDate}
                     entries={selectedDate ? entries.filter(e => e.date === selectedDate) : []}
                     routines={selectedDate ? routines.filter(r => r.days.includes(new Date(selectedDate).getDay())) : []}
+                    onAddEntry={() => setModalOpen(true)}
                 />
             </div>
         </>

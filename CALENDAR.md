@@ -120,7 +120,7 @@
 **Focus:** Reliability, Motivation, and Data Ownership.
 
 ### 🕖 Phase 10: Critical Infrastructure (Bug Fix)
-- **Problem:** Focus Sessions were incorrectly logging to a selected *past date* if the calendar was viewing that date, instead of logging to *Today*.
+- **Problem:** Focus Sessions were incorrectly logging to a selected *past date* if the calendar was viewing that date, instead of logging to *Today*. (Reported by [@giwgos99](https://github.com/giwgos99))
 - **Fix:** Implemented logic in `Dashboard.jsx` to force `today` date on session termination, regardless of calendar view state.
 
 ### 🕗 Phase 11: Workflow Velocity

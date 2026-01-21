@@ -84,5 +84,9 @@ The system is built as a high-performance desktop application:
 ## 📜 HISTORY & UPDATES
 For a detailed breakdown of changes, features, and daily progress, view the [**Development Log (CALENDAR)**](./CALENDAR.md).
 
+## ❤️ ACKNOWLEDGEMENTS
+Special thanks to the community for their feedback and support:
+- **[@giwgos99](https://github.com/giwgos99)**: For identifying critical bugs in the Focus Mode logic (fixed in v1.4).
+
 ---
 *System Version: 1.4 "The Engagement Update"*

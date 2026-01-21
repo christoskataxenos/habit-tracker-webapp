@@ -1,15 +1,15 @@
-# PULSE SYSTEM v1.3
+# PULSE SYSTEM v1.4
 > *Bio-Digital Focus Enhancement Environment*
 
 <div align="center">
 
-## 📥 DOWNLOAD LATEST (v1.3.0)
+## 📥 DOWNLOAD LATEST (v1.4.0)
 
 | 🪟 **WINDOWS** | 🐧 **LINUX** |
 | :---: | :---: |
-| [![Windows Universal](https://img.shields.io/badge/Windows-Universal_Installer-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/PULSE.Setup.1.3.0.exe) <br> *Auto-detects x64 / ARM64* | [![Linux Deb](https://img.shields.io/badge/Linux-Debian%2FUbuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/pulse-tracker_1.3.0_amd64.deb) <br> *x64 (.deb)* |
-| [![Windows Portable x64](https://img.shields.io/badge/Windows_x64-Portable-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/PULSE.Portable.1.3.0.exe) <br> *No Install (Intel/AMD)* | [![Linux RPi](https://img.shields.io/badge/Linux_RPi-Raspberry_Pi-C51A4A?style=for-the-badge&logo=raspberrypi&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/pulse-tracker_1.3.0_arm64.deb) <br> *ARM64 (.deb)* |
-| [![Windows Portable ARM](https://img.shields.io/badge/Windows_ARM-Portable-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/PULSE.Portable.1.3.0.arm64.exe) <br> *No Install (Snapdragon)* | [![Linux RPM](https://img.shields.io/badge/Linux-Fedora%2FRHEL-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.3.0/pulse-tracker-1.3.0.x86_64.rpm) <br> *x64 / ARM64 (.rpm)* |
+| [![Windows Universal](https://img.shields.io/badge/Windows-Universal_Installer-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.4.0/PULSE.Setup.1.4.0.exe) <br> *Auto-detects x64 / ARM64* | [![Linux Deb](https://img.shields.io/badge/Linux-Debian%2FUbuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.4.0/pulse-tracker_1.4.0_amd64.deb) <br> *x64 (.deb)* |
+| [![Windows Portable x64](https://img.shields.io/badge/Windows_x64-Portable-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.4.0/PULSE.Portable.1.4.0.x64.exe) <br> *No Install (Intel/AMD)* | [![Linux RPi](https://img.shields.io/badge/Linux_RPi-Raspberry_Pi-C51A4A?style=for-the-badge&logo=raspberrypi&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.4.0/pulse-tracker_1.4.0_arm64.deb) <br> *ARM64 (.deb)* |
+| [![Windows Portable ARM](https://img.shields.io/badge/Windows_ARM-Portable-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.4.0/PULSE.Portable.1.4.0.arm64.exe) <br> *No Install (Snapdragon)* | [![Linux RPM](https://img.shields.io/badge/Linux-Fedora%2FRHEL-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.4.0/pulse-tracker-1.4.0.x86_64.rpm) <br> *x64 / ARM64 (.rpm)* |
 
 </div>
 
@@ -34,6 +34,7 @@ The system is built as a high-performance desktop application:
   - 🏆 **Gamification Engine:** Earn XP, Level Up, and unlock Ranks (Initiate -> Architect).
   - 📊 **Analytics Vault (v1.3):** Comprehensive filtered statistics (Weekly/Monthly) with Bar & Pie charts.
   - ⏱️ **Live Focus HUD (v1.3):** Real-time system clock and "Engaged" status in Focus Mode.
+  - 🏅 **Gamification 2.0 (v1.4):** Badges & Achievements (Early Bird, Streak Master) and Focus Score quality tracking.
   - 👻 **Smart Ghosts:** Non-intrusive scheduled protocol visualization.
 
 ---
@@ -84,4 +85,4 @@ The system is built as a high-performance desktop application:
 For a detailed breakdown of changes, features, and daily progress, view the [**Development Log (CALENDAR)**](./CALENDAR.md).
 
 ---
-*System Version: 1.3 "The Analytics Vault"*
+*System Version: 1.4 "The Engagement Update"*

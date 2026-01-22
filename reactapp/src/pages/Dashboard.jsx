@@ -67,13 +67,36 @@ export default function Dashboard() {
     }, [isFocusMode, timerStart]);
 
     // Save preferences
+    // Save preferences & Apply Theme
     useEffect(() => {
         localStorage.setItem('pulse_preferences', JSON.stringify(preferences));
-        // Apply theme (Basic implementation)
-        if (preferences.theme === 'light') {
-            document.documentElement.classList.add('light'); // For future CSS hook
-        } else {
-            document.documentElement.classList.remove('light');
+
+        const applyTheme = () => {
+            let isLight = false;
+            if (preferences.theme === 'system') {
+                isLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+            } else {
+                isLight = preferences.theme === 'light';
+            }
+
+            if (isLight) {
+                document.documentElement.classList.add('light');
+            } else {
+                document.documentElement.classList.remove('light');
+            }
+        };
+
+        applyTheme();
+
+        // Listen for system changes ONLY if (preferences.theme === 'system')
+        if (preferences.theme === 'system') {
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: light)');
+            const handler = (e) => {
+                if (e.matches) document.documentElement.classList.add('light');
+                else document.documentElement.classList.remove('light');
+            };
+            mediaQuery.addEventListener('change', handler);
+            return () => mediaQuery.removeEventListener('change', handler);
         }
     }, [preferences]);
 
@@ -191,7 +214,7 @@ export default function Dashboard() {
                 <main className="flex-1 w-full max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 min-h-0 mb-28 overflow-hidden">
 
                     {/* LEFT: CALENDAR / TEMPORAL MATRIX */}
-                    <div className={`${activeTab === 'dashboard' ? 'block' : 'hidden lg:block'} h-full glass-silver rounded-3xl overflow-hidden p-6 flex flex-col relative shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5`}>
+                    <div id="dashboard-calendar-panel" className={`${activeTab === 'dashboard' ? 'block' : 'hidden lg:block'} h-full glass-silver rounded-3xl overflow-hidden p-6 flex flex-col relative shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5`}>
                         <TemporalMatrix
                             entries={entries}
                             routines={routines}
@@ -202,7 +225,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* RIGHT: FEED */}
-                    <div className={`${activeTab === 'feed' ? 'block' : 'hidden lg:block'} h-full glass-silver rounded-3xl flex flex-col overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5`}>
+                    <div id="dashboard-feed-panel" className={`${activeTab === 'feed' ? 'block' : 'hidden lg:block'} h-full glass-silver rounded-3xl flex flex-col overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5`}>
                         <div className="p-4 border-b border-white/5 bg-black/20 backdrop-blur-md flex justify-between items-center shrink-0">
                             <h2 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
                                 <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_#3b82f6]"></span>

@@ -51,13 +51,13 @@
 }
 
 .light .text-slate-500 {
-  color: #475569 !important;
-  /* slate-600 */
+  color: #64748b !important;
+  /* slate-500 standard */
 }
 
 .light .text-slate-600 {
-  color: #64748b !important;
-  /* slate-500 - lightest allowed text */
+  color: #94a3b8 !important;
+  /* slate-400 (lighter) */
 }
 
 .light .text-white {
@@ -80,75 +80,23 @@
 }
 
 /* Header Time & Quote specific fixes */
+/* Header Time & Quote specific fixes - GRAYSCALE FOR LIGHT MODE */
 .light .text-cyan-500\/40 {
-  color: #0ea5e9;
-  opacity: 0.6;
+  color: #94a3b8 !important;
+  /* slate-400 */
+  opacity: 1 !important;
 }
 
 .light .text-cyan-400 {
-  color: #0284c7;
+  color: #475569 !important;
+  /* slate-600 */
+  text-shadow: none !important;
+  filter: none !important;
 }
 
-/* Darker cyan */
-
-/* --- COMPONENT BACKGROUND OVERRIDES --- */
-
-/* Glass Panels */
-.light .glass-silver {
-  @apply bg-white/80 border-white/60;
-  background-image: none !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}
-
-/* MODAL FIXES (DayDetailModal & Others) */
-/* Override hardcoded dark backgrounds from JSX */
-.light .bg-\[\#0a0a0a\] {
-  background-color: #ffffff !important;
-  border-color: #cbd5e1 !important;
-}
-
-.light .bg-\[\#050505\] {
-  background-color: #f8fafc !important;
-}
-
-/* Sidebar in modal */
-.light .bg-gradient-to-br.from-slate-900 {
-  background: linear-gradient(to bottom right, #f1f5f9, #e2e8f0) !important;
-  border-right-color: #cbd5e1 !important;
-}
-
-/* Utility Background Inversions */
-.light .bg-black\/40 {
-  @apply bg-slate-200/80;
-}
-
-.light .bg-black\/20 {
-  @apply bg-slate-200/50;
-}
-
-.light .bg-black\/95 {
-  @apply bg-white/95;
-}
-
-.light .bg-black\/50 {
-  @apply bg-slate-200/50;
-}
-
-.light .bg-white\/5 {
-  @apply bg-slate-900/5;
-}
-
-.light .bg-white\/10 {
-  @apply bg-slate-900/10;
-}
-
-/* Border Inversions */
-.light .border-white\/5 {
-  @apply border-slate-900/5;
-}
-
-.light .border-white\/10 {
-  @apply border-slate-900/10;
+.light .text-cyan-500 {
+  color: #64748b !important;
+  /* slate-500 */
 }
 
 /* Specific Components fix */
@@ -167,7 +115,68 @@
 }
 
 .light input:focus {
-  @apply bg-white border-blue-500;
+  @apply bg-white border-slate-500 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.2) !important;
+}
+
+/* --- DASHBOARD PANELS LIGHT MODE FIX --- */
+/* Force Calendar and Feed panels to be light in Light Mode */
+.light .col-span-12.lg\:col-span-9,
+.light .col-span-12.lg\:col-span-3 {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+  backdrop-filter: blur(20px);
+}
+
+/* Force inner text contrast inside panels */
+.light .font-mono {
+  color: #334155;
+  /* slate-700 */
+}
+
+.light .text-xs.font-mono.text-slate-500 {
+  color: #64748b !important;
+  /* slate-500 */
+}
+
+/* --- LIGHT MODE: FLIP CLOCK OVERRIDES --- */
+.light .flip-container {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05) !important;
+}
+
+.light .flip-card {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  /* slate-200 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+}
+
+.light .flip-card-top {
+  background-color: #f8fafc !important;
+  /* slate-50 */
+  border-bottom-color: #cbd5e1 !important;
+  /* slate-300 */
+}
+
+.light .flip-card-bottom {
+  background-color: #f1f5f9 !important;
+  /* slate-100 */
+}
+
+.light .flip-text {
+  color: #0f172a !important;
+  /* slate-900 */
+  text-shadow: none !important;
+}
+
+.light .flip-line {
+  background-color: #cbd5e1 !important;
+  /* slate-300 */
+  opacity: 0.5;
 }
 
 
@@ -356,6 +365,172 @@
   animation-name: fadeIn;
 }
 
-.slide-in-from-left-4 {
-  animation-name: slideInLeft;
+/* --- DASHBOARD PANELS & NAV LIGHT MODE FIX --- */
+
+/* 1. Force Main Panels (Calendar & Feed) to be Cool White Glass */
+.light #dashboard-calendar-panel,
+.light #dashboard-feed-panel {
+  background-color: rgba(255, 255, 255, 0.65) !important;
+  /* Cool White Glass */
+  border-color: rgba(255, 255, 255, 0.8) !important;
+  box-shadow:
+    0 4px 24px -1px rgba(0, 0, 0, 0.05),
+    inset 0 0 20px rgba(255, 255, 255, 0.5) !important;
+  /* Inner glow */
+  backdrop-filter: blur(24px) saturate(120%);
+  /* Frosty look */
+  background-image: none !important;
+}
+
+/* 2. Fix Calendar Inner Grid Backgrounds (eliminate creme tones) */
+.light .calendar-grid,
+.light .calendar-day-cell {
+  background-color: transparent !important;
+  /* Ensure no inherited gray/creme */
+}
+
+/* 3. Bottom Navigation Bar - Transform to White Glass */
+.light nav.fixed.bottom-0 {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  border-top-color: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.02) !important;
+  color: #475569 !important;
+  /* slate-600 */
+}
+
+/* Bottom Nav Buttons (Inactive) */
+.light nav button span {
+  color: #64748b !important;
+  /* slate-500 */
+}
+
+/* Bottom Nav Buttons (Active - e.g. blue) -> Slate/Dark */
+.light nav button.text-blue-500 {
+  color: #0f172a !important;
+  /* slate-900 */
+}
+
+.light nav button.text-blue-500 span {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+/* Force inner text contrast inside panels */
+.light .font-mono {
+  color: #334155;
+  /* slate-700 */
+}
+
+.light .text-xs.font-mono.text-slate-500 {
+  color: #64748b !important;
+  /* slate-500 */
+}
+
+/* --- LIGHT MODE: FLIP CLOCK OVERRIDES --- */
+.light .flip-container {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05) !important;
+}
+
+.light .flip-card {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  /* slate-200 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+}
+
+.light .flip-card-top {
+  background-color: #f8fafc !important;
+  /* slate-50 */
+  border-bottom-color: #cbd5e1 !important;
+  /* slate-300 */
+}
+
+.light .flip-card-bottom {
+  background-color: #f1f5f9 !important;
+  /* slate-100 */
+}
+
+.light .flip-text {
+  color: #0f172a !important;
+  /* slate-900 */
+  text-shadow: none !important;
+}
+
+/* --- SETTINGS MODAL LIGHT MODE FIXES --- */
+/* --- SETTINGS MODAL LIGHT MODE FIXES --- */
+/* 1. Modal Container - TARGETED ID FIX */
+.light #settings-modal-panel {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #cbd5e1 !important;
+  /* slate-300 */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important;
+  color: #334155 !important;
+  background-image: none !important;
+}
+
+/* 2. Headlines & Dividers */
+.light .border-white\/5,
+.light .border-white\/10 {
+  border-color: #e2e8f0 !important;
+  /* slate-200 */
+}
+
+.light .bg-slate-600 {
+  background-color: #cbd5e1 !important;
+  /* Lighter divider */
+}
+
+/* 3. Option Cards (Theme/Clock) */
+.light .grid button {
+  background-color: #f8fafc !important;
+  /* slate-50 */
+  border-color: #e2e8f0 !important;
+  color: #334155 !important;
+}
+
+.light .grid button:hover {
+  background-color: #f1f5f9 !important;
+  /* slate-100 */
+  border-color: #cbd5e1 !important;
+}
+
+/* Selected State */
+.light .grid button.bg-blue-600\/10,
+.light .grid button.bg-blue-600\/20 {
+  background-color: #e2e8f0 !important;
+  /* Active Slate */
+  border-color: #94a3b8 !important;
+  /* Slate border */
+  box-shadow: none !important;
+}
+
+/* Text Corrections */
+.light .text-platinum {
+  color: #0f172a !important;
+  /* Dark Slate Title */
+  background: none !important;
+  -webkit-text-fill-color: #0f172a !important;
+}
+
+.light .text-slate-500 {
+  color: #64748b !important;
+}
+
+.light .text-slate-200 {
+  color: #f8fafc !important;
+}
+
+/* Keep icon white inside black box if needed, or invert */
+
+/* Specific: Dark Protocol Icon Box in Light Mode */
+.light .bg-black {
+  background-color: #1e293b !important;
+  /* Keep it dark slate */
+}
+
+.light .bg-black .text-slate-200 {
+  color: #f8fafc !important;
 }

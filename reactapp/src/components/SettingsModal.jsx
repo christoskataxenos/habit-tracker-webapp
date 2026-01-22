@@ -12,7 +12,7 @@ export default function SettingsModal({ isOpen, onClose, preferences, updatePref
 
     return (
         <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300">
-            <div className="w-full max-w-2xl glass-silver p-8 rounded-3xl relative overflow-hidden shadow-2xl">
+            <div id="settings-modal-panel" className="w-full max-w-2xl glass-silver p-8 rounded-3xl relative overflow-hidden shadow-2xl">
                 <button
                     onClick={onClose}
                     className="absolute right-6 top-6 text-slate-500 hover:text-white transition-colors"
@@ -31,33 +31,47 @@ export default function SettingsModal({ isOpen, onClose, preferences, updatePref
                         <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2">
                             <Monitor className="w-3 h-3" /> Interface Theme
                         </h3>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                             <button
                                 onClick={() => updatePreferences('theme', 'dark')}
-                                className={`p-4 rounded-xl border border-white/10 flex items-center justify-between transition-all group ${preferences.theme === 'dark' ? 'bg-blue-600/20 border-blue-500/50' : 'bg-black/20 hover:bg-white/5'}`}
+                                className={`p-4 rounded-xl border border-white/10 flex flex-col gap-3 text-left transition-all group ${preferences.theme === 'dark' ? 'bg-blue-600/20 border-blue-500/50' : 'bg-black/20 hover:bg-white/5'}`}
                             >
-                                <div className="flex items-center gap-3">
+                                <div className="flex justify-between w-full">
                                     <div className="p-2 bg-black rounded-lg text-slate-200"><Moon className="w-5 h-5" /></div>
-                                    <div className="text-left">
-                                        <div className="text-sm font-bold text-white">Dark Protocol</div>
-                                        <div className="text-[10px] text-slate-500 uppercase tracking-wider">Default</div>
-                                    </div>
+                                    {preferences.theme === 'dark' && <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_5px_#3b82f6]"></div>}
                                 </div>
-                                {preferences.theme === 'dark' && <Check className="w-4 h-4 text-blue-400" />}
+                                <div>
+                                    <div className="text-sm font-bold text-white">Dark Protocol</div>
+                                    <div className="text-[10px] text-slate-500 uppercase tracking-wider">Default</div>
+                                </div>
                             </button>
 
                             <button
                                 onClick={() => updatePreferences('theme', 'light')}
-                                className={`p-4 rounded-xl border border-white/10 flex items-center justify-between transition-all group ${preferences.theme === 'light' ? 'bg-white/90 border-transparent' : 'bg-white/5 hover:bg-white/10'}`}
+                                className={`p-4 rounded-xl border border-white/10 flex flex-col gap-3 text-left transition-all group ${preferences.theme === 'light' ? 'bg-white/90 border-transparent' : 'bg-white/5 hover:bg-white/10'}`}
                             >
-                                <div className="flex items-center gap-3">
+                                <div className="flex justify-between w-full">
                                     <div className="p-2 bg-slate-200 rounded-lg text-slate-800"><Sun className="w-5 h-5" /></div>
-                                    <div className="text-left">
-                                        <div className={`text-sm font-bold ${preferences.theme === 'light' ? 'text-black' : 'text-slate-300'}`}>Light Mode</div>
-                                        <div className={`text-[10px] uppercase tracking-wider ${preferences.theme === 'light' ? 'text-slate-600' : 'text-slate-500'}`}>Beta</div>
-                                    </div>
+                                    {preferences.theme === 'light' && <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_5px_#10b981]"></div>}
                                 </div>
-                                {preferences.theme === 'light' && <Check className="w-4 h-4 text-emerald-600" />}
+                                <div>
+                                    <div className={`text-sm font-bold ${preferences.theme === 'light' ? 'text-black' : 'text-slate-300'}`}>Light Mode</div>
+                                    <div className={`text-[10px] uppercase tracking-wider ${preferences.theme === 'light' ? 'text-slate-600' : 'text-slate-500'}`}>Beta</div>
+                                </div>
+                            </button>
+
+                            <button
+                                onClick={() => updatePreferences('theme', 'system')}
+                                className={`p-4 rounded-xl border border-white/10 flex flex-col gap-3 text-left transition-all group ${preferences.theme === 'system' ? 'bg-purple-600/20 border-purple-500/50' : 'bg-black/20 hover:bg-white/5'}`}
+                            >
+                                <div className="flex justify-between w-full">
+                                    <div className="p-2 bg-slate-800 rounded-lg text-slate-200"><Monitor className="w-5 h-5" /></div>
+                                    {preferences.theme === 'system' && <div className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_5px_#a855f7]"></div>}
+                                </div>
+                                <div>
+                                    <div className="text-sm font-bold text-white">System Sync</div>
+                                    <div className="text-[10px] text-slate-500 uppercase tracking-wider">Auto-Detect</div>
+                                </div>
                             </button>
                         </div>
                     </div>

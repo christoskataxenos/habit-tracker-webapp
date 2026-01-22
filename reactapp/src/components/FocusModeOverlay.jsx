@@ -19,23 +19,23 @@ export default function FocusModeOverlay({ isFocusMode, elapsed, onTerminate, fo
                 <div className="text-left">
                     <h3 className="text-slate-500 text-sm md:text-xl uppercase tracking-[0.4em] mb-2">Focus Mode</h3>
                     <div className="text-2xl md:text-4xl text-white font-light tracking-widest mb-2">ENGAGED</div>
-                    <div className="text-lg md:text-2xl text-cyan-400 font-mono tracking-wider opacity-80 backdrop-blur-md">
+                    <div className="text-lg md:text-2xl text-slate-300 font-mono tracking-wider opacity-80 backdrop-blur-md">
                         {currentTime ? currentTime.toLocaleTimeString('en-GB', { hour12: false }) : '--:--:--'}
                     </div>
                 </div>
-                <Zap className="w-10 h-10 md:w-16 md:h-16 text-blue-500 animate-pulse drop-shadow-[0_0_20px_rgba(59,130,246,0.8)]" />
+                <Zap className="w-10 h-10 md:w-16 md:h-16 text-slate-400 animate-pulse drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]" />
             </div>
 
             {/* MAIN CLOCK DISPLAY */}
             <div className="relative z-10 w-full flex flex-col items-center justify-center flex-1 min-h-0 px-4">
-                <div className="absolute inset-0 bg-blue-500/5 blur-3xl rounded-full scale-150 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-slate-500/5 blur-3xl rounded-full scale-150 pointer-events-none"></div>
 
                 {clockFace === 'flip' ? (
                     <div className="scale-75 md:scale-100 lg:scale-125 transition-transform duration-500">
                         <FlipClock elapsed={elapsed} />
                     </div>
                 ) : clockFace === 'minimal' ? (
-                    <h2 className="text-white font-thin tracking-tighter font-mono leading-none select-none relative z-10 text-center transition-all duration-500"
+                    <h2 className="text-white font-light tracking-wide font-sans leading-none select-none relative z-10 text-center transition-all duration-500"
                         style={{ fontSize: 'clamp(5rem, 15vw, 12rem)', textShadow: '0 0 50px rgba(255,255,255,0.1)' }}>
                         {formatTime(elapsed)}
                     </h2>
@@ -77,10 +77,10 @@ export default function FocusModeOverlay({ isFocusMode, elapsed, onTerminate, fo
             <div className="relative z-10 shrink-0 mb-8 md:mb-0">
                 <button
                     onClick={onTerminate}
-                    className="group flex items-center gap-4 px-10 py-5 md:px-16 md:py-8 bg-red-600 hover:bg-red-500 text-white rounded-2xl transition-all shadow-[0_0_60px_rgba(220,38,38,0.5)] hover:scale-105 active:scale-95 border border-red-400/50"
+                    className="group flex items-center gap-4 px-10 py-5 md:px-16 md:py-8 bg-red-600 hover:bg-red-500/90 text-white rounded-2xl transition-all shadow-[0_10px_40px_-10px_rgba(220,38,38,0.4)] hover:scale-105 active:scale-95 border border-red-500/30"
                 >
                     <Square className="w-6 h-6 md:w-8 md:h-8 fill-current" />
-                    <span className="font-bold text-lg md:text-xl uppercase tracking-[0.2em]">Terminate</span>
+                    <span className="font-bold text-lg md:text-xl uppercase tracking-[0.2em] drop-shadow-none">Terminate</span>
                 </button>
             </div>
         </div>

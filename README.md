@@ -1,21 +1,21 @@
-# PULSE SYSTEM v1.4
+# PULSE PROTOCOL v1.5.0
 > *Bio-Digital Focus Enhancement Environment*
 
 <div align="center">
 
-## 📥 DOWNLOAD LATEST (v1.4.0)
+## 📥 DOWNLOAD LATEST (v1.5.0)
 
 | 🪟 **WINDOWS** | 🐧 **LINUX** |
 | :---: | :---: |
-| [![Windows Universal](https://img.shields.io/badge/Windows-Universal_Installer-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.4.0/PULSE.Setup.1.4.0.exe) <br> *Auto-detects x64 / ARM64* | [![Linux Deb](https://img.shields.io/badge/Linux-Debian%2FUbuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.4.0/pulse-tracker_1.4.0_amd64.deb) <br> *x64 (.deb)* |
-| [![Windows Portable x64](https://img.shields.io/badge/Windows_x64-Portable-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.4.0/PULSE.Portable.1.4.0.x64.exe) <br> *No Install (Intel/AMD)* | [![Linux RPi](https://img.shields.io/badge/Linux_RPi-Raspberry_Pi-C51A4A?style=for-the-badge&logo=raspberrypi&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.4.0/pulse-tracker_1.4.0_arm64.deb) <br> *ARM64 (.deb)* |
-| [![Windows Portable ARM](https://img.shields.io/badge/Windows_ARM-Portable-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.4.0/PULSE.Portable.1.4.0.arm64.exe) <br> *No Install (Snapdragon)* | [![Linux RPM](https://img.shields.io/badge/Linux-Fedora%2FRHEL-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.4.0/pulse-tracker-1.4.0.x86_64.rpm) <br> *x64 / ARM64 (.rpm)* |
+| [![Windows Universal](https://img.shields.io/badge/Windows-Universal_Installer-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.5.0/PULSE.Setup.1.5.0.exe) <br> *Auto-detects x64 / ARM64* | [![Linux Deb](https://img.shields.io/badge/Linux-Debian%2FUbuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.5.0/pulse-tracker_1.5.0_amd64.deb) <br> *x64 (.deb)* |
+| [![Windows Portable x64](https://img.shields.io/badge/Windows_x64-Portable-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.5.0/PULSE.Portable.1.5.0.x64.exe) <br> *No Install (Intel/AMD)* | [![Linux RPi](https://img.shields.io/badge/Linux_RPi-Raspberry_Pi-C51A4A?style=for-the-badge&logo=raspberrypi&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.5.0/pulse-tracker_1.5.0_arm64.deb) <br> *ARM64 (.deb)* |
+| [![Windows Portable ARM](https://img.shields.io/badge/Windows_ARM-Portable-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.5.0/PULSE.Portable.1.5.0.arm64.exe) <br> *No Install (Snapdragon)* | [![Linux RPM](https://img.shields.io/badge/Linux-Fedora%2FRHEL-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.5.0/pulse-tracker-1.5.0.x86_64.rpm) <br> *x64 / ARM64 (.rpm)* |
 
 </div>
 
 <br>
 
-![PULSE Dashboard](assets/dashboard_preview.png)
+![PULSE Dashboard](assets/Preview1.5.png)
 
 **PULSE** is a high-performance **Daily Activity & Focus System**. It is designed to quantify **everything you do in your day**—from coding and building to fitness and logistics.
 
@@ -30,14 +30,15 @@ The system is built as a high-performance desktop application:
 > *The Flagship Experience*
 - **Tech Stack:** React, Electron, TailwindCSS, Recharts.
 - **Features:**
-  - 💎 **Glassmorphic UI:** A stunning, futuristic interface.
+  - 💎 **Glassmorphic UI:** A stunning, futuristic interface in Dark or Light mode.
+  - 🌓 **Dual-Theme Engine (v1.5):** 
+    - **Dark Protocol:** The signature deep space interface.
+    - **Frost & Platinum:** A monochromatic, high-contrast Light Mode.
+    - **System Sync:** Auto-detects your OS theme preference.
   - 🏆 **Gamification Engine:** Earn XP, Level Up, and unlock Ranks (Initiate -> Architect).
-  - 📊 **Analytics Vault 2.0 (v1.5):** Redesigned "Command Center" for statistics and data management.
-  - 💾 **Data Operations (v1.5):** Robust JSON Backup/Restore and smart CSV Import/Export with duplicate handling.
-  - 🧘 **Zen Mode 2.0 (v1.5):** CSS-only "Aurora" atmosphere for deep work sessions.
-  - 🎯 **Goal Tracking:** Set and track manual hour targets per subject.
-  - 🏅 **Gamification:** Badges & Achievements (Early Bird, Streak Master).
-  - 👻 **Smart Ghosts:** Non-intrusive scheduled protocol visualization.
+  - 📊 **Analytics Vault:** "Command Center" for statistics and data management.
+  - 💾 **Local Vault:** 100% private JSON/CSV storage.
+  - 🧘 **Focus Matrix:** Multiple clock styles (Retro Flip, Zen, Terminal).
 
 ---
 
@@ -84,11 +85,11 @@ The system is built as a high-performance desktop application:
   - `LVL 100+`: **ARCHITECT**
 
 ## 📜 HISTORY & UPDATES
-For a detailed breakdown of changes, features, and daily progress, view the [**Development Log (CALENDAR)**](./CALENDAR.md).
+For a detailed breakdown of changes, features, and daily progress, view the [**Development Log (CALENDAR)**](./CALENDAR.md) or the [**Full Changelog**](./CHANGELOG.md).
 
 ## ❤️ ACKNOWLEDGEMENTS
 Special thanks to the community for their feedback and support:
 - **[@giwgos99](https://github.com/giwgos99)**: For identifying critical bugs in the Focus Mode logic and suggesting the CSV Import feature.
 
 ---
-*System Version: 1.5 "The Zen Update"*
+*System Version: 1.5.0 "Frost & Platinum"*

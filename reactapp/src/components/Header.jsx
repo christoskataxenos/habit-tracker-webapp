@@ -68,72 +68,30 @@ export default function Header({
             {/* --- LAYER 2: APP COMMAND DECK (Main Header) --- */}
             <header className={`w-full max-w-[1800px] mx-auto mb-8 relative ${isElectron ? 'pt-6' : 'pt-2'}`}>
 
-                {/* DESKTOP LAYOUT: Grid that matches Dashboard (1fr | 380px) to align items with panels */}
-                <div className="hidden lg:grid grid-cols-[1fr_380px] gap-8 w-full items-end">
+                {/* SINGLE ROW FLEX LAYOUT (Responsive) */}
+                <div className="flex items-center justify-between w-full gap-4">
 
-                    {/* LEFT COLUMN: Logo (Left) + Quote (Right) -> Aligns with Calendar */}
-                    <div className="flex items-center justify-between w-full pr-1">
-                        {/* Identity & Rank System */}
-                        <div className="flex flex-col gap-1 select-none">
-                            <div className="flex items-center gap-4 group cursor-default">
-                                <UltraLogo />
-                                <h1 className="text-xl md:text-2xl font-extralight tracking-[0.3em] md:tracking-[0.5em] text-slate-200 uppercase" style={{ fontFamily: 'Inter, sans-serif' }}>
-                                    Pulse
-                                </h1>
-                            </div>
-
-                            {/* GAMIFICATION HUD */}
-                            <div className="ml-12 md:ml-[3.25rem] flex items-center gap-3 animate-in fade-in duration-700 slide-in-from-left-4">
-                                <div className="text-[9px] bg-white/5 px-1.5 py-0.5 rounded text-slate-400 font-mono border border-white/5 tracking-wider">
-                                    LVL <span className="text-white font-bold">{level}</span>
-                                </div>
-
-                                <span className="hidden sm:inline text-[9px] text-cyan-400 uppercase tracking-widest font-bold drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]">
-                                    {rank}
-                                </span>
-
-                                <div className="w-16 md:w-24 h-0.5 bg-slate-800 rounded-full overflow-hidden relative">
-                                    <div
-                                        className="h-full bg-cyan-500 shadow-[0_0_10px_cyan] transition-all duration-1000 ease-out"
-                                        style={{ width: `${progress}%` }}
-                                    ></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Quote Widget: Right Aligned in this column */}
-                        <QuoteWidget
-                            className="hidden lg:flex items-end justify-center h-full max-w-[500px]"
-                            authorClass="justify-end"
-                        />
-                    </div>
-
-                    {/* RIGHT COLUMN: System Time -> Aligns with Feed */}
-                    <div className="flex flex-col items-end pointer-events-none z-10 select-none">
-                        <span className="text-[10px] tracking-[0.4em] text-cyan-500/40 uppercase font-bold mb-1">System Time</span>
-                        <div className="text-4xl font-light tracking-tighter text-white/90 font-mono shadow-black drop-shadow-lg">
-                            {currentTime.toLocaleTimeString('en-GB', { hour12: false })}
-                        </div>
-                    </div>
-                </div>
-
-                {/* MOBILE/TABLET LAYOUT: Original Flexbox behavior */}
-                <div className="lg:hidden flex items-center justify-between">
-                    {/* Identity & Rank System */}
-                    <div className="flex flex-col gap-1 select-none">
-                        <div className="flex items-center gap-4 group cursor-default">
+                    {/* LEFT: Logo & Rank (Rank hidden on mobile) */}
+                    <div className="flex items-center gap-4 lg:gap-12 shrink-0">
+                        {/* Logo */}
+                        <div className="flex items-center gap-2 md:gap-4 group cursor-default select-none">
                             <UltraLogo />
-                            <h1 className="text-xl md:text-2xl font-extralight tracking-[0.3em] md:tracking-[0.5em] text-slate-200 uppercase" style={{ fontFamily: 'Inter, sans-serif' }}>
+                            <h1 className="hidden sm:block text-xl md:text-2xl font-extralight tracking-[0.3em] md:tracking-[0.5em] text-slate-200 uppercase" style={{ fontFamily: 'Inter, sans-serif' }}>
                                 Pulse
                             </h1>
                         </div>
 
-                        {/* GAMIFICATION HUD */}
-                        <div className="ml-12 md:ml-[3.25rem] flex items-center gap-3 animate-in fade-in duration-700 slide-in-from-left-4">
+                        {/* GAMIFICATION HUD (Hidden on Mobile) */}
+                        <div className="hidden md:flex items-center gap-3 animate-in fade-in duration-700 slide-in-from-left-4">
                             <div className="text-[9px] bg-white/5 px-1.5 py-0.5 rounded text-slate-400 font-mono border border-white/5 tracking-wider">
                                 LVL <span className="text-white font-bold">{level}</span>
                             </div>
-                            <div className="w-16 h-0.5 bg-slate-800 rounded-full overflow-hidden relative">
+
+                            <span className="hidden lg:inline text-[9px] text-cyan-400 uppercase tracking-widest font-bold drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]">
+                                {rank}
+                            </span>
+
+                            <div className="w-16 md:w-24 h-0.5 bg-slate-800 rounded-full overflow-hidden relative">
                                 <div
                                     className="h-full bg-cyan-500 shadow-[0_0_10px_cyan] transition-all duration-1000 ease-out"
                                     style={{ width: `${progress}%` }}
@@ -142,12 +100,24 @@ export default function Header({
                         </div>
                     </div>
 
-                    {/* System Time (Compact) */}
-                    <div className="flex flex-col items-end pointer-events-none z-10 select-none">
-                        <div className="text-xl font-light tracking-tighter text-white/90 font-mono">
+                    {/* CENTER: QUOTE WIDGET (Truncated on mobile) */}
+                    <div className="flex-1 flex justify-center min-w-0 px-2 lg:px-8">
+                        <QuoteWidget
+                            className="flex items-center justify-center w-full max-w-[600px] opacity-80"
+                            textClass="text-center text-slate-400 text-[10px] md:text-sm font-light italic tracking-wide line-clamp-2 leading-tight px-4"
+                            authorClass="hidden lg:flex justify-end ml-4 opacity-60 text-[10px] shrink-0"
+                            hideAuthorOnMobile={true}
+                        />
+                    </div>
+
+                    {/* RIGHT: SYSTEM TIME */}
+                    <div className="flex flex-col items-end pointer-events-none z-10 select-none shrink-0">
+                        <span className="hidden lg:block text-[10px] tracking-[0.4em] text-cyan-500/40 uppercase font-bold mb-1">System Time</span>
+                        <div className="text-xl md:text-4xl font-light tracking-tighter text-white/90 font-mono shadow-black drop-shadow-lg">
                             {currentTime.toLocaleTimeString('en-GB', { hour12: false })}
                         </div>
                     </div>
+
                 </div>
 
             </header>

@@ -68,8 +68,8 @@ export default function QuoteWidget({
                 "{currentQuote.text}"
             </p>
             <div className={`flex items-center gap-2 mt-1 ${authorClass}`}>
-                <div className="h-[1px] w-8 bg-cyan-900/50"></div>
-                <span className="text-[10px] text-cyan-600 uppercase tracking-[0.2em] font-bold">
+                <div className="h-[1px] w-8 bg-slate-700/50"></div>
+                <span className="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-bold">
                     {currentQuote.author}
                 </span>
             </div>

@@ -119,7 +119,7 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
                     <div className="space-y-2">
                         <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex justify-between">
                             Activity Type
-                            <span className="text-blue-400">Rate: {score}/10</span>
+                            <span className="text-slate-400">Rate: {score}/10</span>
                         </label>
                         <div className="grid grid-cols-[1fr_auto] gap-4 items-center">
                             <div className="flex flex-wrap gap-2">
@@ -129,7 +129,7 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
                                         type="button"
                                         onClick={() => setTag(t)}
                                         className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider border transition-all ${tag === t
-                                            ? 'bg-blue-600 border-blue-500 text-white shadow-[0_0_15px_rgba(37,99,235,0.5)]'
+                                            ? 'bg-slate-200 border-slate-300 text-slate-900 shadow-[0_0_15px_rgba(148,163,184,0.3)]'
                                             : 'bg-black/40 border-white/5 text-slate-500 hover:text-slate-300 hover:border-white/10'
                                             }`}
                                     >
@@ -146,7 +146,7 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
                                     max="10"
                                     value={score}
                                     onChange={(e) => setScore(Number(e.target.value))}
-                                    className="w-full accent-blue-500 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer"
+                                    className="w-full accent-slate-500 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer"
                                     title="Focus Score"
                                 />
                             </div>
@@ -156,12 +156,12 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
                     <div className="grid grid-cols-2 gap-4 lg:gap-6">
                         <div className="space-y-2">
                             <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Date</label>
-                            <input type="date" className="w-full bg-black/40 border border-white/10 focus:border-blue-500/50 rounded-xl py-3 px-4 text-sm text-white outline-none transition-all font-mono text-center" value={date} onChange={e => setDate(e.target.value)} />
+                            <input type="date" className="w-full bg-black/40 border border-white/10 focus:border-slate-500/50 rounded-xl py-3 px-4 text-sm text-white outline-none transition-all font-mono text-center" value={date} onChange={e => setDate(e.target.value)} />
                         </div>
                         <div className="space-y-2">
                             <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Duration</label>
                             <div className="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 flex items-center justify-center">
-                                <span className="text-xl font-bold text-blue-400 font-mono">{duration}h</span>
+                                <span className="text-xl font-bold text-slate-300 font-mono">{duration}h</span>
                             </div>
                         </div>
                     </div>
@@ -203,7 +203,7 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
                                     type="button"
                                     onClick={() => setRecurrence(prev => prev.includes(i) ? prev.filter(x => x !== i) : [...prev, i])}
                                     className={`flex-1 aspect-square rounded-lg flex items-center justify-center text-sm font-bold border transition-all ${recurrence.includes(i)
-                                        ? 'bg-blue-600 border-blue-500 text-white shadow-[0_0_10px_rgba(37,99,235,0.5)]'
+                                        ? 'bg-slate-200 border-slate-300 text-slate-900 shadow-[0_0_10px_rgba(148,163,184,0.3)]'
                                         : 'bg-black/40 border-white/10 text-slate-600 hover:bg-white/5 hover:text-slate-400'
                                         }`}
                                 >

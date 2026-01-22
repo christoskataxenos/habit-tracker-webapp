@@ -7,7 +7,7 @@ export default function FocusModeOverlay({ isFocusMode, elapsed, onTerminate, fo
     if (!isFocusMode) return null;
 
     return (
-        <div className="absolute inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-between py-12 animate-in fade-in duration-500 overflow-hidden">
+        <div id="focus-overlay-container" className="absolute inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-between py-12 animate-in fade-in duration-500 overflow-hidden">
             {/* Background Glows (Aurora) */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                 <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-[conic-gradient(from_0deg,transparent_0deg,rgba(59,130,246,0.1)_90deg,transparent_180deg,rgba(147,51,234,0.1)_270deg,transparent_360deg)] animate-[spin_20s_linear_infinite] blur-3xl opacity-50"></div>
@@ -53,7 +53,7 @@ export default function FocusModeOverlay({ isFocusMode, elapsed, onTerminate, fo
                                 <span className="animate-[pulse_1s_steps(2)_infinite] ml-2 inline-block w-[0.1em] h-[0.8em] bg-emerald-500 align-middle shadow-[0_0_10px_#34d399]"></span>
                             </h2>
                             {/* Scanlines Effect */}
-                            <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.5)_50%)] bg-[length:100%_4px] pointer-events-none opacity-20"></div>
+                            <div className="scanlines-layer absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.5)_50%)] bg-[length:100%_4px] pointer-events-none opacity-20"></div>
                         </div>
 
                         {/* Decorative Hex Dump / Status Lines */}

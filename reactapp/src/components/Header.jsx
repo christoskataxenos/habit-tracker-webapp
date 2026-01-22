@@ -28,7 +28,7 @@ export default function Header({
             {isElectron && (
                 <div className="fixed top-0 left-0 w-full h-8 z-[200] flex justify-between items-center draggable-header pl-4 pr-1 select-none">
                     <div className="text-[10px] text-slate-600 font-mono tracking-widest opacity-50 hover:opacity-100 transition-opacity">
-                        PULSE_OS v1.2
+                        PULSE_OS v1.5
                     </div>
 
                     <div className="flex items-center h-full non-draggable">
@@ -71,18 +71,18 @@ export default function Header({
                 {/* SINGLE ROW FLEX LAYOUT (Responsive) */}
                 <div className="flex items-center justify-between w-full gap-4">
 
-                    {/* LEFT: Logo & Rank (Rank hidden on mobile) */}
-                    <div className="flex items-center gap-4 lg:gap-12 shrink-0">
-                        {/* Logo */}
-                        <div className="flex items-center gap-2 md:gap-4 group cursor-default select-none">
+                    {/* LEFT: Logo & Rank (Stacked) */}
+                    <div className="flex flex-col shrink-0">
+                        {/* Logo Group */}
+                        <div className="flex items-center gap-2 md:gap-4 group cursor-default select-none mb-1">
                             <UltraLogo />
-                            <h1 className="hidden sm:block text-xl md:text-2xl font-extralight tracking-[0.3em] md:tracking-[0.5em] text-slate-200 uppercase" style={{ fontFamily: 'Inter, sans-serif' }}>
+                            <h1 className="hidden sm:block text-xl md:text-2xl font-extralight tracking-[0.3em] md:tracking-[0.5em] pulse-logo-text uppercase" style={{ fontFamily: 'Inter, sans-serif' }}>
                                 Pulse
                             </h1>
                         </div>
 
-                        {/* GAMIFICATION HUD (Hidden on Mobile) */}
-                        <div className="hidden md:flex items-center gap-3 animate-in fade-in duration-700 slide-in-from-left-4">
+                        {/* GAMIFICATION HUD (Moved under Logo) */}
+                        <div className="hidden md:flex items-center gap-3 animate-in fade-in duration-700 slide-in-from-left-4 ml-1 md:ml-2">
                             <div className="text-[9px] bg-white/5 px-1.5 py-0.5 rounded text-slate-400 font-mono border border-white/5 tracking-wider">
                                 LVL <span className="text-white font-bold">{level}</span>
                             </div>

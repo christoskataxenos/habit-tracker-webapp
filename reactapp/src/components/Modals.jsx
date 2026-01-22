@@ -88,7 +88,7 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
 
     return (
         <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-[60] flex items-center justify-center p-4 animate-in fade-in duration-300">
-            <div className="w-full max-w-lg relative glass-silver p-5 lg:p-8 rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh]">
+            <div id="add-entry-modal-panel" className="w-full max-w-lg relative glass-silver p-5 lg:p-8 rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh]">
                 <button onClick={onClose} aria-label="Close Modal" className="absolute right-4 top-4 lg:right-6 lg:top-6 text-slate-500 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10"><X className="w-6 h-6" strokeWidth={2} /></button>
                 <h2 className="text-2xl lg:text-3xl font-light text-platinum mb-2 tracking-tighter flex items-center gap-2"><Edit3 className="w-6 h-6 lg:w-8 lg:h-8 text-slate-400" /> Log <span className="font-bold">Entry</span></h2>
 
@@ -279,7 +279,7 @@ export function DayDetailModal({ isOpen, onClose, dateStr, entries, routines = [
 
     return (
         <div className="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">
-            <div className="w-full max-w-4xl h-[80vh] bg-[#0a0a0a] border border-white/10 rounded-3xl overflow-hidden flex flex-col md:flex-row relative shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+            <div id="day-detail-panel" className="w-full max-w-4xl h-[80vh] bg-[#0a0a0a] border border-white/10 rounded-3xl overflow-hidden flex flex-col md:flex-row relative shadow-[0_0_50px_rgba(0,0,0,0.8)]">
 
                 {/* Close Button */}
                 <button onClick={onClose} aria-label="Close Detail View" className="absolute right-4 top-4 z-50 p-2 rounded-full bg-black/50 hover:bg-white/10 text-slate-400 hover:text-white transition-all">

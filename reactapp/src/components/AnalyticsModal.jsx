@@ -6,10 +6,16 @@ import {
 } from 'recharts';
 
 const COLORS = ['#3b82f6', '#06b6d4', '#8b5cf6', '#d946ef', '#f97316', '#10b981', '#64748b'];
+const COLORS_LIGHT = ['#475569', '#94a3b8', '#cbd5e1', '#64748b', '#334155', '#1e293b', '#e2e8f0']; // Earth & Silver
 
 export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], initialView = 'stats', courseGoals, updateCourseGoal }) {
     const [range, setRange] = useState('week'); // 'week', 'month', 'all'
     const [currentView, setCurrentView] = useState(initialView || 'stats'); // 'stats', 'achievements', 'vault'
+
+    // Theme Detection (Simple Class Check on Body)
+    const isLightMode = document.body.classList.contains('light');
+    const chartColors = isLightMode ? COLORS_LIGHT : COLORS;
+    const barColor = isLightMode ? '#64748b' : '#3b82f6';
 
     // Filter Data based on Range
     const filteredEntries = useMemo(() => {
@@ -167,45 +173,45 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
     };
 
     return (
-        <div className="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">
-            <div className="w-full max-w-5xl h-[85vh] glass-silver flex flex-col rounded-3xl overflow-hidden relative shadow-2xl border border-white/5">
+        <div id="analytics-modal-backdrop" className="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center p-0 md:p-4 animate-in fade-in duration-300">
+            <div id="analytics-vault-panel" className="w-full md:w-[98%] lg:max-w-6xl h-full md:h-[90vh] glass-silver flex flex-col md:rounded-3xl overflow-hidden relative shadow-2xl border-0 md:border border-white/5">
 
                 {/* TOOLBAR */}
-                <div className="shrink-0 p-6 border-b border-white/5 flex justify-between items-center bg-black/20">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-blue-600/20 rounded-xl border border-blue-500/30 text-blue-400">
-                            <PieChart className="w-6 h-6" />
+                <div className="shrink-0 p-4 md:p-6 border-b border-white/5 flex justify-between items-center bg-black/20">
+                    <div className="flex items-center gap-3 md:gap-4">
+                        <div className="p-2 md:p-3 bg-blue-600/20 rounded-xl border border-blue-500/30 text-blue-400">
+                            <PieChart className="w-5 h-5 md:w-6 md:h-6" />
                         </div>
                         <div>
-                            <h2 className="text-2xl text-white font-thin tracking-tight">Analytics Vault</h2>
-                            <p className="text-xs text-slate-500 uppercase tracking-widest">Performance Metrics</p>
+                            <h2 className="text-lg md:text-2xl text-white font-thin tracking-tight">Analytics Vault</h2>
+                            <p className="hidden md:block text-xs text-slate-500 uppercase tracking-widest">Performance Metrics</p>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 md:gap-4">
                         {/* View Toggles */}
-                        <div className="flex bg-black/40 rounded-lg p-1 border border-white/5">
+                        <div className="flex bg-black/40 rounded-lg p-1 border border-white/5 overflow-x-auto max-w-[200px] md:max-w-none no-scrollbar">
                             <button
                                 onClick={() => setCurrentView('stats')}
-                                className={`px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${currentView === 'stats' ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
+                                className={`px-3 py-1.5 md:px-4 md:py-2 rounded-md text-[10px] md:text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${currentView === 'stats' ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
                             >
                                 Stats
                             </button>
                             <button
                                 onClick={() => setCurrentView('achievements')}
-                                className={`px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${currentView === 'achievements' ? 'bg-purple-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
+                                className={`px-3 py-1.5 md:px-4 md:py-2 rounded-md text-[10px] md:text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${currentView === 'achievements' ? 'bg-purple-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
                             >
                                 Badges
                             </button>
                             <button
                                 onClick={() => setCurrentView('goals')}
-                                className={`px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${currentView === 'goals' ? 'bg-emerald-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
+                                className={`px-3 py-1.5 md:px-4 md:py-2 rounded-md text-[10px] md:text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${currentView === 'goals' ? 'bg-emerald-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
                             >
                                 Goals
                             </button>
                             <button
                                 onClick={() => setCurrentView('vault')}
-                                className={`px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${currentView === 'vault' ? 'bg-cyan-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
+                                className={`px-3 py-1.5 md:px-4 md:py-2 rounded-md text-[10px] md:text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${currentView === 'vault' ? 'bg-cyan-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
                             >
                                 Data
                             </button>
@@ -218,7 +224,7 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
                 </div>
 
                 {/* CONTENT AREA */}
-                <div className="flex-1 overflow-y-auto p-6 md:p-8">
+                <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
 
                     {currentView === 'vault' && (
                         <div className="animate-in slide-in-from-bottom-4 space-y-8">
@@ -489,7 +495,7 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
                             </div>
 
                             {/* CHARTS CONTAINER */}
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[400px]">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[350px]">
 
                                 {/* BAR CHART */}
                                 <div className="bg-black/20 p-6 rounded-2xl border border-white/5 flex flex-col">
@@ -504,7 +510,7 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
                                                     contentStyle={{ backgroundColor: '#000', border: '1px solid #333', borderRadius: '8px' }}
                                                     itemStyle={{ color: '#fff' }}
                                                 />
-                                                <Bar dataKey="hours" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                                                <Bar dataKey="hours" fill={barColor} radius={[4, 4, 0, 0]} />
                                             </BarChart>
                                         </ResponsiveContainer>
                                     </div>
@@ -530,7 +536,7 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
                                                     stroke="none"
                                                 >
                                                     {subjectData.map((entry, index) => (
-                                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                        <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
                                                     ))}
                                                 </Pie>
                                                 <Tooltip

@@ -34,10 +34,20 @@
 
 /* --- TEXT CONTRAST FIXES --- */
 /* We map the dark-mode text colors to dark-mode text colors (because on white bg, we need dark text) */
-.light .text-slate-200 {
-  color: #020617 !important;
-  /* almost black */
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+/* --- PULSE LOGO TEXT --- */
+.pulse-logo-text {
+  color: #e2e8f0;
+  /* Default Silver */
+}
+
+.light .pulse-logo-text {
+  background: linear-gradient(to bottom, #475569, #1e293b, #475569) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  /* Faded shadow for silver visibility */
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  font-weight: 500 !important;
 }
 
 .light .text-slate-300 {
@@ -531,6 +541,438 @@
   /* Keep it dark slate */
 }
 
-.light .bg-black .text-slate-200 {
-  color: #f8fafc !important;
+/* --- FOCUS OVERLAY LIGHT MODE FIXES --- */
+/* 1. Main Container Override */
+.light #focus-overlay-container {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  background-image: none !important;
+  color: #0f172a !important;
+  /* slate-900 */
+}
+
+/* 2. Text Override */
+.light #focus-overlay-container .text-white {
+  color: #0f172a !important;
+  text-shadow: none !important;
+}
+
+.light #focus-overlay-container .text-slate-300 {
+  color: #475569 !important;
+  /* slate-600 */
+}
+
+.light #focus-overlay-container .text-slate-500 {
+  color: #94a3b8 !important;
+  /* slate-400 */
+  font-weight: 500;
+}
+
+/* 3. Zen Minimal Clock */
+.light #focus-overlay-container h2 {
+  color: #0f172a !important;
+  text-shadow: 0 0 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 4. Terminal / Hacking Style - CLEAN VERSION (No Scanlines) */
+.light #focus-overlay-container .text-emerald-500\/50,
+.light #focus-overlay-container .text-emerald-400,
+.light #focus-overlay-container .text-emerald-700\/50,
+.light #focus-overlay-container .text-emerald-800,
+.light #focus-overlay-container .text-emerald-600 {
+  color: #1e293b !important;
+  /* Slate-800 mostly black */
+  border-color: #cbd5e1 !important;
+  background-image: none !important;
+  /* KILL SCANLINES */
+  background-color: transparent !important;
+  text-shadow: none !important;
+  /* No Glow */
+}
+
+/* Container for the clock numbers specifically */
+.light #focus-overlay-container div.tracking-widest.font-mono {
+  background-image: none !important;
+  /* Double Kill Scanlines */
+  background-color: rgba(241, 245, 249, 0.5) !important;
+  /* Slate-100/50 */
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* KILL SCANLINES COMPLETELY IN LIGHT MODE */
+.light #focus-overlay-container .scanlines-layer {
+  display: none !important;
+}
+
+.light #focus-overlay-container .bg-emerald-500 {
+  background-color: #334155 !important;
+  /* Slate-700 Cursor */
+  box-shadow: none !important;
+}
+
+/* 5. Flip Clock inside Focus Mode */
+.light #focus-overlay-container .flip-card {
+  background-color: #f1f5f9 !important;
+  /* slate-100 */
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+/* 6. Aurora Gradient Override - Make it Frosty Blue */
+.light #focus-overlay-container .bg-\[conic-gradient\(from_0deg\,transparent_0deg\,rgba\(59\,130\,246\,0\.1\)_90deg\,transparent_180deg\,rgba\(147\,51\,234\,0\.1\)_270deg\,transparent_360deg\)\] {
+  opacity: 0.8 !important;
+  filter: saturate(150%) hue-rotate(180deg);
+}
+
+/* --- ANALYTICS VAULT LIGHT MODE FIXES (CLEAN SILVER DEPTH) --- */
+
+/* 1. The Backdrop (Behind the modal) */
+.light #analytics-modal-backdrop {
+  background-color: rgba(241, 245, 249, 0.85) !important;
+  /* slate-100/85 */
+  backdrop-filter: blur(10px) !important;
+}
+
+/* 2. The Main Modal Window - SILVER BASE */
+.light #analytics-vault-panel {
+  background-color: #f8fafc !important;
+  /* slate-50 (Silver Base) */
+  background-image: none !important;
+  border: 1px solid #cbd5e1 !important;
+  /* slate-300 */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
+  color: #1e293b !important;
+  /* slate-800 */
+}
+
+/* 3. Toolbar (Top Bar) */
+.light #analytics-vault-panel .border-b {
+  border-color: #e2e8f0 !important;
+  background-color: #f8fafc !important;
+  /* Seamless header */
+}
+
+/* Toolbar Icon Box */
+.light #analytics-vault-panel .bg-black\/20 {
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* 4. Internal Cards (KPIs, Charts, Goals) - WHITE CARDS ON SILVER */
+.light #analytics-vault-panel .bg-black\/20,
+.light #analytics-vault-panel .bg-black\/40 {
+  background-color: #ffffff !important;
+  /* Pure White Cards */
+  border: 1px solid #e2e8f0 !important;
+  /* slate-200 */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+}
+
+/* 5. Inputs */
+.light #analytics-vault-panel input {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* 6. Typography - NO SHADOWS, SHARP CONTRAST */
+.light #analytics-vault-panel h2,
+.light #analytics-vault-panel h3,
+.light #analytics-vault-panel h4 {
+  color: #0f172a !important;
+  /* slate-900 */
+  font-weight: 600 !important;
+  text-shadow: none !important;
+  /* Crucial Fix */
+}
+
+.light #analytics-vault-panel .text-white {
+  color: #1e293b !important;
+  /* slate-800 */
+  text-shadow: none !important;
+}
+
+/* EXCEPTION: Active Tab Text (White on Blue) overrides general text-white rule */
+.light #analytics-vault-panel button.bg-blue-600.text-white,
+.light #analytics-vault-panel button.bg-purple-600.text-white,
+.light #analytics-vault-panel button.bg-emerald-600.text-white,
+.light #analytics-vault-panel button.bg-cyan-600.text-white {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+.light #analytics-vault-panel .text-slate-500 {
+  color: #64748b !important;
+}
+
+.light #analytics-vault-panel .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+/* 7. Icon Containers */
+.light #analytics-vault-panel .bg-blue-600\/20 {
+  background-color: #f1f5f9 !important;
+  /* slate-100 */
+  border-color: #cbd5e1 !important;
+}
+
+.light #analytics-vault-panel .w-16.h-16.bg-black\/50 {
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 8. Filter Buttons */
+.light #analytics-vault-panel .border.border-white\/5 {
+  border-color: #cbd5e1 !important;
+}
+
+/* Inactive toggle buttons */
+.light #analytics-vault-panel button.text-slate-500:hover {
+  background-color: #e2e8f0 !important;
+  color: #1e293b !important;
+}
+
+/* 9. Scrollbar */
+.light #analytics-vault-panel ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.light #analytics-vault-panel ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border: 3px solid #f1f5f9;
+}
+
+/* 10. Chart Tooltips */
+.light .recharts-default-tooltip {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.light .recharts-tooltip-item {
+  color: #1e293b !important;
+}
+
+/* --- ADD ENTRY MODAL LIGHT MODE FIXES --- */
+/* 1. Modal Container */
+.light #add-entry-modal-panel {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #cbd5e1 !important;
+  background-image: none !important;
+  color: #0f172a !important;
+}
+
+/* 2. Headlines */
+.light #add-entry-modal-panel h2 {
+  color: #0f172a !important;
+  /* Dark Title */
+}
+
+.light #add-entry-modal-panel .text-platinum {
+  color: #0f172a !important;
+  background: none !important;
+  -webkit-text-fill-color: #0f172a !important;
+}
+
+/* 3. Inputs & TextAreas */
+.light #add-entry-modal-panel input {
+  background-color: #f1f5f9 !important;
+  /* slate-100 */
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+.light #add-entry-modal-panel input::placeholder {
+  color: #94a3b8 !important;
+  /* slate-400 */
+}
+
+.light #add-entry-modal-panel input:focus {
+  background-color: #ffffff !important;
+  border-color: #94a3b8 !important;
+}
+
+/* 4. Activity Tags */
+.light #add-entry-modal-panel button.text-slate-500 {
+  color: #64748b !important;
+}
+
+/* Selected tag override is handled by .bg-slate-200 which works in light mode naturally */
+
+/* 5. Close Button */
+.light #add-entry-modal-panel .absolute.right-4 button {
+  color: #64748b !important;
+}
+
+.light #add-entry-modal-panel .absolute.right-4 button:hover {
+  color: #0f172a !important;
+  background-color: #e2e8f0 !important;
+}
+
+/* --- FEED / TIMELINE STREAM LIGHT MODE FIXES --- */
+
+/* 1. Feed Cards (Timeline Entries) */
+.light .card-metallic {
+  background-color: #f8fafc !important;
+  /* Lighter Gray (almost white) */
+  background-image: none !important;
+  border: 1px solid #e2e8f0 !important;
+  /* slate-200 border */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 2. Text adjustments inside cards */
+.light .card-metallic h3 {
+  color: #1e293b !important;
+  /* slate-800 */
+}
+
+.light .card-metallic .text-slate-500,
+.light .card-metallic .text-slate-700 {
+  color: #64748b !important;
+  /* slate-500 */
+}
+
+.light .card-metallic p {
+  color: #64748b !important;
+  border-left-color: #cbd5e1 !important;
+}
+
+/* 3. The Duration Badge (User's specific request) */
+.light .card-metallic .bg-black\/30 {
+  background-color: #94a3b8 !important;
+  /* The gray color cards had before (slate-400) */
+  color: #ffffff !important;
+  /* White letters as requested */
+  border-color: transparent !important;
+  font-weight: 700 !important;
+  text-shadow: none !important;
+}
+
+/* 4. Feed Header (The "FEED" bar and Search) */
+.light #dashboard-feed-panel .border-b {
+  background-color: #f1f5f9 !important;
+  /* Much lighter gray header */
+  border-color: #e2e8f0 !important;
+}
+
+.light #dashboard-feed-panel h2 {
+  color: #475569 !important;
+  /* darker slate for title */
+}
+
+.light #dashboard-feed-panel input {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+/* 5. Timeline bullet & vertical line fix */
+.light .absolute.left-\[5px\].top-3.w-1\.5.h-1\.5 {
+  border-color: #ffffff !important;
+}
+
+.light .absolute.left-2.top-2.bottom-0.w-px {
+  background: #cbd5e1 !important;
+  /* Solid light gray line */
+}
+
+/* --- DAY DETAIL MODAL LIGHT MODE FIXES --- */
+
+/* 1. Main Modal Container */
+.light #day-detail-panel {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* 2. Left Column (Summary) */
+.light #day-detail-panel .md\:w-5\/12 {
+  background: linear-gradient(to bottom right, #f8fafc, #f1f5f9) !important;
+  /* slate-50 -> slate-100 */
+  border-right-color: #e2e8f0 !important;
+}
+
+.light #day-detail-panel .text-white {
+  color: #1e293b !important;
+  /* slate-800 */
+}
+
+.light #day-detail-panel .text-slate-500 {
+  color: #64748b !important;
+}
+
+/* 3. Stats Cards inside Detail */
+.light #day-detail-panel .bg-white\/5 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 4. Energy Flow Chart Area */
+.light #day-detail-panel .bg-black\/20 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* 5. Right Column (Activity Log) */
+.light #day-detail-panel .md\:w-7\/12 {
+  background-color: #ffffff !important;
+}
+
+.light #day-detail-panel .text-platinum\/80 {
+  color: #1e293b !important;
+  font-weight: 600 !important;
+}
+
+/* 6. Activity Log Items */
+.light #day-detail-panel .hover\:bg-white\/5:hover {
+  background-color: #f8fafc !important;
+}
+
+.light #day-detail-panel .border-transparent {
+  border-color: transparent !important;
+}
+
+.light #day-detail-panel .hover\:border-white\/5:hover {
+  border-color: #e2e8f0 !important;
+}
+
+.light #day-detail-panel .text-slate-400 {
+  color: #475569 !important;
+  /* slate-600 */
+}
+
+.light #day-detail-panel .text-slate-600 {
+  color: #94a3b8 !important;
+  /* slate-400 */
+}
+
+/* 7. Scheduled Protocols Box */
+.light #day-detail-panel .bg-orange-500\/10 {
+  background-color: #fff7ed !important;
+  /* orange-50 */
+  border-color: #fdba74 !important;
+  /* orange-300 */
+}
+
+.light #day-detail-panel .bg-orange-500\/10 .text-white {
+  color: #9a3412 !important;
+  /* orange-900 */
+}
+
+/* 8. Close Button Fix */
+.light #day-detail-panel .bg-black\/50 {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+}
+
+.light #day-detail-panel .bg-black\/50:hover {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
 }

@@ -33,7 +33,7 @@ The system is built as a high-performance desktop application:
   - 💎 **Glassmorphic UI:** A stunning, futuristic interface in Dark or Light mode.
   - 🌓 **Dual-Theme Engine (v1.5):** 
     - **Dark Protocol:** The signature deep space interface.
-    - **Frost & Platinum:** A monochromatic, high-contrast Light Mode.
+    - **Frost & Silver:** A monochromatic, high-contrast Light Mode using Silver/Slate tones.
     - **System Sync:** Auto-detects your OS theme preference.
   - 🏆 **Gamification Engine:** Earn XP, Level Up, and unlock Ranks (Initiate -> Architect).
   - 📊 **Analytics Vault:** "Command Center" for statistics and data management.
@@ -92,4 +92,4 @@ Special thanks to the community for their feedback and support:
 - **[@giwgos99](https://github.com/giwgos99)**: For identifying critical bugs in the Focus Mode logic and suggesting the CSV Import feature.
 
 ---
-*System Version: 1.5.0 "Frost & Platinum"*
+*System Version: 1.5.0 "Frost & Silver"*

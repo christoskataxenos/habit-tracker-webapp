@@ -5,12 +5,20 @@
 
 ## 📥 DOWNLOAD LATEST (v1.5.0)
 
-| 🪟 **WINDOWS** | 🐧 **LINUX** |
+### 🪟 WINDOWS
+*Universal Support (x64 & ARM64)*
+
+| 💿 **INSTALLER** | 🎒 **PORTABLE** |
 | :---: | :---: |
-| [![Windows Universal](https://img.shields.io/badge/Windows-Universal_Installer-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/PULSE.Setup.1.5.0.exe) <br> *Auto-detects x64 / ARM64* | [![Linux Deb](https://img.shields.io/badge/Linux-Debian%2FUbuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker_1.5.0_amd64.deb) <br> *x64 (.deb)* |
-| [![Windows Portable](https://img.shields.io/badge/Windows-Universal_Portable-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/PULSE.Portable.1.5.0.exe) <br> *No Install (x64 / ARM64)* | [![Linux ARM](https://img.shields.io/badge/Linux_ARM-Debian%2FUbuntu-C51A4A?style=for-the-badge&logo=raspberrypi&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker_1.5.0_arm64.deb) <br> *ARM64 (.deb)* |
-| | [![Linux RPM x64](https://img.shields.io/badge/Linux_x64-Fedora%2FRHEL-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker-1.5.0.x86_64.rpm) <br> *x64 (.rpm)* |
-| | [![Linux RPM ARM](https://img.shields.io/badge/Linux_ARM-Fedora%2FRHEL-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker-1.5.0.aarch64.rpm) <br> *ARM64 (.rpm)* |
+| [![Windows Installer](https://img.shields.io/badge/Download-Setup.exe-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/PULSE.Setup.1.5.0.exe) | [![Windows Portable](https://img.shields.io/badge/Download-Portable.exe-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/PULSE.Portable.1.5.0.exe) |
+| *Recommended* | *No Install Required* |
+
+### 🐧 LINUX
+
+| PACKAGE TYPE | 💻 **x64** (Intel/AMD) | ⚡ **ARM64** (RPi / Mac VM) |
+| :--- | :---: | :---: |
+| **.DEB** <br> *(Ubuntu, Debian)* | [![Deb x64](https://img.shields.io/badge/Download-amd64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker_1.5.0_amd64.deb) | [![Deb ARM](https://img.shields.io/badge/Download-arm64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker_1.5.0_arm64.deb) |
+| **.RPM** <br> *(Fedora, RHEL)* | [![RPM x64](https://img.shields.io/badge/Download-x86__64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker-1.5.0.x86_64.rpm) | [![RPM ARM](https://img.shields.io/badge/Download-aarch64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker-1.5.0.aarch64.rpm) |
 
 </div>
 

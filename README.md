@@ -32,9 +32,11 @@ The system is built as a high-performance desktop application:
 - **Features:**
   - 💎 **Glassmorphic UI:** A stunning, futuristic interface.
   - 🏆 **Gamification Engine:** Earn XP, Level Up, and unlock Ranks (Initiate -> Architect).
-  - 📊 **Analytics Vault (v1.3):** Comprehensive filtered statistics (Weekly/Monthly) with Bar & Pie charts.
-  - ⏱️ **Live Focus HUD (v1.3):** Real-time system clock and "Engaged" status in Focus Mode.
-  - 🏅 **Gamification 2.0 (v1.4):** Badges & Achievements (Early Bird, Streak Master) and Focus Score quality tracking.
+  - 📊 **Analytics Vault 2.0 (v1.5):** Redesigned "Command Center" for statistics and data management.
+  - 💾 **Data Operations (v1.5):** Robust JSON Backup/Restore and smart CSV Import/Export with duplicate handling.
+  - 🧘 **Zen Mode 2.0 (v1.5):** CSS-only "Aurora" atmosphere for deep work sessions.
+  - 🎯 **Goal Tracking:** Set and track manual hour targets per subject.
+  - 🏅 **Gamification:** Badges & Achievements (Early Bird, Streak Master).
   - 👻 **Smart Ghosts:** Non-intrusive scheduled protocol visualization.
 
 ---
@@ -86,7 +88,7 @@ For a detailed breakdown of changes, features, and daily progress, view the [**D
 
 ## ❤️ ACKNOWLEDGEMENTS
 Special thanks to the community for their feedback and support:
-- **[@giwgos99](https://github.com/giwgos99)**: For identifying critical bugs in the Focus Mode logic (fixed in v1.4).
+- **[@giwgos99](https://github.com/giwgos99)**: For identifying critical bugs in the Focus Mode logic and suggesting the CSV Import feature.
 
 ---
-*System Version: 1.4 "The Engagement Update"*
+*System Version: 1.5 "The Zen Update"*

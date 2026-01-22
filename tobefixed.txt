@@ -1,0 +1,13 @@
+# 🔜 PULSE FUTURE ROADMAP
+
+## 1. Interaction Design (Refinement)
+- [ ] **Multi-Day Events:** Handle sessions spanning across midnight or multiple days.
+- [ ] **Conflict Resolution:** Visual warning when adding a session that overlaps with an existing one.
+
+## 2. Advanced Analytics
+- [ ] **Trend Lines:** Linear regression on "Daily Output" to show if productivity is trending up or down.
+- [ ] **Heatmap:** GitHub-style contribution graph for the entire year.
+
+## 3. Platform Expansion
+- [ ] **Mobile Native:** Refine PWA/Capacitor experience for smaller touch targets.
+- [ ] **Sync:** Explore cloud synchronization options (optional, opt-in).

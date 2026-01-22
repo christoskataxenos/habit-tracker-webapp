@@ -4,6 +4,8 @@ const STORAGE_KEY = 'toon_study_tracker_v1';
 const GOAL_KEY = 'ascend_daily_goal';
 const ROUTINES_KEY = 'pulse_routines_v1';
 
+const COURSE_GOALS_KEY = 'pulse_course_goals_v1';
+
 export function useDataStore() {
     const [entries, setEntries] = useState(() => {
         const saved = localStorage.getItem(STORAGE_KEY);
@@ -30,20 +32,38 @@ export function useDataStore() {
         return saved ? parseFloat(saved) : 4;
     });
 
+    const [courseGoals, setCourseGoals] = useState(() => {
+        const saved = localStorage.getItem(COURSE_GOALS_KEY);
+        try {
+            return saved ? JSON.parse(saved) : {};
+        } catch (e) {
+            console.error("Failed to parse course goals", e);
+            return {};
+        }
+    });
+
     const [loading] = useState(false);
 
-    // Save entries & routines
+    // Save entries & routines & goals
     useEffect(() => {
         if (!loading) {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
             localStorage.setItem(ROUTINES_KEY, JSON.stringify(routines));
+            localStorage.setItem(COURSE_GOALS_KEY, JSON.stringify(courseGoals));
         }
-    }, [entries, routines, loading]);
+    }, [entries, routines, courseGoals, loading]);
 
     // Save goal
     const updateDailyGoal = (newGoal) => {
         setDailyGoal(newGoal);
         localStorage.setItem(GOAL_KEY, newGoal.toString());
+    };
+
+    const updateCourseGoal = (course, target) => {
+        setCourseGoals(prev => ({
+            ...prev,
+            [course]: parseFloat(target)
+        }));
     };
 
     const addEntry = (entry) => {
@@ -104,7 +124,8 @@ export function useDataStore() {
 
         const courseData = Object.entries(byCourse).map(([name, hours]) => ({
             name,
-            hours
+            hours,
+            goal: courseGoals[name] || 0
         })).sort((a, b) => b.hours - a.hours);
 
         return {
@@ -236,7 +257,9 @@ export function useDataStore() {
         routines,
         loading,
         dailyGoal,
+        courseGoals,
         setDailyGoal: updateDailyGoal,
+        updateCourseGoal,
         addEntry,
         deleteEntry,
         updateEntry,

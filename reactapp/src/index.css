@@ -7,10 +7,171 @@
     @apply bg-[#020617] text-slate-100 antialiased selection:bg-blue-500/30;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+
+  /* Disable spinner arrows on number inputs globally */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
   }
 }
 
-/* --- ANIMATED BACKGROUND --- */
+/* --- LIGHT MODE OVERRIDES (The "Frost & Platinum" Theme) --- */
+.light body {
+  @apply bg-slate-100 text-slate-900;
+}
+
+.light .bg-mui {
+  background: radial-gradient(circle at 50% 0%, #f8fafc 0%, #e2e8f0 100%);
+  /* Lighter Silver Gradient */
+}
+
+/* --- TEXT CONTRAST FIXES --- */
+/* We map the dark-mode text colors to dark-mode text colors (because on white bg, we need dark text) */
+.light .text-slate-200 {
+  color: #020617 !important;
+  /* almost black */
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.light .text-slate-300 {
+  color: #1e293b !important;
+  /* slate-800 */
+}
+
+.light .text-slate-400 {
+  color: #334155 !important;
+  /* slate-700 */
+}
+
+.light .text-slate-500 {
+  color: #475569 !important;
+  /* slate-600 */
+}
+
+.light .text-slate-600 {
+  color: #64748b !important;
+  /* slate-500 - lightest allowed text */
+}
+
+.light .text-white {
+  color: #000000 !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.light .text-white\/90 {
+  color: rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Ensure Platinum Gradient is VISIBLE DARK in Light Mode */
+.light .text-platinum {
+  background: linear-gradient(to bottom, #1e293b, #475569) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  /* Fallback color if gradient fails */
+  text-shadow: none !important;
+}
+
+/* Header Time & Quote specific fixes */
+.light .text-cyan-500\/40 {
+  color: #0ea5e9;
+  opacity: 0.6;
+}
+
+.light .text-cyan-400 {
+  color: #0284c7;
+}
+
+/* Darker cyan */
+
+/* --- COMPONENT BACKGROUND OVERRIDES --- */
+
+/* Glass Panels */
+.light .glass-silver {
+  @apply bg-white/80 border-white/60;
+  background-image: none !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* MODAL FIXES (DayDetailModal & Others) */
+/* Override hardcoded dark backgrounds from JSX */
+.light .bg-\[\#0a0a0a\] {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+}
+
+.light .bg-\[\#050505\] {
+  background-color: #f8fafc !important;
+}
+
+/* Sidebar in modal */
+.light .bg-gradient-to-br.from-slate-900 {
+  background: linear-gradient(to bottom right, #f1f5f9, #e2e8f0) !important;
+  border-right-color: #cbd5e1 !important;
+}
+
+/* Utility Background Inversions */
+.light .bg-black\/40 {
+  @apply bg-slate-200/80;
+}
+
+.light .bg-black\/20 {
+  @apply bg-slate-200/50;
+}
+
+.light .bg-black\/95 {
+  @apply bg-white/95;
+}
+
+.light .bg-black\/50 {
+  @apply bg-slate-200/50;
+}
+
+.light .bg-white\/5 {
+  @apply bg-slate-900/5;
+}
+
+.light .bg-white\/10 {
+  @apply bg-slate-900/10;
+}
+
+/* Border Inversions */
+.light .border-white\/5 {
+  @apply border-slate-900/5;
+}
+
+.light .border-white\/10 {
+  @apply border-slate-900/10;
+}
+
+/* Specific Components fix */
+.light .btn-silver {
+  @apply from-slate-100 to-slate-200 text-slate-800 border-white/50;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.light .btn-silver:hover {
+  @apply from-white to-slate-50;
+}
+
+/* Input Fields */
+.light input {
+  @apply text-slate-900 placeholder-slate-500 bg-slate-100 border-slate-300;
+}
+
+.light input:focus {
+  @apply bg-white border-blue-500;
+}
+
+
+/* --- ANIMATED BACKGROUND (Default Dark) --- */
 .bg-mui {
   position: fixed;
   top: 0;
@@ -20,6 +181,7 @@
   z-index: -1;
   background: radial-gradient(circle at 50% 0%, #1e293b 0%, #020617 60%, #000000 100%);
   overflow: hidden;
+  transition: background 0.5s ease;
 }
 
 .particles {
@@ -44,9 +206,8 @@
   transform: translateX(-50%);
   width: 80%;
   height: 60%;
-  background: radial-gradient(ellipse at center, rgba(148, 163, 184, 0.15) 0%, transparent 70%);
-  /* Silver Aura */
-  filter: blur(100px);
+  background: radial-gradient(ellipse at center, rgba(148, 163, 184, 0.1) 0%, transparent 60%);
+  /* Silver Aura - Optimized (No Blur Filter) */
   animation: breathe 10s ease-in-out infinite;
 }
 
@@ -140,7 +301,7 @@
   transition: left 0.7s ease-in-out;
 }
 
-/* Custom Scrollbar - Hidden but Functional */
+/* Custom Scrollbar */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -160,13 +321,11 @@
 }
 
 /* --- GAMIFICATION FX --- */
-
-/* Neon Cyan Glow for Ranks */
 .glow-cyan {
   text-shadow: 0 0 10px rgba(6, 182, 212, 0.6), 0 0 20px rgba(6, 182, 212, 0.4);
 }
 
-/* Custom Animation Utils (if tailwind-animate is missing) */
+/* Animation Utils */
 @keyframes fadeIn {
   from {
     opacity: 0;

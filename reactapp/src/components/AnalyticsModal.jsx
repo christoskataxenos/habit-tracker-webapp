@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { X, Calendar, PieChart, BarChart as BarIcon, Download, Upload, Sunrise, Moon, Flame, Zap, Crown, Sword, Anchor, Hammer, Book, Heart, Trophy, Medal, FileText } from 'lucide-react';
+import { X, Calendar, PieChart, BarChart as BarIcon, Download, Upload, Sunrise, Moon, Flame, Zap, Crown, Sword, Anchor, Hammer, Book, Heart, Trophy, Medal, FileText, Target, Database } from 'lucide-react';
 import {
     BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
     PieChart as RechartsPie, Pie, Cell, Legend
@@ -7,7 +7,7 @@ import {
 
 const COLORS = ['#3b82f6', '#06b6d4', '#8b5cf6', '#d946ef', '#f97316', '#10b981', '#64748b'];
 
-export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], initialView = 'stats' }) {
+export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], initialView = 'stats', courseGoals, updateCourseGoal }) {
     const [range, setRange] = useState('week'); // 'week', 'month', 'all'
     const [currentView, setCurrentView] = useState(initialView || 'stats'); // 'stats', 'achievements', 'vault'
 
@@ -74,17 +74,95 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
     const handleImport = (e) => {
         const file = e.target.files[0];
         if (!file) return;
+
         const reader = new FileReader();
+
         reader.onload = (ev) => {
+            const content = ev.target.result;
+            const isJson = file.name.toLowerCase().endsWith('.json');
+
             try {
-                const data = JSON.parse(ev.target.result);
-                if (window.confirm('Overwrite all data?')) {
-                    localStorage.clear();
-                    Object.keys(data).forEach(k => localStorage.setItem(k, data[k]));
-                    window.location.reload();
+                if (isJson) {
+                    // --- JSON RESTORE (Full Backup) ---
+                    const data = JSON.parse(content);
+                    if (window.confirm('Restore Full System Backup? This will overwrite ALL current data.')) {
+                        localStorage.clear();
+                        Object.keys(data).forEach(k => localStorage.setItem(k, data[k]));
+                        window.location.reload();
+                    }
+                } else {
+                    // --- CSV RESTORE (Entries Only) ---
+                    // Simple CSV Parser handling quoted strings
+                    const parseCSVLine = (line) => {
+                        const result = [];
+                        let current = '';
+                        let inQuotes = false;
+                        for (let i = 0; i < line.length; i++) {
+                            const char = line[i];
+                            if (char === '"' && line[i + 1] === '"') {
+                                current += '"'; // Handle escaped quotes
+                                i++;
+                            } else if (char === '"') {
+                                inQuotes = !inQuotes;
+                            } else if (char === ',' && !inQuotes) {
+                                result.push(current);
+                                current = '';
+                            } else {
+                                current += char;
+                            }
+                        }
+                        result.push(current);
+                        return result;
+                    };
+
+                    const lines = content.split('\n').filter(l => l.trim());
+                    if (lines.length < 2) throw new Error('Invalid CSV format');
+
+                    // Headers: ID, Course, Date, Hours, Start Time, End Time, Topic, Tag, Focus Score
+                    // Indices: 0   1       2     3      4           5         6      7    8
+                    const newEntries = lines.slice(1).map(line => {
+                        const cols = parseCSVLine(line.trim());
+                        return {
+                            id: cols[0],
+                            course: cols[1],
+                            date: cols[2],
+                            hours: cols[3],
+                            startTime: cols[4],
+                            endTime: cols[5],
+                            topic: cols[6],
+                            tag: cols[7],
+                            score: cols[8] === '-' ? null : cols[8]
+                        };
+                    });
+
+                    if (newEntries.length === 0) throw new Error('No entries found in CSV');
+
+                    if (window.confirm(`Import ${newEntries.length} entries from CSV? This will MERGE with existing data.`)) {
+                        // Merge logic: Add new, ignore duplicates based on ID?
+                        // Or just append? Let's just append/overwrite based on ID if exists, or just replacement.
+                        // Simple approach: Get current entries, filter out ones with colliding IDs, add new ones.
+                        // Actually, let's just REPLACE entries for now to be safe/consistent with "Restore", 
+                        // OR maybe smart merge relative to ID. 
+                        // Given it's a "Restore" feature essentially...
+                        // Let's go with: Load existing LS entries, replace any that match ID, add others.
+
+                        const currentEntries = JSON.parse(localStorage.getItem('entries') || '[]');
+                        const map = new Map(currentEntries.map(e => [e.id, e]));
+
+                        newEntries.forEach(e => {
+                            if (e.id && e.date && e.course) map.set(e.id, e); // Basic validation
+                        });
+
+                        localStorage.setItem('entries', JSON.stringify(Array.from(map.values())));
+                        window.location.reload();
+                    }
                 }
-            } catch { alert('Invalid File'); }
+            } catch (err) {
+                console.error(err);
+                alert('Import Failed: ' + err.message);
+            }
         };
+
         reader.readAsText(file);
     };
 
@@ -120,6 +198,12 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
                                 Badges
                             </button>
                             <button
+                                onClick={() => setCurrentView('goals')}
+                                className={`px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${currentView === 'goals' ? 'bg-emerald-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
+                            >
+                                Goals
+                            </button>
+                            <button
                                 onClick={() => setCurrentView('vault')}
                                 className={`px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${currentView === 'vault' ? 'bg-cyan-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
                             >
@@ -127,7 +211,7 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
                             </button>
                         </div>
 
-                        <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full text-slate-500 hover:text-white transition-colors">
+                        <button onClick={onClose} aria-label="Close Modal" className="p-2 hover:bg-white/10 rounded-full text-slate-500 hover:text-white transition-colors">
                             <X className="w-6 h-6" />
                         </button>
                     </div>
@@ -137,51 +221,188 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
                 <div className="flex-1 overflow-y-auto p-6 md:p-8">
 
                     {currentView === 'vault' && (
-                        <div className="max-w-md mx-auto mt-12 space-y-8 animate-in slide-in-from-bottom-4">
-                            <div className="text-center mb-8">
-                                <h3 className="text-xl text-white font-light">Data Operations</h3>
-                                <p className="text-slate-500 text-sm">Backup or Restore your local dataset.</p>
+                        <div className="animate-in slide-in-from-bottom-4 space-y-8">
+                            <div className="text-center mb-12">
+                                <h3 className="text-3xl text-white font-thin tracking-tight mb-2">Data Operations</h3>
+                                <p className="text-slate-500 text-sm">Manage your local dataset securely.</p>
                             </div>
 
-                            <button onClick={handleExport} className="w-full p-6 bg-gradient-to-r from-cyan-900/30 to-blue-900/30 border border-cyan-500/30 rounded-xl flex items-center justify-center gap-4 group hover:border-cyan-400/60 transition-all">
-                                <Download className="w-6 h-6 text-cyan-400" />
-                                <span className="text-cyan-400 font-bold uppercase tracking-widest">Export JSON</span>
-                            </button>
-
-                            <button onClick={() => {
-                                const headers = ['ID', 'Course', 'Date', 'Hours', 'Start Time', 'End Time', 'Topic', 'Tag', 'Focus Score'];
-                                const rows = entries.map(e => [
-                                    e.id,
-                                    `"${e.course.replace(/"/g, '""')}"`, // Handle commas/quotes
-                                    e.date,
-                                    e.hours,
-                                    e.startTime,
-                                    e.endTime,
-                                    `"${(e.topic || '').replace(/"/g, '""')}"`,
-                                    e.tag,
-                                    e.score || '-'
-                                ]);
-                                const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-                                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                                const url = URL.createObjectURL(blob);
-                                const a = document.createElement('a');
-                                a.href = url;
-                                a.download = `pulse_data_${new Date().toISOString().split('T')[0]}.csv`;
-                                document.body.appendChild(a);
-                                a.click();
-                                document.body.removeChild(a);
-                            }} className="w-full p-6 bg-gradient-to-r from-emerald-900/30 to-teal-900/30 border border-emerald-500/30 rounded-xl flex items-center justify-center gap-4 group hover:border-emerald-400/60 transition-all">
-                                <FileText className="w-6 h-6 text-emerald-400" />
-                                <span className="text-emerald-400 font-bold uppercase tracking-widest">Export CSV</span>
-                            </button>
-
-                            <div className="relative">
-                                <input type="file" accept=".json" onChange={handleImport} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20" />
-                                <button className="w-full p-6 bg-gradient-to-r from-fuchsia-900/30 to-purple-900/30 border border-fuchsia-500/30 rounded-xl flex items-center justify-center gap-4 group hover:border-fuchsia-400/60 transition-all">
-                                    <Upload className="w-6 h-6 text-fuchsia-400" />
-                                    <span className="text-fuchsia-400 font-bold uppercase tracking-widest">Import JSON</span>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                                {/* EXPORT JSON */}
+                                <button
+                                    onClick={handleExport}
+                                    className="group relative bg-black/40 hover:bg-cyan-900/20 border border-white/5 hover:border-cyan-500/50 p-8 rounded-3xl text-left transition-all flex flex-col gap-4 overflow-hidden"
+                                >
+                                    <div className="absolute top-0 right-0 p-32 bg-cyan-500/10 blur-[100px] rounded-full group-hover:bg-cyan-500/20 transition-all pointer-events-none" />
+                                    <div className="w-12 h-12 rounded-full bg-cyan-900/30 flex items-center justify-center border border-cyan-500/30 group-hover:scale-110 transition-transform">
+                                        <Database className="w-6 h-6 text-cyan-400" />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-lg text-white font-bold mb-1">System Backup</h4>
+                                        <p className="text-xs text-slate-500">Download a full JSON snapshot of your database.</p>
+                                    </div>
+                                    <div className="mt-auto pt-4 flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-widest">
+                                        <Download className="w-4 h-4" /> Export JSON
+                                    </div>
                                 </button>
+
+                                {/* EXPORT CSV */}
+                                <button
+                                    onClick={() => {
+                                        const headers = ['ID', 'Course', 'Date', 'Hours', 'Start Time', 'End Time', 'Topic', 'Tag', 'Focus Score'];
+                                        const rows = entries.map(e => [
+                                            e.id,
+                                            `"${e.course.replace(/"/g, '""')}"`,
+                                            e.date,
+                                            e.hours,
+                                            e.startTime,
+                                            e.endTime,
+                                            `"${(e.topic || '').replace(/"/g, '""')}"`,
+                                            e.tag,
+                                            e.score || '-'
+                                        ]);
+                                        const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+                                        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                                        const url = URL.createObjectURL(blob);
+                                        const a = document.createElement('a');
+                                        a.href = url;
+                                        a.download = `pulse_data_${new Date().toISOString().split('T')[0]}.csv`;
+                                        document.body.appendChild(a);
+                                        a.click();
+                                        document.body.removeChild(a);
+                                    }}
+                                    className="group relative bg-black/40 hover:bg-emerald-900/20 border border-white/5 hover:border-emerald-500/50 p-8 rounded-3xl text-left transition-all flex flex-col gap-4 overflow-hidden"
+                                >
+                                    <div className="absolute top-0 right-0 p-32 bg-emerald-500/10 blur-[100px] rounded-full group-hover:bg-emerald-500/20 transition-all pointer-events-none" />
+                                    <div className="w-12 h-12 rounded-full bg-emerald-900/30 flex items-center justify-center border border-emerald-500/30 group-hover:scale-110 transition-transform">
+                                        <FileText className="w-6 h-6 text-emerald-400" />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-lg text-white font-bold mb-1">Spreadsheet Export</h4>
+                                        <p className="text-xs text-slate-500">Generate a CSV report for Excel or Analysis.</p>
+                                    </div>
+                                    <div className="mt-auto pt-4 flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-widest">
+                                        <Download className="w-4 h-4" /> Export CSV
+                                    </div>
+                                </button>
+
+                                {/* IMPORT JSON - DROP ZONE STYLE */}
+                                <div className="relative group md:col-span-2">
+                                    <input type="file" accept=".json, .csv" onChange={handleImport} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20" />
+                                    <div className="relative bg-black/20 hover:bg-fuchsia-900/10 border-2 border-dashed border-white/10 hover:border-fuchsia-500/50 p-10 rounded-3xl transition-all flex flex-col items-center justify-center gap-4 group-hover:scale-[1.01]">
+                                        <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-fuchsia-500/50 group-hover:bg-fuchsia-900/20 transition-all">
+                                            <Upload className="w-8 h-8 text-slate-500 group-hover:text-fuchsia-400 transition-colors" />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xl text-white font-bold mb-1">Restore from Backup</h4>
+                                            <p className="text-sm text-slate-500">Drop your JSON file here or click to browse</p>
+                                        </div>
+                                        <div className="mt-2 px-4 py-1 rounded-full bg-white/5 border border-white/5 text-[10px] uppercase tracking-widest text-slate-400 group-hover:text-white group-hover:bg-fuchsia-600 group-hover:border-fuchsia-500 transition-colors">
+                                            Select File
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                    )}
+
+                    {currentView === 'goals' && (
+                        <div className="animate-in slide-in-from-bottom-4 space-y-8">
+                            <div className="text-center mb-8">
+                                <h3 className="text-xl text-white font-light">Project Goals</h3>
+                                <p className="text-slate-500 text-sm">Set monthly targets for your active courses.</p>
+                            </div>
+
+                            {/* MANUAL ADD GOAL */}
+                            <div className="bg-white/5 p-6 rounded-2xl border border-white/5 mb-8">
+                                <h4 className="text-slate-400 text-xs uppercase tracking-widest mb-4 flex items-center gap-2">
+                                    <Target className="w-4 h-4" /> Add New Target
+                                </h4>
+                                <div className="flex gap-4">
+                                    <input
+                                        type="text"
+                                        id="newGoalSubject"
+                                        placeholder="Subject Name (e.g. Physics)"
+                                        className="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-2 text-white outline-none focus:border-blue-500/50"
+                                    />
+                                    <input
+                                        type="number"
+                                        id="newGoalHours"
+                                        placeholder="Hours"
+                                        className="w-28 bg-black/40 border border-white/10 rounded-xl px-4 py-2 text-white outline-none focus:border-blue-500/50 text-center"
+                                    />
+                                    <button
+                                        onClick={() => {
+                                            const sub = document.getElementById('newGoalSubject').value;
+                                            const hrs = document.getElementById('newGoalHours').value;
+                                            if (sub && hrs) {
+                                                updateCourseGoal(sub, hrs);
+                                                document.getElementById('newGoalSubject').value = '';
+                                                document.getElementById('newGoalHours').value = '';
+                                            }
+                                        }}
+                                        className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold uppercase text-xs tracking-wider transition-colors"
+                                    >
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {(() => {
+                                    // Combine existing data subjects and stored goal subjects
+                                    const allSubjects = new Set([
+                                        ...subjectData.map(s => s.name),
+                                        ...(courseGoals ? Object.keys(courseGoals) : [])
+                                    ]);
+
+                                    return Array.from(allSubjects).sort().map((subjectName, idx) => {
+                                        // Find current hours from subjectData (which is filtered by range)
+                                        const dataItem = subjectData.find(s => s.name === subjectName);
+                                        const current = dataItem ? dataItem.value : 0;
+
+                                        const goal = (courseGoals && courseGoals[subjectName]) || 0;
+                                        const percent = goal > 0 ? Math.min((current / goal) * 100, 100) : 0;
+
+                                        return (
+                                            <div key={idx} className="bg-black/20 p-6 rounded-2xl border border-white/5">
+                                                <div className="flex justify-between items-start mb-4">
+                                                    <div>
+                                                        <h4 className="text-white font-medium text-lg">{subjectName}</h4>
+                                                        <div className="text-xs text-slate-500 uppercase tracking-wider mt-1">
+                                                            {current.toFixed(1)}h / {goal > 0 ? `${goal}h Target` : 'No Target'}
+                                                        </div>
+                                                    </div>
+                                                    <input
+                                                        type="number"
+                                                        placeholder="Target"
+                                                        className="bg-black/40 border border-white/10 rounded-xl w-24 px-3 py-2 text-center text-sm text-blue-400 outline-none focus:border-blue-500/50 transition-all"
+                                                        defaultValue={goal || ''}
+                                                        onBlur={(e) => updateCourseGoal(subjectName, e.target.value)}
+                                                    />
+                                                </div>
+
+                                                {/* Progress Bar */}
+                                                <div className="h-2 bg-slate-800 rounded-full overflow-hidden relative">
+                                                    <div
+                                                        className={`h-full transition-all duration-1000 ease-out ${percent >= 100 ? 'bg-emerald-500 shadow-[0_0_10px_#10b981]' : 'bg-blue-500'}`}
+                                                        style={{ width: `${percent}%` }}
+                                                    ></div>
+                                                </div>
+                                                <div className="flex justify-end mt-2">
+                                                    <span className={`text-xs font-mono ${percent >= 100 ? 'text-emerald-500' : 'text-slate-500'}`}>
+                                                        {percent.toFixed(0)}%
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        );
+                                    });
+                                })()}
+                            </div>
+
+                            {subjectData.length === 0 && (!courseGoals || Object.keys(courseGoals).length === 0) && (
+                                <p className="text-center text-slate-500 mt-12">No data available for this range.</p>
+                            )}
                         </div>
                     )}
 
@@ -301,10 +522,12 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
                                                     data={subjectData}
                                                     cx="50%"
                                                     cy="50%"
-                                                    innerRadius={60}
+                                                    innerRadius={0}
                                                     outerRadius={100}
-                                                    paddingAngle={5}
+                                                    paddingAngle={0}
                                                     dataKey="value"
+                                                    isAnimationActive={true}
+                                                    stroke="none"
                                                 >
                                                     {subjectData.map((entry, index) => (
                                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

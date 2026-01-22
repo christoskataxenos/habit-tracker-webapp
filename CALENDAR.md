@@ -144,7 +144,48 @@
   - Allows users to rate the intensity/quality of their session.
   - Added **CSV Export** functionality to the Vault, enabling "Power Users" to download raw data (including Focus Scores) for external analysis (Excel/Python).
 
-### 🔜 FUTURE ROADMAP (v1.5+)
+## 2026-01-22: THE POLISH & POWER UPDATE (v1.5)
+**Focus:** Interaction Design, Responsive Layouts, and Advanced User Control.
+
+### 🕚 Phase 14: Adaptive Visuals (Response to User Feedback)
+- **Problem:** Fixed-height calendar cells caused ugly scrollbars and layout breaking on smaller windows (Adaptive Size issues).
+- **Solution:** Refactored `TemporalMatrix.jsx` to use a fully fluid CSS Grid implementation.
+  - Replaced fixed pixel heights with `1fr` (fractional units).
+  - Dynamic row calculation based on the specific month's weeks.
+  - Eliminated internal scrollbars; the calendar now perfectly fills the available container height.
+
+### 🕛 Phase 15: The Inspiration Engine
+- **Objective:** Keep morale high with passive motivation.
+- **Action:**
+  - **Quote Widget:** Added a rotating quote display to the top navigation bar.
+  - **Content:** Parsed 120+ quotes from `quotes.md` into a structured data file.
+  - **Behavior:** Updates every 5 minutes with a smooth fade-in/out transition.
+  - **Placement:** Aligned to the top-right command deck, balancing the System Time.
+
+### 🔜 v1.5 PENDING ROADMAP
 - **Project Tracking:** Set goals per subject/project.
-- **UI Polish:** Drag & Drop Rescheduling, Swipe Gestures (Deferred for stability).
-- **Zen Mode 2.0:** Ambient sounds/backgrounds (Deferred to keep app lightweight).
+- **Interaction:** Drag & Drop Rescheduling.
+- **Mobile Experience:** Swipe Gestures.
+- **Zen Mode 2.0:** Lightweight visuals/audio.
+
+## 2026-01-22: THE ZEN UPDATE (v1.5)
+**Focus:** Data Integrity, Atmosphere, and Accessibility.
+
+### 🕐 Phase 16: Data Operations 2.0
+- **Objective:** Empower the user with professional-grade data tools.
+- **Actions:**
+  - **Redesigned Vault UI:** Replaced the list layout with a "Command Center" grid of cards.
+  - **Drop Zone:** Implemented an intuitive Drag & Drop zone for restoring data.
+  - **Smart Import:** Added a robust CSV Parser that can merge external spreadsheet data back into the app's timeline, handling formatting and duplicates intelligently.
+
+### 🕑 Phase 17: Atmosphere (Aurora)
+- **Objective:** Reduce visual load while maintaining immersion (Zen Mode).
+- **Actions:**
+  - **CSS Aurora:** Replaced heavy DOM elements with a lightweight `conic-gradient` animation for the Focus Mode background.
+  - **Optimization:** Refined the "God Aura" on the main dashboard to improve rendering performance on lower-end devices.
+
+### 🕒 Phase 18: Accessibility & Health
+- **Actions:**
+  - **ARIA Implementation:** comprehensive audit adding `aria-labels` to all icon-only buttons (Header, Nav, Modals).
+  - **Performance:** Streamlined Chart rendering to eliminate modal lag.
+

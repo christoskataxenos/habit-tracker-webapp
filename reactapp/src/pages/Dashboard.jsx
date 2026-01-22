@@ -13,11 +13,12 @@ import TemporalMatrix from '../components/TemporalMatrix';
 import FocusModeOverlay from '../components/FocusModeOverlay';
 import BottomNav from '../components/BottomNav';
 import AnalyticsModal from '../components/AnalyticsModal';
+import SettingsModal from '../components/SettingsModal';
 import { AddEntryModal, GoalModal, DayDetailModal } from '../components/Modals';
 
 export default function Dashboard() {
     // ... existing hooks
-    const { entries, routines, addEntry, deleteEntry, updateEntry, addRoutine, getStats, uniqueCourses, dailyGoal, setDailyGoal } = useDataStore();
+    const { entries, routines, addEntry, deleteEntry, updateEntry, addRoutine, getStats, uniqueCourses, dailyGoal, setDailyGoal, courseGoals, updateCourseGoal } = useDataStore();
 
     // ... existing state
     const [activeTab, setActiveTab] = useState('dashboard');
@@ -25,6 +26,14 @@ export default function Dashboard() {
     const [isGoalModalOpen, setGoalModalOpen] = useState(false);
     const [isDataModalOpen, setIsDataModalOpen] = useState(false); // Using this for Analytics/Vault now
     const [isDayDetailOpen, setIsDayDetailOpen] = useState(false);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+    // Preferences State
+    const [preferences, setPreferences] = useState(() => {
+        const saved = localStorage.getItem('pulse_preferences');
+        return saved ? JSON.parse(saved) : { theme: 'dark', clockFace: 'standard' };
+    });
+
     const [selectedDate, setSelectedDate] = useState(null);
     const [isFocusMode, setIsFocusMode] = useState(false);
     const [editingEntry, setEditingEntry] = useState(null);
@@ -57,10 +66,29 @@ export default function Dashboard() {
         return () => clearInterval(interval);
     }, [isFocusMode, timerStart]);
 
+    // Save preferences
+    useEffect(() => {
+        localStorage.setItem('pulse_preferences', JSON.stringify(preferences));
+        // Apply theme (Basic implementation)
+        if (preferences.theme === 'light') {
+            document.documentElement.classList.add('light'); // For future CSS hook
+        } else {
+            document.documentElement.classList.remove('light');
+        }
+    }, [preferences]);
+
     // --- HANDLERS ---
     const handleOpenAnalytics = (view = 'stats') => {
         setAnalyticsView(view);
         setIsDataModalOpen(true);
+    };
+
+    const updatePreferences = (key, value) => {
+        setPreferences(prev => ({ ...prev, [key]: value }));
+    };
+
+    const handleMoveEntry = (entryId, newDate) => {
+        updateEntry(entryId, { date: newDate });
     };
 
     const handleDateSelect = (dateStr) => {
@@ -169,6 +197,7 @@ export default function Dashboard() {
                             routines={routines}
                             onSelectDate={handleDateSelect}
                             selectedDate={selectedDate}
+                            onMoveEntry={handleMoveEntry}
                         />
                     </div>
 
@@ -207,6 +236,7 @@ export default function Dashboard() {
                     onFocusClick={toggleFocus}
                     onManualLogClick={() => setModalOpen(true)}
                     onDataClick={handleOpenAnalytics}
+                    onSettingsClick={() => setIsSettingsOpen(true)}
                 />
 
                 {/* OVERLAYS & MODALS */}
@@ -216,6 +246,7 @@ export default function Dashboard() {
                     onTerminate={toggleFocus}
                     formatTime={formatTime}
                     currentTime={currentTime}
+                    clockFace={preferences.clockFace}
                 />
 
                 <AddEntryModal
@@ -228,11 +259,31 @@ export default function Dashboard() {
                     initialStartTime={editingEntry?.startTime || (lastSession ? new Date(lastSession.start).toTimeString().slice(0, 5) : '')}
                     initialEndTime={editingEntry?.endTime || (lastSession ? new Date(lastSession.end).toTimeString().slice(0, 5) : '')}
                     initialCourse={editingEntry?.course || smartCourse || ''}
-                    initialDate={editingEntry?.date || (lastSession ? new Date().toISOString().split('T')[0] : (selectedDate || ''))}
+                    initialDate={editingEntry?.date || (lastSession ? (() => {
+                        const d = new Date();
+                        d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+                        return d.toISOString().split('T')[0];
+                    })() : (selectedDate || ''))}
                 />
 
                 <GoalModal isOpen={isGoalModalOpen} onClose={() => setGoalModalOpen(false)} currentGoal={dailyGoal} onSave={setDailyGoal} />
-                <AnalyticsModal isOpen={isDataModalOpen} onClose={() => setIsDataModalOpen(false)} entries={entries} badges={stats.badges} initialView={analyticsView} />
+
+                <AnalyticsModal
+                    isOpen={isDataModalOpen}
+                    onClose={() => setIsDataModalOpen(false)}
+                    entries={entries}
+                    badges={stats.badges}
+                    initialView={analyticsView}
+                    courseGoals={courseGoals}
+                    updateCourseGoal={updateCourseGoal}
+                />
+
+                <SettingsModal
+                    isOpen={isSettingsOpen}
+                    onClose={() => setIsSettingsOpen(false)}
+                    preferences={preferences}
+                    updatePreferences={updatePreferences}
+                />
 
                 <DayDetailModal
                     isOpen={isDayDetailOpen}

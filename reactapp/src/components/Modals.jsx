@@ -11,9 +11,9 @@ export function GoalModal({ isOpen, onClose, currentGoal, onSave }) {
             <div className="w-full max-w-sm glass-silver p-8 rounded-2xl relative">
                 <h3 className="text-xl text-platinum mb-6 uppercase tracking-widest flex items-center justify-center gap-2"><Target className="w-5 h-5" /> Target</h3>
                 <div className="flex items-center justify-center gap-4 mb-4">
-                    <button onClick={() => setGoal(Math.max(1, goal - 1))} className="w-12 h-12 rounded-full border border-white/20 text-white hover:bg-white/10 text-2xl font-thin transition-all hover:scale-110">-</button>
+                    <button onClick={() => setGoal(Math.max(1, goal - 1))} aria-label="Decrease Goal" className="w-12 h-12 rounded-full border border-white/20 text-white hover:bg-white/10 text-2xl font-thin transition-all hover:scale-110">-</button>
                     <div className="text-6xl font-thin text-white w-32 text-center">{goal}<span className="text-lg text-slate-500 ml-1">h</span></div>
-                    <button onClick={() => setGoal(goal + 1)} className="w-12 h-12 rounded-full border border-white/20 text-white hover:bg-white/10 text-2xl font-thin transition-all hover:scale-110">+</button>
+                    <button onClick={() => setGoal(goal + 1)} aria-label="Increase Goal" className="w-12 h-12 rounded-full border border-white/20 text-white hover:bg-white/10 text-2xl font-thin transition-all hover:scale-110">+</button>
                 </div>
                 <div className="flex gap-4 mt-8">
                     <button onClick={onClose} className="flex-1 py-3 text-xs text-slate-500 uppercase tracking-widest hover:text-white border border-transparent hover:border-white/10 rounded-xl transition-all">Cancel</button>
@@ -28,7 +28,11 @@ const ACTIVITY_TAGS = ['Deep Work', 'Build', 'Learn', 'Logistics', 'Health', 'Li
 
 export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], initialHours = '', initialStartTime = '', initialEndTime = '', initialCourse = '', initialDate = '', initialTag = '', initialScore = 5 }) {
     const [course, setCourse] = useState(initialCourse);
-    const [date, setDate] = useState(initialDate || new Date().toISOString().split('T')[0]);
+    const [date, setDate] = useState(initialDate || (() => {
+        const d = new Date();
+        d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+        return d.toISOString().split('T')[0];
+    })());
     const [startTime, setStartTime] = useState(initialStartTime || "09:00");
     const [endTime, setEndTime] = useState(initialEndTime || "10:00");
     const [topic, setTopic] = useState('');
@@ -85,7 +89,7 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
     return (
         <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-[60] flex items-center justify-center p-4 animate-in fade-in duration-300">
             <div className="w-full max-w-lg relative glass-silver p-5 lg:p-8 rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh]">
-                <button onClick={onClose} className="absolute right-4 top-4 lg:right-6 lg:top-6 text-slate-500 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10"><X className="w-6 h-6" strokeWidth={2} /></button>
+                <button onClick={onClose} aria-label="Close Modal" className="absolute right-4 top-4 lg:right-6 lg:top-6 text-slate-500 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10"><X className="w-6 h-6" strokeWidth={2} /></button>
                 <h2 className="text-2xl lg:text-3xl font-light text-platinum mb-2 tracking-tighter flex items-center gap-2"><Edit3 className="w-6 h-6 lg:w-8 lg:h-8 text-slate-400" /> Log <span className="font-bold">Entry</span></h2>
 
                 <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-6 mt-6">
@@ -213,7 +217,7 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
                         <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Voice Notes</label>
                         <div className="relative">
                             <input type="text" className="w-full bg-black/40 border border-white/10 focus:border-blue-500/50 rounded-xl py-4 px-5 pr-14 text-white placeholder-slate-600 outline-none transition-all" placeholder="Speak or type..." value={topic} onChange={e => setTopic(e.target.value)} />
-                            {hasSupport && (<button type="button" onClick={toggleVoice} className={`absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-lg transition-colors ${isListening ? 'bg-red-500 text-white animate-pulse' : 'text-slate-500 hover:text-white hover:bg-white/10'}`}>{isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}</button>)}
+                            {hasSupport && (<button type="button" onClick={toggleVoice} aria-label={isListening ? "Stop Voice Input" : "Start Voice Input"} className={`absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-lg transition-colors ${isListening ? 'bg-red-500 text-white animate-pulse' : 'text-slate-500 hover:text-white hover:bg-white/10'}`}>{isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}</button>)}
                         </div>
                     </div>
 
@@ -278,7 +282,7 @@ export function DayDetailModal({ isOpen, onClose, dateStr, entries, routines = [
             <div className="w-full max-w-4xl h-[80vh] bg-[#0a0a0a] border border-white/10 rounded-3xl overflow-hidden flex flex-col md:flex-row relative shadow-[0_0_50px_rgba(0,0,0,0.8)]">
 
                 {/* Close Button */}
-                <button onClick={onClose} className="absolute right-4 top-4 z-50 p-2 rounded-full bg-black/50 hover:bg-white/10 text-slate-400 hover:text-white transition-all">
+                <button onClick={onClose} aria-label="Close Detail View" className="absolute right-4 top-4 z-50 p-2 rounded-full bg-black/50 hover:bg-white/10 text-slate-400 hover:text-white transition-all">
                     <X className="w-6 h-6" />
                 </button>
 
@@ -374,6 +378,7 @@ export function DayDetailModal({ isOpen, onClose, dateStr, entries, routines = [
                             onClick={onAddEntry}
                             className="ml-2 p-1.5 rounded-full bg-white/5 hover:bg-blue-600 text-slate-400 hover:text-white transition-all border border-white/5 hover:border-blue-500/50 group"
                             title="Add Entry"
+                            aria-label="Add Entry at this Time"
                         >
                             <Plus className="w-4 h-4" />
                         </button>

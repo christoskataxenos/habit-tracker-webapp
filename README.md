@@ -1,4 +1,4 @@
-# PULSE PROTOCOL v1.5.0
+# PULSE v1.5.0
 > *Bio-Digital Focus Enhancement Environment*
 
 <div align="center">

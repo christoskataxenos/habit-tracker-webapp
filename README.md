@@ -7,9 +7,10 @@
 
 | 🪟 **WINDOWS** | 🐧 **LINUX** |
 | :---: | :---: |
-| [![Windows Universal](https://img.shields.io/badge/Windows-Universal_Installer-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.5.0/PULSE.Setup.1.5.0.exe) <br> *Auto-detects x64 / ARM64* | [![Linux Deb](https://img.shields.io/badge/Linux-Debian%2FUbuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.5.0/pulse-tracker_1.5.0_amd64.deb) <br> *x64 (.deb)* |
-| [![Windows Portable x64](https://img.shields.io/badge/Windows_x64-Portable-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.5.0/PULSE.Portable.1.5.0.x64.exe) <br> *No Install (Intel/AMD)* | [![Linux RPi](https://img.shields.io/badge/Linux_RPi-Raspberry_Pi-C51A4A?style=for-the-badge&logo=raspberrypi&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.5.0/pulse-tracker_1.5.0_arm64.deb) <br> *ARM64 (.deb)* |
-| [![Windows Portable ARM](https://img.shields.io/badge/Windows_ARM-Portable-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.5.0/PULSE.Portable.1.5.0.arm64.exe) <br> *No Install (Snapdragon)* | [![Linux RPM](https://img.shields.io/badge/Linux-Fedora%2FRHEL-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.5.0/pulse-tracker-1.5.0.x86_64.rpm) <br> *x64 / ARM64 (.rpm)* |
+| [![Windows Universal](https://img.shields.io/badge/Windows-Universal_Installer-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/PULSE.Setup.1.5.0.exe) <br> *Auto-detects x64 / ARM64* | [![Linux Deb](https://img.shields.io/badge/Linux-Debian%2FUbuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker_1.5.0_amd64.deb) <br> *x64 (.deb)* |
+| [![Windows Portable](https://img.shields.io/badge/Windows-Universal_Portable-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/PULSE.Portable.1.5.0.exe) <br> *No Install (x64 / ARM64)* | [![Linux ARM](https://img.shields.io/badge/Linux_ARM-Debian%2FUbuntu-C51A4A?style=for-the-badge&logo=raspberrypi&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker_1.5.0_arm64.deb) <br> *ARM64 (.deb)* |
+| | [![Linux RPM x64](https://img.shields.io/badge/Linux_x64-Fedora%2FRHEL-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker-1.5.0.x86_64.rpm) <br> *x64 (.rpm)* |
+| | [![Linux RPM ARM](https://img.shields.io/badge/Linux_ARM-Fedora%2FRHEL-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker-1.5.0.aarch64.rpm) <br> *ARM64 (.rpm)* |
 
 </div>
 
@@ -33,7 +34,7 @@ The system is built as a high-performance desktop application:
   - 💎 **Glassmorphic UI:** A stunning, futuristic interface in Dark or Light mode.
   - 🌓 **Dual-Theme Engine (v1.5):** 
     - **Dark Protocol:** The signature deep space interface.
-    - **Frost & Silver:** A monochromatic, high-contrast Light Mode using Silver/Slate tones.
+    - **Frost & Platinum:** A monochromatic, high-contrast Light Mode.
     - **System Sync:** Auto-detects your OS theme preference.
   - 🏆 **Gamification Engine:** Earn XP, Level Up, and unlock Ranks (Initiate -> Architect).
   - 📊 **Analytics Vault:** "Command Center" for statistics and data management.
@@ -92,4 +93,4 @@ Special thanks to the community for their feedback and support:
 - **[@giwgos99](https://github.com/giwgos99)**: For identifying critical bugs in the Focus Mode logic and suggesting the CSV Import feature.
 
 ---
-*System Version: 1.5.0 "Frost & Silver"*
+*System Version: 1.5.0 "Frost & Platinum"*

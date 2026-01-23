@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 
-const STORAGE_KEY = 'toon_study_tracker_v1';
-const GOAL_KEY = 'ascend_daily_goal';
-const ROUTINES_KEY = 'pulse_routines_v1';
-
-const COURSE_GOALS_KEY = 'pulse_course_goals_v1';
+const STORAGE_KEY = import.meta.env.VITE_STORAGE_KEY || 'toon_study_tracker_v1';
+const GOAL_KEY = import.meta.env.VITE_GOAL_KEY || 'ascend_daily_goal';
+const ROUTINES_KEY = import.meta.env.VITE_ROUTINES_KEY || 'pulse_routines_v1';
+const COURSE_GOALS_KEY = import.meta.env.VITE_COURSE_GOALS_KEY || 'pulse_course_goals_v1';
 
 export function useDataStore() {
     const [entries, setEntries] = useState(() => {
@@ -128,18 +127,6 @@ export function useDataStore() {
             goal: courseGoals[name] || 0
         })).sort((a, b) => b.hours - a.hours);
 
-        return {
-            totalHours,
-            count: entries.length,
-            courseData,
-            // Gamification Stats
-            xp,
-            level,
-            progress,
-            xpToNext,
-            rank
-        };
-
         // --- BADGE SYSTEM ---
         const badges = [];
 
@@ -160,12 +147,12 @@ export function useDataStore() {
             badges.push({ id: 'night_owl', name: 'Night Owl', icon: 'Moon', desc: 'Completed a session late at night' });
         }
 
-        // Marathoner: Single session > 3 hours (changed from 4 to 3 to be more attainable initially)
+        // Marathoner: Single session > 3 hours
         if (entries.some(e => parseFloat(e.hours || 0) >= 3)) {
             badges.push({ id: 'marathoner', name: 'Marathoner', icon: 'Flame', desc: 'Focused for over 3 hours in one go' });
         }
 
-        // Streak Master: Calculate Max Streak
+        // Streak Master
         const sortedDates = [...new Set(entries.map(e => e.date))].sort((a, b) => new Date(b) - new Date(a));
         let maxStreak = 0;
         let currentStreak = 0;
@@ -186,24 +173,18 @@ export function useDataStore() {
             }
             if (streak > maxStreak) maxStreak = streak;
 
-            // Check if current streak is active (today or yesterday)
             const today = new Date().toISOString().split('T')[0];
             const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-            if (sortedDates[0] === today || sortedDates[0] === yesterday) {
-                currentStreak = streak; // This logic needs refinement but works for simple "latest sequence"
-                // Actually, if the loop above managed the logic, we'd grab the first sequence.
-                // Let's simplified: 
-                let tempStreak = 1;
-                for (let i = 0; i < sortedDates.length - 1; i++) {
-                    const d1 = new Date(sortedDates[i]);
-                    const d2 = new Date(sortedDates[i + 1]);
-                    const diffDays = Math.ceil(Math.abs(d1 - d2) / (86400000));
-                    if (diffDays === 1) tempStreak++;
-                    else break;
-                }
-                if (sortedDates[0] === today || sortedDates[0] === yesterday) currentStreak = tempStreak;
-                else currentStreak = 0;
+
+            let tempStreak = 1;
+            for (let i = 0; i < sortedDates.length - 1; i++) {
+                const d1 = new Date(sortedDates[i]);
+                const d2 = new Date(sortedDates[i + 1]);
+                const diffDays = Math.ceil(Math.abs(d1 - d2) / (86400000));
+                if (diffDays === 1) tempStreak++;
+                else break;
             }
+            if (sortedDates[0] === today || sortedDates[0] === yesterday) currentStreak = tempStreak;
         }
 
         if (currentStreak >= 3) badges.push({ id: 'streak_3', name: 'Heating Up', icon: 'Zap', desc: '3 Day Streak' });

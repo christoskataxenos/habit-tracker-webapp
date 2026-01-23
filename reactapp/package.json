@@ -1,7 +1,7 @@
 {
   "name": "pulse-tracker",
   "private": true,
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Keep your rhythm alive. A high-performance habit tracker for the disciplined.",
   "author": "Christos Kataxenos <chris@example.com>",
   "maintainer": "Christos Kataxenos <chris@example.com>",
@@ -27,6 +27,7 @@
     "@capacitor/core": "^8.0.1",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/utilities": "^3.2.2",
+    "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
     "framer-motion": "^12.27.5",
     "lucide-react": "^0.562.0",
@@ -66,24 +67,26 @@
       "output": "../builds/${os}"
     },
     "nsis": {
-      "artifactName": "${productName} Setup ${version} ${arch}.${ext}"
+      "artifactName": "${productName} Setup ${version} ${arch}.${ext}",
+      "license": "../TERMS.txt"
     },
     "portable": {
       "artifactName": "${productName} Portable ${version} ${arch}.${ext}"
     },
     "win": {
+      "icon": "build/icon.png",
       "target": [
         "nsis",
         "portable"
       ]
     },
     "linux": {
+      "icon": "build/icon.png",
       "target": [
         "deb",
         "rpm"
       ],
-      "category": "Education",
-      "icon": "public/icon.png"
+      "category": "Education"
     }
   }
 }

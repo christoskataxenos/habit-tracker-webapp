@@ -1,34 +1,34 @@
-# PULSE v1.5.0
+# PULSE PROTOCOL v1.6.0
 > *Bio-Digital Focus Enhancement Environment*
 
 <div align="center">
 
-## 📥 DOWNLOAD LATEST (v1.5.0)
+## 📥 DOWNLOAD LATEST (v1.6.0)
 
 ### 🪟 WINDOWS
 *Universal Support (x64 & ARM64)*
 
 | 💿 **INSTALLER** | 🎒 **PORTABLE** |
 | :---: | :---: |
-| [![Windows Installer](https://img.shields.io/badge/Download-Setup.exe-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/PULSE.Setup.1.5.0.exe) | [![Windows Portable](https://img.shields.io/badge/Download-Portable.exe-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/PULSE.Portable.1.5.0.exe) |
+| [![Windows Installer](https://img.shields.io/badge/Download-Setup.exe-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/PULSE.Setup.1.6.0.exe) | [![Windows Portable](https://img.shields.io/badge/Download-Portable.exe-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/PULSE.Portable.1.6.0.exe) |
 | *Recommended* | *No Install Required* |
 
 ### 🐧 LINUX
 
 | PACKAGE TYPE | 💻 **x64** (Intel/AMD) | ⚡ **ARM64** (RPi / Mac VM) |
-| :--- | :---: | :---: |
-| **.DEB** <br> *(Ubuntu, Debian)* | [![Deb x64](https://img.shields.io/badge/Download-amd64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker_1.5.0_amd64.deb) | [![Deb ARM](https://img.shields.io/badge/Download-arm64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker_1.5.0_arm64.deb) |
-| **.RPM** <br> *(Fedora, RHEL)* | [![RPM x64](https://img.shields.io/badge/Download-x86__64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker-1.5.0.x86_64.rpm) | [![RPM ARM](https://img.shields.io/badge/Download-aarch64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V1.5/pulse-tracker-1.5.0.aarch64.rpm) |
+| : | :---: | :---: |
+| **.DEB** <br> *(Ubuntu, Debian)* | [![Deb x64](https://img.shields.io/badge/Download-amd64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/pulse-tracker_1.6.0_amd64.deb) | [![Deb ARM](https://img.shields.io/badge/Download-arm64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/pulse-tracker_1.6.0_arm64.deb) |
+| **.RPM** <br> *(Fedora, RHEL)* | [![RPM x64](https://img.shields.io/badge/Download-x86__64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/pulse-tracker-1.6.0.x86_64.rpm) | [![RPM ARM](https://img.shields.io/badge/Download-aarch64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/pulse-tracker-1.6.0.aarch64.rpm) |
 
 </div>
 
 <br>
 
-![PULSE Dashboard](assets/Preview1.5.png)
+![PULSE Dashboard](assets/Preview1.6.png)
 
 **PULSE** is a high-performance **Daily Activity & Focus System**. It is designed to quantify **everything you do in your day**—from coding and building to fitness and logistics.
 
-> *"If you can measure it, you can master it."*
+> "If you can measure it, you can master it."
 
 ---
 
@@ -37,17 +37,19 @@ The system is built as a high-performance desktop application:
 
 ### PULSE VISUAL (`/reactapp`)
 > *The Flagship Experience*
-- **Tech Stack:** React, Electron, TailwindCSS, Recharts.
+- **Tech Stack:** React, Electron, TailwindCSS, Recharts, Framer Motion.
 - **Features:**
   - 💎 **Glassmorphic UI:** A stunning, futuristic interface in Dark or Light mode.
-  - 🌓 **Dual-Theme Engine (v1.5):** 
+  - ✨ **Micro-Animations (v1.6):** Framer Motion transitions and celebratory confetti.
+  - 🔥 **Activity Streaks:** Visual feedback for consistency.
+  - 🎯 **Velocity Chart:** 7-day volume visualization on the main Feed.
+  - 🌓 **Dual-Theme Engine:** 
     - **Dark Protocol:** The signature deep space interface.
-    - **Frost & Platinum:** A monochromatic, high-contrast Light Mode.
+    - **Frost & Silver:** A monochromatic, high-contrast Light Mode.
     - **System Sync:** Auto-detects your OS theme preference.
   - 🏆 **Gamification Engine:** Earn XP, Level Up, and unlock Ranks (Initiate -> Architect).
-  - 📊 **Analytics Vault:** "Command Center" for statistics and data management.
-  - 💾 **Local Vault:** 100% private JSON/CSV storage.
-  - 🧘 **Focus Matrix:** Multiple clock styles (Retro Flip, Zen, Terminal).
+  - 📊 **Analytics Vault 2.5:** Redesigned Operations Hub for deep statistics and smart data merge.
+  - 💾 **Local Vault:** 100% private JSON/CSV storage with native OS Save Dialogs.
 
 ---
 
@@ -101,4 +103,4 @@ Special thanks to the community for their feedback and support:
 - **[@giwgos99](https://github.com/giwgos99)**: For identifying critical bugs in the Focus Mode logic and suggesting the CSV Import feature.
 
 ---
-*System Version: 1.5.0 "Frost & Platinum"*
+*System Version: 1.6.0 "The Pulse Enhancement"*

@@ -216,3 +216,29 @@
     - **Terminal Clock (Clean):** Removed original "Hacker" scanlines and neon glows from the Focus Overlay in Light Mode, providing a modern, distortion-free timer.
     - **Feed Hierarchy:** Refined Feed entry cards to be off-white with high-contrast duration badges (white text on gray backgrounds).
     - **Settings:** Renamed "Retro Flip" clock style to **"Retro"** for simplicity.
+
+---
+
+## 2026-01-23: THE PULSE ENHANCEMENT (v1.6) [COMPLETED]
+**Focus:** Dopamine, Data Maturity, and System Integration.
+
+### 🕕 Phase 21: Micro-Animations (Framer Motion)
+- **Objective:** Add "Juice" and feedback to user actions.
+- **Action:** Implement particle effects or bounce animations using **Framer Motion** when a habit/task is completed.
+
+### 🕖 Phase 22: Desktop System Integration (Electron Tray)
+- **Objective:** Improve app persistence and quick access.
+- **Action:** Implement a **System Tray** icon for Electron.
+  - Minimize to tray instead of closing.
+  - Context menu showing "Today's Pending Habits".
+
+### 🕗 Phase 23: Data Analyst "Express"
+- **Streak Counter:** Add 🔥 icons with day counts next to habits to leverage loss aversion.
+- **Weekly Distribution Chart:** New bar chart in Analytics showing productivity by day of the week.
+- **Shareable Progress:** "Share Progress" button to export a beautiful summary image/PDF.
+
+### 🕘 Phase 24: Engineering "Hygiene"
+- **Error Boundaries:** Implement React Error Boundaries to prevent "White Screen of Death" on data corruption.
+- **Environment Variables:** Move hardcoded paths and configuration to `.env`.
+- **Memory Optimization:** Investigating RAM usage (current ~200MB) via tree-shaking and asset optimization.
+- **UI Bugfix:** Fixed Log Entry window visibility on small window sizes.

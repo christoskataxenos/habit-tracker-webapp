@@ -22,7 +22,7 @@ function createWindow() {
             contextIsolation: false,
             webSecurity: false
         },
-        // icon config would go here
+        icon: path.join(__dirname, '../build/icon.png')
     });
 
     // Show window smoothly when content is ready
@@ -71,4 +71,19 @@ ipcMain.on('window-maximize', () => {
 
 ipcMain.on('window-close', () => {
     mainWindow?.close();
+});
+
+ipcMain.handle('save-backup', async (event, content, defaultFilename) => {
+    if (!mainWindow) return;
+    const { filePath } = await dialog.showSaveDialog(mainWindow, {
+        defaultPath: defaultFilename,
+        filters: [{ name: 'Pulse Backup', extensions: ['json'] }]
+    });
+
+    if (filePath) {
+        const fs = await import('fs/promises');
+        await fs.writeFile(filePath, content);
+        return true;
+    }
+    return false;
 });

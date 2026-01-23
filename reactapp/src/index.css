@@ -130,65 +130,6 @@
   box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.2) !important;
 }
 
-/* --- DASHBOARD PANELS LIGHT MODE FIX --- */
-/* Force Calendar and Feed panels to be light in Light Mode */
-.light .col-span-12.lg\:col-span-9,
-.light .col-span-12.lg\:col-span-3 {
-  background-color: rgba(255, 255, 255, 0.7) !important;
-  border-color: rgba(255, 255, 255, 0.6) !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
-  backdrop-filter: blur(20px);
-}
-
-/* Force inner text contrast inside panels */
-.light .font-mono {
-  color: #334155;
-  /* slate-700 */
-}
-
-.light .text-xs.font-mono.text-slate-500 {
-  color: #64748b !important;
-  /* slate-500 */
-}
-
-/* --- LIGHT MODE: FLIP CLOCK OVERRIDES --- */
-.light .flip-container {
-  background-color: rgba(255, 255, 255, 0.4) !important;
-  border-color: rgba(255, 255, 255, 0.6) !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05) !important;
-}
-
-.light .flip-card {
-  background-color: #ffffff !important;
-  border-color: #e2e8f0 !important;
-  /* slate-200 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
-}
-
-.light .flip-card-top {
-  background-color: #f8fafc !important;
-  /* slate-50 */
-  border-bottom-color: #cbd5e1 !important;
-  /* slate-300 */
-}
-
-.light .flip-card-bottom {
-  background-color: #f1f5f9 !important;
-  /* slate-100 */
-}
-
-.light .flip-text {
-  color: #0f172a !important;
-  /* slate-900 */
-  text-shadow: none !important;
-}
-
-.light .flip-line {
-  background-color: #cbd5e1 !important;
-  /* slate-300 */
-  opacity: 0.5;
-}
-
 
 /* --- ANIMATED BACKGROUND (Default Dark) --- */
 .bg-mui {

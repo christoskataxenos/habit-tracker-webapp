@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Search, X } from 'lucide-react';
+import confetti from 'canvas-confetti';
 
 // Hooks
 import { useDataStore } from '../hooks/useDataStore';
@@ -14,19 +15,26 @@ import FocusModeOverlay from '../components/FocusModeOverlay';
 import BottomNav from '../components/BottomNav';
 import AnalyticsModal from '../components/AnalyticsModal';
 import SettingsModal from '../components/SettingsModal';
+import OnboardingModal from '../components/OnboardingModal';
 import { AddEntryModal, GoalModal, DayDetailModal } from '../components/Modals';
+import VelocityChart from '../components/VelocityChart';
+import pkg from '../../package.json';
 
 export default function Dashboard() {
-    // ... existing hooks
     const { entries, routines, addEntry, deleteEntry, updateEntry, addRoutine, getStats, uniqueCourses, dailyGoal, setDailyGoal, courseGoals, updateCourseGoal } = useDataStore();
 
-    // ... existing state
     const [activeTab, setActiveTab] = useState('dashboard');
     const [isModalOpen, setModalOpen] = useState(false);
     const [isGoalModalOpen, setGoalModalOpen] = useState(false);
     const [isDataModalOpen, setIsDataModalOpen] = useState(false); // Using this for Analytics/Vault now
     const [isDayDetailOpen, setIsDayDetailOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+    // Onboarding / Terms State
+    const [showOnboarding, setShowOnboarding] = useState(() => {
+        const lastAccepted = localStorage.getItem('pulse_terms_accepted_version');
+        return lastAccepted !== pkg.version;
+    });
 
     // Preferences State
     const [preferences, setPreferences] = useState(() => {
@@ -133,6 +141,14 @@ export default function Dashboard() {
             updateEntry(editingEntry.id, data);
         } else {
             addEntry(data);
+            // Celebration for new entry
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#3b82f6', '#ffffff', '#60a5fa'],
+                disableForReducedMotion: true
+            });
         }
 
         // Handle Recurring Rhythm Creation
@@ -163,6 +179,26 @@ export default function Dashboard() {
             setTimerStart(null);
             setModalOpen(true);
         }
+    };
+
+    const handleLogProtocol = (protocol) => {
+        addEntry({
+            course: protocol.course,
+            date: selectedDate || today,
+            hours: protocol.hours,
+            startTime: protocol.startTime,
+            endTime: protocol.endTime,
+            tag: protocol.tag || 'Deep Work',
+            topic: protocol.topic || 'Conducted per Protocol',
+            score: 7
+        });
+        // Feedback
+        confetti({
+            particleCount: 80,
+            spread: 50,
+            origin: { y: 0.8 },
+            colors: ['#f97316', '#ffffff']
+        });
     };
 
     const formatTime = (totalSeconds) => {
@@ -206,6 +242,7 @@ export default function Dashboard() {
                         level={stats.level}
                         rank={stats.rank}
                         progress={stats.progress}
+                        currentStreak={stats.currentStreak}
                     />
                 </div>
 
@@ -243,6 +280,7 @@ export default function Dashboard() {
                             </div>
                         </div>
                         <div className="flex-1 overflow-y-auto p-3 custom-scrollbar">
+                            <VelocityChart entries={entries} />
                             <TimelineStream
                                 entries={displayedEntries}
                                 onDelete={deleteEntry}
@@ -282,6 +320,9 @@ export default function Dashboard() {
                     initialStartTime={editingEntry?.startTime || (lastSession ? new Date(lastSession.start).toTimeString().slice(0, 5) : '')}
                     initialEndTime={editingEntry?.endTime || (lastSession ? new Date(lastSession.end).toTimeString().slice(0, 5) : '')}
                     initialCourse={editingEntry?.course || smartCourse || ''}
+                    initialTopic={editingEntry?.topic || ''}
+                    initialTag={editingEntry?.tag || ''}
+                    initialScore={editingEntry?.score || 5}
                     initialDate={editingEntry?.date || (lastSession ? (() => {
                         const d = new Date();
                         d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
@@ -315,6 +356,18 @@ export default function Dashboard() {
                     entries={selectedDate ? entries.filter(e => e.date === selectedDate) : []}
                     routines={selectedDate ? routines.filter(r => r.days.includes(new Date(selectedDate).getDay())) : []}
                     onAddEntry={() => setModalOpen(true)}
+                    onEdit={handleEditEntry}
+                    onDelete={deleteEntry}
+                    onLogRoutine={handleLogProtocol}
+                />
+
+                {/* ONBOARDING FLOW */}
+                <OnboardingModal
+                    isOpen={showOnboarding}
+                    onComplete={() => {
+                        localStorage.setItem('pulse_terms_accepted_version', pkg.version);
+                        setShowOnboarding(false);
+                    }}
                 />
             </div>
         </>

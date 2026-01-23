@@ -1,5 +1,5 @@
 import React from 'react';
-import { FilePlus2, Play, Database, Sunrise, Moon, Flame, Zap, Crown, Sword, Anchor, Hammer, Book, Heart, Trophy, Medal } from 'lucide-react';
+import { Flame } from 'lucide-react';
 import UltraLogo from './UltraLogo';
 import QuoteWidget from './QuoteWidget';
 
@@ -8,7 +8,8 @@ export default function Header({
     level = 1,
     rank = "INITIATE",
     progress = 0,
-    badges = []
+    badges = [],
+    currentStreak = 0
 }) {
     const isElectron = window && window.process && window.process.type;
 
@@ -28,7 +29,7 @@ export default function Header({
             {isElectron && (
                 <div className="fixed top-0 left-0 w-full h-8 z-[200] flex justify-between items-center draggable-header pl-4 pr-1 select-none">
                     <div className="text-[10px] text-slate-600 font-mono tracking-widest opacity-50 hover:opacity-100 transition-opacity">
-                        PULSE_OS v1.5
+                        PULSE_OS v1.6
                     </div>
 
                     <div className="flex items-center h-full non-draggable">
@@ -90,6 +91,13 @@ export default function Header({
                             <span className="hidden lg:inline text-[9px] text-cyan-400 uppercase tracking-widest font-bold drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]">
                                 {rank}
                             </span>
+
+                            {currentStreak > 0 && (
+                                <div className="flex items-center gap-1 group/streak" title={`${currentStreak} Day Streak`}>
+                                    <Flame className={`w-4 h-4 ${currentStreak >= 3 ? 'text-orange-500 animate-pulse' : 'text-slate-500'}`} />
+                                    <span className={`text-[10px] font-bold ${currentStreak >= 3 ? 'text-orange-400' : 'text-slate-500'} font-mono`}>{currentStreak}</span>
+                                </div>
+                            )}
 
                             <div className="w-16 md:w-24 h-0.5 bg-slate-800 rounded-full overflow-hidden relative">
                                 <div

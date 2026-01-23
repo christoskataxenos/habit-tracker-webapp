@@ -1,0 +1,33 @@
+PULSE PROTOCOL - TERMS & PRIVACY (v1.6.0)
+===========================================
+
+1. DATA PRIVACY (THE "PULSE" PHILOSOPHY)
+----------------------------------------
+Pulse Protocol is built as a 100% PRIVATE and LOCAL application. 
+- All your studies, focus sessions, and grades are stored exclusively on your device.
+- We do not use servers to store your data.
+- We do not collect analytics, emails, or usage statistics.
+- No third-party trackers (Google Analytics, etc.) are present in the code.
+
+2. CLOUD SYNC (OPTIONAL)
+------------------------
+The "Cloud Bridge" feature is a manual mechanism. Pulse does not automatically upload your data to any cloud service. 
+- You are responsible for exporting your backup files to your own cloud storage (Dropbox, Drive, etc.).
+- Pulse does not have access to your cloud credentials; the sync happens at the OS level.
+
+3. SECURITY
+-----------
+- Pulse is an offline-capable tool. An internet connection is only needed for the initial bridge to your personal cloud folders.
+- Since data is local, if you delete the application data without a backup, it is permanently lost. 
+
+4. NO WARRANTY
+--------------
+The software is provided "as is", without warranty of any kind. You use it at your own risk.
+
+5. ACCEPTANCE
+-------------
+By using Pulse Protocol, you acknowledge that you understand your data is your responsibility and that the application is built for privacy-first productivity.
+
+-------------------------------------------
+PULSE: Keep your rhythm alive.
+-------------------------------------------

@@ -16,9 +16,9 @@
 ### 🐧 LINUX
 
 | PACKAGE TYPE | 💻 **x64** (Intel/AMD) | ⚡ **ARM64** (RPi / Mac VM) |
-| : | :---: | :---: |
+| :--- | :---: | :---: |
 | **.DEB** <br> *(Ubuntu, Debian)* | [![Deb x64](https://img.shields.io/badge/Download-amd64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/pulse-tracker_1.6.0_amd64.deb) | [![Deb ARM](https://img.shields.io/badge/Download-arm64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/pulse-tracker_1.6.0_arm64.deb) |
-| **.RPM** <br> *(Fedora, RHEL)* | [![RPM x64](https://img.shields.io/badge/Download-x86__64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/pulse-tracker-1.6.0.x86_64.rpm) | [![RPM ARM](https://img.shields.io/badge/Download-aarch64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/pulse-tracker-1.6.0.aarch64.rpm) |
+| **.RPM** <br> *(Fedora, RHEL)* | [![RPM x64](https://img.shields.io/badge/Download-x86__64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/pulse-tracker-1.6.0.x86_64.rpm) | [![RPM ARM](https://img.shields.io/badge/Download-aarch64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6.0/pulse-tracker-1.6.0.aarch64.rpm) |
 
 </div>
 
@@ -28,7 +28,7 @@
 
 **PULSE** is a high-performance **Daily Activity & Focus System**. It is designed to quantify **everything you do in your day**—from coding and building to fitness and logistics.
 
-> "If you can measure it, you can master it."
+> *"If you can measure it, you can master it."
 
 ---
 

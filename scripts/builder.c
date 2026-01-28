@@ -46,7 +46,7 @@ void print_header() {
   printf("  \\__|       \\______/ \\________| \\______/ \\________|\n");
   printf("\n");
   printf("  ==================================================\n");
-  printf("     BUILD CONTROL SYSTEM v2.20 (Insights Edition)\n");
+  printf("     BUILD CONTROL SYSTEM v2.21 (Split-Timer Edition)\n");
   printf("  ==================================================\n\n");
 }
 
@@ -54,10 +54,74 @@ void print_header() {
 void print_timer(const char *task, double seconds) {
   int m = (int)seconds / 60;
   int s = (int)seconds % 60;
-  printf("   - %-15s: %02d min %02d sec\n", task, m, s);
+  if (strlen(task) > 0)
+    printf("   - %-15s: %02d min %02d sec\n", task, m, s);
+  else
+    printf("%02d min %02d sec\n", m, s);
 }
 
-// Function to execute the build command NATIVELY on Windows
+// Function to execute a split build command for individual targets
+void run_split_build(const char *group_name, const char *targets[],
+                     const char *args[], int count, int is_docker) {
+  time_t start_session = time(NULL);
+
+  set_color(14); // Yellow
+  printf("\n  [+] GROUP INITIATED: %s\n", group_name);
+  printf("  [+] STARTING SPLIT PERFORMANCE TRACKING...\n");
+
+  for (int i = 0; i < count; i++) {
+    time_t target_start = time(NULL);
+    set_color(11); // Cyan
+    printf("\n  >> Building Target [%d/%d]: %s\n", i + 1, count, targets[i]);
+    set_color(7);
+    printf("  --------------------------------------------------\n");
+
+    char command[2048];
+    if (is_docker) {
+      sprintf(
+          command,
+          "docker run --rm -v \"%%CD%%:/project\" "
+          "-v electron_builder_cache:/root/.cache "
+          "-v npm_cache:/root/.npm "
+          "-w /project/reactapp "
+          "electronuserland/builder:wine /bin/bash -c \"npm install && npm run "
+          "build && npx electron-builder %s\"",
+          args[i]);
+    } else {
+      // For native, we only run npm install/build on the first target to save
+      // time
+      if (i == 0) {
+        printf("  [1/2] Preparing Environment (NPM Install & Build)...\n");
+        system("cd reactapp && npm install --silent && npm run build --silent");
+      }
+      printf("  [2/2] Packaging with Electron-Builder...\n");
+      sprintf(command, "cd reactapp && npx electron-builder %s", args[i]);
+    }
+
+    int result = system(command);
+    double target_duration = difftime(time(NULL), target_start);
+
+    if (result == 0) {
+      set_color(10); // Green
+      printf("  [SUCCESS] Created: %s\n", targets[i]);
+      print_timer("Duration", target_duration);
+      add_log(targets[i], target_duration, 1);
+    } else {
+      set_color(12); // Red
+      printf("  [FAILURE] Failed to build: %s\n", targets[i]);
+      add_log(targets[i], target_duration, 0);
+    }
+  }
+
+  double total_session = difftime(time(NULL), start_session);
+  set_color(14);
+  printf("\n  [ SESSION COMPLETE ]\n");
+  print_timer("GRAND TOTAL", total_session);
+  printf("\n");
+  system("pause");
+}
+
+// Function to execute a single build command
 void run_native_build(const char *target_name, const char *builder_args) {
   time_t start_total = time(NULL);
   double t_install = 0, t_web = 0, t_pkg = 0;
@@ -131,7 +195,6 @@ void run_native_build(const char *target_name, const char *builder_args) {
   system("pause");
 }
 
-// Function to execute the build command via DOCKER with CACHE
 void run_docker_build(const char *target_name, const char *builder_args) {
   set_color(14); // Yellow
   printf("\n  [+] TARGET SELECTED: %s (DOCKER LINUX)\n", target_name);
@@ -152,7 +215,6 @@ void run_docker_build(const char *target_name, const char *builder_args) {
           "build && npx electron-builder %s\"",
           builder_args);
 
-  // Execute
   int result = system(command);
   double total_time = difftime(time(NULL), start_total);
 
@@ -174,15 +236,12 @@ void run_docker_build(const char *target_name, const char *builder_args) {
   system("pause");
 }
 
-// Function to perform maintenance
 void run_maintenance() {
   set_color(13);
   printf("\n  [MAINTENANCE] Updating Docker Images & Cleaning System...\n");
   set_color(7);
-
   system("docker pull electronuserland/builder:wine");
   printf("\n  [INFO] Pruning unused docker data...\n");
-
   set_color(10);
   printf("\n  [DONE] Environment Updated.\n");
   system("pause");
@@ -191,19 +250,16 @@ void run_maintenance() {
 void print_summary() {
   if (history_count == 0)
     return;
-
   printf("\n  ==================================================\n");
   set_color(13); // Magenta
   printf("     SESSION BUILD SUMMARY\n");
   set_color(7);
   printf("  ==================================================\n");
-
   for (int i = 0; i < history_count; i++) {
     if (session_history[i].success)
-      set_color(10); // Green
+      set_color(10);
     else
-      set_color(12); // Red
-
+      set_color(12);
     printf("   [%s] ", session_history[i].success ? "PASS" : "FAIL");
     set_color(7);
     printf("%-30s | ", session_history[i].target);
@@ -214,47 +270,43 @@ void print_summary() {
 
 int main() {
   int choice;
-
   while (1) {
     print_header();
-    set_color(15); // Bright White
+    set_color(15);
     printf("  SELECT BUILD MODULE:\n\n");
 
-    // --- WINDOWS SECTION ---
-    set_color(11); // Cyan
+    set_color(11);
     printf("  [ WINDOWS - Native Fast Build ]\n");
     set_color(8);
     printf("   1. Installer (x64 Setup .exe)\n");
     printf("   2. Portable  (x64 Standalone .exe)\n");
     printf("   3. ARM64     (Surface Pro X / Snapdragon)\n");
-    set_color(10); // Green
-    printf("   4. >> BUILD ALL WINDOWS (x64 + ARM64)\n\n");
+    set_color(10);
+    printf("   4. >> BUILD ALL WINDOWS (Split Timers)\n\n");
 
-    // --- LINUX SECTION ---
-    set_color(11); // Cyan
+    set_color(11);
     printf("  [ LINUX - Docker Container ]\n");
     set_color(8);
     printf("   5. Debian    (.deb Ubuntu/Kali)\n");
     printf("   6. RedHat    (.rpm Fedora/CentOS)\n");
     printf("   7. ARM64     (Raspberry Pi/VMs)\n");
-    set_color(10); // Green
-    printf("   8. >> BUILD ALL LINUX (x64 + ARM64)\n\n");
+    set_color(10);
+    printf("   8. >> BUILD ALL LINUX (Split Timers)\n\n");
 
-    // --- GLOBAL SECTION ---
-    set_color(13); // Magenta
+    set_color(13);
     printf("  [ GLOBAL ]\n");
-    printf("   9. FULL DEPLOYMENT (Everything)\n");
-    set_color(14); // Yellow
+    printf("   9. FULL DEPLOYMENT SUITE\n");
+    set_color(14);
     printf("   10. UPDATE TOOLS (Docker Pull)\n\n");
 
-    set_color(12); // Red
+    set_color(12);
     printf("   0. TERMINATE & SHOW SUMMARY\n\n");
 
     set_color(15);
     printf("  >> COMMAND: ");
     if (scanf("%d", &choice) != 1) {
       while (getchar() != '\n')
-        ; // clear buffer
+        ;
       choice = -1;
     }
 
@@ -270,9 +322,14 @@ int main() {
     case 3:
       run_native_build("WINDOWS ARM64", "--win --arm64");
       break;
-    case 4:
-      run_native_build("ALL WINDOWS SUITE", "--win --x64 --arm64");
+    case 4: {
+      const char *t[] = {"WIN x64 INSTALLER", "WIN x64 PORTABLE", "WIN ARM64"};
+      const char *a[] = {"--win --x64 --config.win.target=nsis",
+                         "--win --x64 --config.win.target=portable",
+                         "--win --arm64"};
+      run_split_build("WINDOWS SUITE", t, a, 3, 0);
       break;
+    }
     case 5:
       run_docker_build("LINUX DEBIAN", "--linux deb --x64");
       break;
@@ -282,13 +339,22 @@ int main() {
     case 7:
       run_docker_build("LINUX ARM64", "--linux --arm64");
       break;
-    case 8:
-      run_docker_build("ALL LINUX SUITE", "--linux --x64 --arm64");
+    case 8: {
+      const char *t[] = {"LINUX DEB x64", "LINUX RPM x64", "LINUX ARM64"};
+      const char *a[] = {"--linux deb --x64", "--linux rpm --x64",
+                         "--linux --arm64"};
+      run_split_build("LINUX SUITE", t, a, 3, 1);
       break;
-    case 9:
-      run_docker_build("FULL SUITE (WIN + LINUX)",
-                       "--win --linux --x64 --arm64");
+    }
+    case 9: {
+      const char *t[] = {"WINDOWS x64", "WINDOWS ARM64", "LINUX x64 (DEB)",
+                         "LINUX ARM64"};
+      const char *a[] = {"--win --x64", "--win --arm64", "--linux deb --x64",
+                         "--linux --arm64"};
+      run_split_build("GLOBAL DEPLOYMENT", t, a, 4,
+                      1); // Use Docker for global to be safe
       break;
+    }
     case 10:
       run_maintenance();
       break;

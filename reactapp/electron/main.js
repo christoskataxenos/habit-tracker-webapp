@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -23,6 +23,33 @@ function createWindow() {
             webSecurity: false
         },
         icon: path.join(__dirname, '../build/icon.png')
+    });
+
+    // --- HUD WINDOW HANDLER ---
+    // Intercepts window.open('.../hud') call from React
+    mainWindow.webContents.setWindowOpenHandler(({ url, frameName }) => {
+        if (frameName === 'PulseHUD') {
+            return {
+                action: 'allow',
+                overrideBrowserWindowOptions: {
+                    width: 320,
+                    height: 220,
+                    resizable: false, // Fixed size
+                    frame: false,     // No Chrome
+                    transparent: true,
+                    alwaysOnTop: true, // KEY FEATURE
+                    minimizable: false,
+                    maximizable: false,
+                    titleBarStyle: 'hidden',
+                    backgroundColor: '#00000000', // Transparent
+                    webPreferences: {
+                        nodeIntegration: true,
+                        contextIsolation: false
+                    }
+                }
+            };
+        }
+        return { action: 'allow' };
     });
 
     // Show window smoothly when content is ready

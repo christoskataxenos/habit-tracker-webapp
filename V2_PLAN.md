@@ -53,6 +53,10 @@
     - [x] Σύστημα "Lvl Up" visuals για το Architect Rank.
         - Updated Ranks: **NOVICE** → **APPRENTICE** → **ADEPT** → **EXPERT** → **ARCHITECT**
         - New Rank Icons & Colors in Header HUD.
+    - [x] **Dynamic Activity Tags**:
+        - Δυνατότητα προσθήκης Custom Tags (Add Button).
+        - Διαχείριση Tags (Delete Mode με γρανάζι).
+        - LocalStorage persistence.
 
 ## 📊 Φάση 4: Analytics & Επιστημονική Προσέγγιση (The "Intelligence")
 *Στόχος: Παροχή ουσιαστικών insights στον χρήστη.*

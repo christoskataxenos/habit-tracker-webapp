@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Target, X, Edit3, Trash2, Mic, MicOff, Calendar, Clock, Activity, Zap, Plus, Check } from 'lucide-react';
+import { Target, X, Edit3, Trash2, Mic, MicOff, Calendar, Clock, Activity, Zap, Plus, Check, Settings } from 'lucide-react';
 import { useVoiceInput } from '../hooks/useVoiceInput';
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -41,7 +41,14 @@ export function GoalModal({ isOpen, onClose, currentGoal, onSave }) {
     );
 }
 
-const ACTIVITY_TAGS = ['Deep Work', 'Build', 'Learn', 'Logistics', 'Health', 'Life'];
+const getStoredTags = () => {
+    try {
+        const stored = localStorage.getItem('pulse_tags');
+        return stored ? JSON.parse(stored) : ['Deep Work', 'Build', 'Learn', 'Logistics', 'Health', 'Life'];
+    } catch {
+        return ['Deep Work', 'Build', 'Learn', 'Logistics', 'Health', 'Life'];
+    }
+};
 
 export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], initialHours = '', initialStartTime = '', initialEndTime = '', initialCourse = '', initialDate = '', initialTag = '', initialTopic = '', initialScore = 5 }) {
     const [course, setCourse] = useState(initialCourse);
@@ -57,6 +64,11 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
     const [tag, setTag] = useState(initialTag || 'Self-Study');
     const [score, setScore] = useState(initialScore);
     const [recurrence, setRecurrence] = useState([]); // Days 0-6
+
+    // Dynamic Tags State
+    const [availableTags, setAvailableTags] = useState(getStoredTags());
+    const [isAddingTag, setIsAddingTag] = useState(false);
+    const [newTag, setNewTag] = useState('');
 
     const { isListening, startListening, stopListening, hasSupport } = useVoiceInput();
 
@@ -89,6 +101,28 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
         if (!course) return;
         onSave({ course, date, hours: duration, startTime, endTime, topic, tag, score, recurrence });
         onClose();
+    };
+
+    const handleAddTag = () => {
+        if (newTag && !availableTags.includes(newTag)) {
+            const updated = [...availableTags, newTag];
+            setAvailableTags(updated);
+            localStorage.setItem('pulse_tags', JSON.stringify(updated));
+            setTag(newTag);
+            setNewTag('');
+            setIsAddingTag(false);
+        }
+    };
+
+    const [isManagingTags, setIsManagingTags] = useState(false);
+
+    const handleDeleteTag = (tagToDelete) => {
+        if (window.confirm(`Delete tag "${tagToDelete}"?`)) {
+            const updated = availableTags.filter(t => t !== tagToDelete);
+            setAvailableTags(updated);
+            localStorage.setItem('pulse_tags', JSON.stringify(updated));
+            if (tag === tagToDelete) setTag(updated[0] || 'Deep Work');
+        }
     };
 
     const toggleVoice = () => {
@@ -140,25 +174,70 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex justify-between">
-                                    Activity Type
-                                    <span className="text-slate-400">Rate: {score}/10</span>
-                                </label>
-                                <div className="grid grid-cols-[1fr_auto] gap-4 items-center">
+                                <div className="flex justify-between items-center">
+                                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                                        Activity Type
+                                    </label>
+                                    <span className="text-[10px] font-bold text-slate-400">Rate: {score}/10</span>
+                                </div>
+
+                                <div className="grid grid-cols-[1fr_auto] gap-4 items-start">
                                     <div className="flex flex-wrap gap-2">
-                                        {ACTIVITY_TAGS.map(t => (
+                                        {availableTags.map(t => (
                                             <button
                                                 key={t}
                                                 type="button"
-                                                onClick={() => setTag(t)}
-                                                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider border transition-all ${tag === t
-                                                    ? 'bg-slate-200 border-slate-300 text-slate-900 shadow-[0_0_15px_rgba(148,163,184,0.3)]'
-                                                    : 'bg-black/40 border-white/5 text-slate-500 hover:text-slate-300 hover:border-white/10'
+                                                onClick={() => isManagingTags ? handleDeleteTag(t) : setTag(t)}
+                                                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider border transition-all ${isManagingTags
+                                                    ? 'bg-red-500/10 border-red-500 text-red-400 hover:bg-red-500 hover:text-white animate-pulse'
+                                                    : tag === t
+                                                        ? 'bg-slate-200 border-slate-300 text-slate-900 shadow-[0_0_15px_rgba(148,163,184,0.3)]'
+                                                        : 'bg-black/40 border-white/5 text-slate-500 hover:text-slate-300 hover:border-white/10'
                                                     }`}
+                                                title={isManagingTags ? "Click to Delete" : t}
                                             >
+                                                {isManagingTags && <Trash2 className="w-3 h-3 inline mr-1 -mt-0.5" />}
                                                 {t}
                                             </button>
                                         ))}
+
+                                        {/* Add Tag Button */}
+                                        {!isManagingTags && (
+                                            isAddingTag ? (
+                                                <div className="flex items-center gap-1 bg-black/40 border border-blue-500/50 rounded-lg px-2 py-1">
+                                                    <input
+                                                        type="text"
+                                                        value={newTag}
+                                                        onChange={(e) => setNewTag(e.target.value)}
+                                                        className="bg-transparent text-white text-xs outline-none w-20"
+                                                        placeholder="New Tag..."
+                                                        autoFocus
+                                                        onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
+                                                    />
+                                                    <button type="button" onClick={handleAddTag} className="text-blue-400 hover:text-blue-300"><Check className="w-3 h-3" /></button>
+                                                    <button type="button" onClick={() => setIsAddingTag(false)} className="text-red-400 hover:text-red-300"><X className="w-3 h-3" /></button>
+                                                </div>
+                                            ) : (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setIsAddingTag(true)}
+                                                    className="px-3 py-1.5 rounded-lg text-xs font-bold border border-dashed border-slate-600 text-slate-500 hover:text-white hover:border-slate-400 transition-all flex items-center gap-1"
+                                                    title="Add Custom Tag"
+                                                >
+                                                    <Plus className="w-3 h-3" /> Add
+                                                </button>
+                                            )
+                                        )}
+
+                                        {/* Manage Tags Toggle */}
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsManagingTags(!isManagingTags)}
+                                            className={`p-1.5 rounded-lg border transition-all ${isManagingTags ? 'bg-slate-700 text-white border-slate-500' : 'text-slate-600 border-transparent hover:text-slate-400'}`}
+                                            title="Manage Tags"
+                                        >
+                                            <Settings className="w-4 h-4" />
+                                        </button>
                                     </div>
 
                                     <div className="bg-black/20 p-2 rounded-lg border border-white/5 w-32">

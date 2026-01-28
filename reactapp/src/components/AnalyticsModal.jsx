@@ -4,6 +4,7 @@ import {
     BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
     PieChart as RechartsPie, Pie, Cell, Legend
 } from 'recharts';
+import ActivityHeatmap from './ActivityHeatmap';
 
 const COLORS = ['#3b82f6', '#06b6d4', '#8b5cf6', '#d946ef', '#f97316', '#10b981', '#64748b'];
 const COLORS_LIGHT = ['#475569', '#94a3b8', '#cbd5e1', '#64748b', '#334155', '#1e293b', '#e2e8f0']; // Earth & Silver
@@ -214,11 +215,11 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
     };
 
     return (
-        <div id="analytics-modal-backdrop" className="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center p-0 md:p-4 animate-in fade-in duration-300">
+        <div id="analytics-modal-backdrop" className="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 flex items-center justify-center p-0 md:p-4 animate-in fade-in duration-300">
             {/* CONFLICT RESOLUTION HUB - MODAL OVERLAY */}
             {pendingImport && (
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-black/90 backdrop-blur-2xl" />
+                    <div className="absolute inset-0 bg-black/90 backdrop-blur-md" />
                     <div className={`w-full max-w-lg relative z-[70] overflow-hidden rounded-[2.5rem] border shadow-2xl p-8 md:p-12 ${isLightMode ? 'bg-white border-slate-200' : 'bg-slate-950 border-white/10'}`}>
                         <div className="flex flex-col items-center text-center">
                             <div className={`w-20 h-20 rounded-3xl mb-8 flex items-center justify-center border shadow-xl ${isLightMode ? 'bg-indigo-50 border-indigo-100 text-indigo-500' : 'bg-indigo-500/10 border-indigo-500/30 text-indigo-400'}`}>
@@ -537,6 +538,14 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
                                 </div>
                             </div>
 
+                            {/* Activity Heatmap */}
+                            <div className="bg-black/20 p-6 rounded-2xl border border-white/5">
+                                <h4 className="text-slate-400 text-xs uppercase tracking-widest mb-6 flex items-center gap-2">
+                                    <Calendar className="w-4 h-4" /> Activity Heatmap
+                                </h4>
+                                <ActivityHeatmap entries={entries} period="quarter" isLightMode={isLightMode} />
+                            </div>
+
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div className="bg-black/20 p-6 rounded-2xl border border-white/5">
                                     <div className="text-slate-500 text-xs uppercase tracking-widest mb-2">Total Focus</div>
@@ -576,7 +585,7 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
                                     <div className="flex-1 min-h-0">
                                         <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                                             <RechartsPie>
-                                                <Pie data={subjectData} cx="50%" cy="50%" innerRadius={0} outerRadius={100} paddingAngle={0} dataKey="value" isAnimationActive={true} stroke="none">
+                                                <Pie data={subjectData} cx="50%" cy="50%" innerRadius={0} outerRadius={100} paddingAngle={0} dataKey="value" isAnimationActive={true} animationDuration={600} animationBegin={100} stroke="none">
                                                     {subjectData.map((entry, index) => (
                                                         <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
                                                     ))}

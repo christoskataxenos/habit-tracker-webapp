@@ -2,6 +2,24 @@
 
 All notable changes to the **Pulse Protocol** (formerly Study Tracker) project will be documented in this file.
 
+## [v2.0.0-alpha] - 2026-01-28 - "The Architecture Evolution"
+### Added
+- **TypeScript Migration:** Full type safety with strict mode enabled.
+  - Core interfaces defined: `Entry`, `Routine`, `Stats`, `Badge`, `Rank`, `UserSettings`.
+  - Entry points (`main.tsx`, `App.tsx`) converted to TypeScript.
+- **V2 Plan Document:** Comprehensive roadmap (`V2_PLAN.md`) outlining all phases.
+
+### Changed
+- **Local-First Philosophy:** Removed cloud API integrations in favor of manual backup with full user control.
+- **Project Structure:** Removed Docker files to focus on Desktop-first development.
+
+### Technical
+- Installed: `typescript`, `@types/react`, `@types/react-dom`, `zustand`.
+- Created: `tsconfig.json`, `tsconfig.node.json`, `types.ts`.
+- Zustand Stores: `useEntryStore`, `useSettingsStore`, `useRoutineStore` (with localStorage persistence).
+
+---
+
 ## [v1.6.0] - 2026-01-23 - "The Pulse Enhancement"
 ### Added
 - **Master Sync & Backup**: A unified, high-performance data center replacing the separate backup and cloud bridge cards.

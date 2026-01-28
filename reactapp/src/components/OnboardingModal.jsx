@@ -27,7 +27,7 @@ export default function OnboardingModal({ isOpen, onComplete }) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute inset-0 bg-black/80 backdrop-blur-xl"
+                    className="absolute inset-0 bg-black/80 backdrop-blur-sm"
                 />
 
                 {/* Modal Container */}
@@ -36,8 +36,8 @@ export default function OnboardingModal({ isOpen, onComplete }) {
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     exit={{ scale: 0.9, opacity: 0, y: 20 }}
                     className={`w-full max-w-2xl relative z-10 overflow-hidden rounded-[2.5rem] border shadow-2xl ${isLightMode
-                            ? 'bg-white border-slate-200 shadow-slate-200/50'
-                            : 'bg-slate-950 border-white/10 shadow-black'
+                        ? 'bg-white border-slate-200 shadow-slate-200/50'
+                        : 'bg-slate-950 border-white/10 shadow-black'
                         }`}
                 >
                     {/* Header Image/Icon Section */}
@@ -130,8 +130,8 @@ export default function OnboardingModal({ isOpen, onComplete }) {
                                     <div
                                         key={i}
                                         className={`h-1.5 rounded-full transition-all duration-300 ${step === i
-                                                ? 'w-8 bg-indigo-500'
-                                                : 'w-2 bg-slate-700'
+                                            ? 'w-8 bg-indigo-500'
+                                            : 'w-2 bg-slate-700'
                                             }`}
                                     />
                                 ))}
@@ -140,8 +140,8 @@ export default function OnboardingModal({ isOpen, onComplete }) {
                             <button
                                 onClick={handleNext}
                                 className={`w-full py-4 rounded-2xl font-black text-sm tracking-[0.2em] transition-all flex items-center justify-center gap-2 group ${isLightMode
-                                        ? 'bg-slate-900 text-white hover:bg-black shadow-xl'
-                                        : 'bg-white text-slate-900 hover:bg-slate-200 shadow-xl shadow-indigo-500/10'
+                                    ? 'bg-slate-900 text-white hover:bg-black shadow-xl'
+                                    : 'bg-white text-slate-900 hover:bg-slate-200 shadow-xl shadow-indigo-500/10'
                                     }`}
                             >
                                 {step === totalSteps ? 'GET STARTED' : 'CONTINUE'}

@@ -201,10 +201,10 @@
 
 /* --- DIVINE MATERIALS --- */
 
-/* 1. The Main Silver Glass Panel */
+/* 1. The Main Silver Glass Panel - V2 OPTIMIZED */
 .glass-silver {
-  @apply bg-gradient-to-br from-[#131a2a]/95 via-[#0f1522]/90 to-[#05080f]/95 backdrop-blur-2xl border border-white/10 bg-opacity-80;
-  /* Move complex shadows here to avoid Tailwind @apply parsing errors with commas */
+  @apply bg-gradient-to-br from-[#131a2a]/95 via-[#0f1522]/90 to-[#05080f]/95 backdrop-blur-md border border-white/10 bg-opacity-80;
+  /* V2: Reduced blur from 2xl to md for GPU performance */
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.5),
     0 4px 6px -1px rgba(0, 0, 0, 0.5),

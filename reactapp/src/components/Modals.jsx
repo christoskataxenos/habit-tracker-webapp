@@ -302,7 +302,7 @@ export function DayDetailModal({ isOpen, onClose, dateStr, entries, routines = [
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="absolute inset-0 bg-black/95 backdrop-blur-xl"
+                        className="absolute inset-0 bg-black/95 backdrop-blur-sm"
                     />
                     <motion.div
                         initial={{ scale: 0.95, opacity: 0 }}

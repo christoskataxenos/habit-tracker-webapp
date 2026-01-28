@@ -242,3 +242,28 @@
 - **Environment Variables:** Move hardcoded paths and configuration to `.env`.
 - **Memory Optimization:** Investigating RAM usage (current ~200MB) via tree-shaking and asset optimization.
 - **UI Bugfix:** Fixed Log Entry window visibility on small window sizes.
+
+---
+
+## 2026-01-28: THE ARCHITECTURE EVOLUTION (v2.0) [IN PROGRESS]
+**Focus:** TypeScript Migration, State Management Overhaul, and Data Architecture.
+
+### 🚀 Phase 25: Version 2.0 Initialization
+- **Objective:** Prepare the codebase for major architectural improvements.
+- **Actions:**
+  - **V2 Plan Created:** Documented comprehensive upgrade roadmap in `V2_PLAN.md`.
+  - **Docker Cleanup:** Removed Docker files (Dockerfile, docker-compose.yml) to focus on Desktop-first architecture.
+  - **TypeScript Foundation:**
+    - Installed TypeScript and React type definitions.
+    - Created `tsconfig.json` with strict mode enabled.
+    - Created `types.ts` with core interfaces (Entry, Routine, Stats, Badge, Rank).
+    - Converted entry points (`main.tsx`, `App.tsx`) to TypeScript.
+  - **Philosophy:** "Local-first, Full User Control" - No API integrations for cloud backup.
+  - **Zustand State Management:**
+    - Installed `zustand` for centralized state.
+    - Created `stores/` directory with 3 TypeScript stores:
+      - `useEntryStore.ts`: Διαχείριση καταχωρήσεων συνεδριών.
+      - `useSettingsStore.ts`: Ρυθμίσεις χρήστη (theme, goals).
+      - `useRoutineStore.ts`: Επαναλαμβανόμενες ρουτίνες.
+    - All stores use `persist` middleware for localStorage sync.
+

@@ -13,7 +13,7 @@ export default function FocusModeOverlay({ isFocusMode, elapsed, onTerminate, fo
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     id="focus-overlay-container"
-                    className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-between py-12 overflow-hidden"
+                    className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex flex-col items-center justify-between py-12 overflow-hidden"
                 >
                     {/* Background Glows (Aurora) */}
                     <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">

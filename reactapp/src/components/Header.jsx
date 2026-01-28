@@ -1,12 +1,12 @@
 import React from 'react';
-import { Flame } from 'lucide-react';
+import { Flame, ShieldCheck, Book, Zap, Star, Crown } from 'lucide-react';
 import UltraLogo from './UltraLogo';
 import QuoteWidget from './QuoteWidget';
 
 export default function Header({
     currentTime,
     level = 1,
-    rank = "INITIATE",
+    rank = "NOVICE",
     progress = 0,
     badges = [],
     currentStreak = 0
@@ -88,9 +88,23 @@ export default function Header({
                                 LVL <span className="text-white font-bold">{level}</span>
                             </div>
 
-                            <span className="hidden lg:inline text-[9px] text-cyan-400 uppercase tracking-widest font-bold drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]">
-                                {rank}
-                            </span>
+                            <div className="flex items-center gap-2">
+                                {/* Rank Icon */}
+                                {rank === 'NOVICE' && <ShieldCheck className="w-3.5 h-3.5 text-slate-500" />}
+                                {rank === 'APPRENTICE' && <Book className="w-3.5 h-3.5 text-cyan-500" />}
+                                {rank === 'ADEPT' && <Zap className="w-3.5 h-3.5 text-emerald-500" />}
+                                {rank === 'EXPERT' && <Star className="w-3.5 h-3.5 text-amber-500" />}
+                                {rank === 'ARCHITECT' && <Crown className="w-3.5 h-3.5 text-purple-500" />}
+
+                                <span className={`hidden lg:inline text-[9px] uppercase tracking-widest font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.1)] ${rank === 'NOVICE' ? 'text-slate-400' :
+                                        rank === 'APPRENTICE' ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]' :
+                                            rank === 'ADEPT' ? 'text-emerald-400 drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]' :
+                                                rank === 'EXPERT' ? 'text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' :
+                                                    'text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]'
+                                    }`}>
+                                    {rank}
+                                </span>
+                            </div>
 
                             {currentStreak > 0 && (
                                 <div className="flex items-center gap-1 group/streak" title={`${currentStreak} Day Streak`}>
@@ -101,7 +115,12 @@ export default function Header({
 
                             <div className="w-16 md:w-24 h-0.5 bg-slate-800 rounded-full overflow-hidden relative">
                                 <div
-                                    className="h-full bg-cyan-500 shadow-[0_0_10px_cyan] transition-all duration-1000 ease-out"
+                                    className={`h-full shadow-[0_0_10px_currentColor] transition-all duration-1000 ease-out ${rank === 'NOVICE' ? 'bg-slate-500 text-slate-500' :
+                                            rank === 'APPRENTICE' ? 'bg-cyan-500 text-cyan-500' :
+                                                rank === 'ADEPT' ? 'bg-emerald-500 text-emerald-500' :
+                                                    rank === 'EXPERT' ? 'bg-amber-500 text-amber-500' :
+                                                        'bg-purple-500 text-purple-500'
+                                        }`}
                                     style={{ width: `${progress}%` }}
                                 ></div>
                             </div>

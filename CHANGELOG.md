@@ -2,21 +2,33 @@
 
 All notable changes to the **Pulse Protocol** (formerly Study Tracker) project will be documented in this file.
 
-## [v2.0.0-alpha] - 2026-01-28 - "The Architecture Evolution"
+## [v2.0.0] - 2026-01-28 - "The Quantified Future"
 ### Added
-- **TypeScript Migration:** Full type safety with strict mode enabled.
-  - Core interfaces defined: `Entry`, `Routine`, `Stats`, `Badge`, `Rank`, `UserSettings`.
-  - Entry points (`main.tsx`, `App.tsx`) converted to TypeScript.
-- **V2 Plan Document:** Comprehensive roadmap (`V2_PLAN.md`) outlining all phases.
+- **Predictive Analytics Engine:**
+  - **Goal Forecasts:** Dynamic projections for course completion based on current velocity.
+  - **Correlation Insights:** AI-driven analysis identifying "Golden Hours" and "Power Days."
+- **Focus HUD & Global State:**
+  - **Mini-Focus HUD:** A compact, always-on-top window for distraction-free tracking.
+  - **Zustand Migration:** Centralized global state with `useTimerStore` ensuring real-time synchronization across all app instances.
+- **Enhanced Data Safety:**
+  - **Smart Merge Engine:** Intelligent CSV/JSON restoration that preserves existing data while merging conflicts.
+  - **Excel Compatibility:** Standardized CSV exports with BOM and semicolon support for Greek/European locales.
+- **TypeScript Core:**
+  - Full type safety across the entire application architecture.
+  - Core interfaces: `Entry`, `Routine`, `Stats`, `Badge`, `Rank`, `UserSettings`.
 
 ### Changed
-- **Local-First Philosophy:** Removed cloud API integrations in favor of manual backup with full user control.
-- **Project Structure:** Removed Docker files to focus on Desktop-first development.
+- **Overlay Refactoring:** Replaced legacy `FocusModeOverlay` with high-performance inline CSS-driven transitions.
+- **Local-First Philosophy:** Reinforced manual backup controls over cloud-dependent sync for 100% data ownership.
+- **UX Layout:** Optimized vertical real estate for 1080p and laptop screens.
+
+### Fixed
+- **Electron Boot Failure:** Resolved a critical `SyntaxError` in the main process (`main.js`) caused by corrupted source text.
+- **ESM Module Compatibility:** Fixed missing `__dirname` and `path` resolution issues in the Electron entry point.
 
 ### Technical
-- Installed: `typescript`, `@types/react`, `@types/react-dom`, `zustand`.
-- Created: `tsconfig.json`, `tsconfig.node.json`, `types.ts`.
-- Zustand Stores: `useEntryStore`, `useSettingsStore`, `useRoutineStore` (with localStorage persistence).
+- Tech Stack: `react-19`, `vite-7`, `zustand`, `lucide-react`, `vitest`.
+- Testing: Implemented unit tests for math-heavy analytics and XP engines.
 
 ---
 

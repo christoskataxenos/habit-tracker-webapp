@@ -7,8 +7,11 @@ import { Search } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 // V2 Stores (Zustand) - Θα αντικαταστήσουν σταδιακά το useDataStore
-import { useEntryStore, useSettingsStore, useRoutineStore } from '../stores';
-import { calculateStats, getUniqueCourses } from '../utils/statsCalculator';
+import { useEntryStore } from '../stores/useEntryStore';
+import { useRoutineStore } from '../stores/useRoutineStore';
+import { useSettingsStore } from '../stores/useSettingsStore';
+import { useTimerStore } from '../stores/useTimerStore';
+import { calculateStats, calculateForecasts, calculateInsights, getUniqueCourses } from '../utils/statsCalculator';
 import type { Entry } from '../types';
 
 // Legacy Hooks (θα αφαιρεθούν μετά την πλήρη μετάβαση)
@@ -18,6 +21,7 @@ import { useSmartContext } from '../hooks/useSmartContext';
 // Components
 import Background from '../components/Background';
 import Header from '../components/Header';
+import QuoteWidget from '../components/QuoteWidget'; // Added QuoteWidget import
 import ActivityHeatmap from '../components/ActivityHeatmap';
 import TimelineStream from '../components/TimelineStream';
 import TemporalMatrix from '../components/TemporalMatrix';
@@ -84,14 +88,14 @@ export default function Dashboard() {
     });
 
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
-    const [isFocusMode, setIsFocusMode] = useState(false);
+    // const [isFocusMode, setIsFocusMode] = useState(false); // REPLACED BY STORE
     const [editingEntry, setEditingEntry] = useState<Entry | null>(null);
     const [analyticsView, setAnalyticsView] = useState<'stats' | 'badges' | 'goals'>('stats');
 
-    // Timer State
-    const [timerStart, setTimerStart] = useState<number | null>(null);
-    const [elapsed, setElapsed] = useState(0);
-    const [lastSession, setLastSession] = useState<SessionData | null>(null);
+    // Timer Global State
+    const { isActive, startTime, elapsedTime, activeSession, startTimer, pauseTimer, resumeTimer, stopTimer } = useTimerStore();
+    const [displayTime, setDisplayTime] = useState(0);
+    const [lastSession, setLastSession] = useState<{ start: number, end: number } | null>(null);
 
     // System State
     const [currentTime, setCurrentTime] = useState(new Date());
@@ -101,18 +105,102 @@ export default function Dashboard() {
     const smartCourse = useSmartContext(entries);
 
     // --- EFFECTS ---
+    // --- DATA MIGRATION (V1 -> V2) ---
+    useEffect(() => {
+        const MIGRATION_KEY = 'pulse_v1_to_v2_migration_complete';
+        const isMigrated = localStorage.getItem(MIGRATION_KEY);
+
+        if (!isMigrated) {
+            console.log('🚀 Checking for V1 Legacy Data...');
+
+            // 1. Storage Keys from V1
+            const V1_STORAGE_KEY = 'toon_study_tracker_v1';
+            const V1_ROUTINES_KEY = 'pulse_routines_v1';
+            const V1_GOAL_KEY = 'ascend_daily_goal';
+            const V1_COURSE_GOALS_KEY = 'pulse_course_goals_v1';
+
+            try {
+                // Entries Migration
+                const legacyEntriesRaw = localStorage.getItem(V1_STORAGE_KEY);
+                if (legacyEntriesRaw) {
+                    const legacyEntries = JSON.parse(legacyEntriesRaw);
+                    if (Array.isArray(legacyEntries) && legacyEntries.length > 0) {
+                        console.log(`📦 Found ${legacyEntries.length} legacy entries. Migrating...`);
+                        // Standardize format if necessary (V2 uses similar format but with focusScore)
+                        const standardized = legacyEntries.map((e: any) => ({
+                            ...e,
+                            focusScore: e.focusScore || e.score || 5, // V1 used 'score' occasionally or lacked it
+                            timestamp: e.timestamp || Date.now()
+                        }));
+                        useEntryStore.getState().importEntries(standardized);
+                    }
+                }
+
+                // Routines Migration
+                const legacyRoutinesRaw = localStorage.getItem(V1_ROUTINES_KEY);
+                if (legacyRoutinesRaw) {
+                    const legacyRoutines = JSON.parse(legacyRoutinesRaw);
+                    if (Array.isArray(legacyRoutines) && legacyRoutines.length > 0) {
+                        console.log(`🔄 Found ${legacyRoutines.length} legacy routines. Migrating...`);
+                        legacyRoutines.forEach((r: any) => {
+                            useRoutineStore.getState().addRoutine({
+                                ...r,
+                                id: r.id || crypto.randomUUID()
+                            });
+                        });
+                    }
+                }
+
+                // Settings Migration
+                const legacyDailyGoal = localStorage.getItem(V1_GOAL_KEY);
+                if (legacyDailyGoal) {
+                    console.log(`🎯 Migrating daily goal: ${legacyDailyGoal}`);
+                    setDailyGoal(parseFloat(legacyDailyGoal));
+                }
+
+                const legacyCourseGoalsRaw = localStorage.getItem(V1_COURSE_GOALS_KEY);
+                if (legacyCourseGoalsRaw) {
+                    const legacyCourseGoals = JSON.parse(legacyCourseGoalsRaw);
+                    console.log(`📊 Migrating course goals...`);
+                    Object.entries(legacyCourseGoals).forEach(([course, hours]) => {
+                        updateCourseGoal(course, Number(hours));
+                    });
+                }
+
+                // Mark as migrated so we don't repeat and duplicate on every reload
+                localStorage.setItem(MIGRATION_KEY, 'true');
+                console.log('✅ V1 to V2 Migration Successful.');
+
+                // Show a small notification or just reload if data was imported
+                if (legacyEntriesRaw || legacyRoutinesRaw) {
+                    // Optional: reload or show toast
+                }
+            } catch (err) {
+                console.error('❌ Data Migration Failed:', err);
+            }
+        }
+    }, []);
+
     useEffect(() => {
         const timer = setInterval(() => setCurrentTime(new Date()), 1000);
         return () => clearInterval(timer);
     }, []);
 
     useEffect(() => {
-        let interval;
-        if (isFocusMode && timerStart) {
-            interval = setInterval(() => { setElapsed(Math.floor((Date.now() - timerStart) / 1000)); }, 1000);
+        let interval: NodeJS.Timeout;
+        if (isActive && startTime) {
+            // Update UI every second
+            const tick = () => {
+                const now = Date.now();
+                setDisplayTime(elapsedTime + (now - startTime));
+            };
+            tick(); // Immediate update
+            interval = setInterval(tick, 1000);
+        } else {
+            setDisplayTime(elapsedTime);
         }
         return () => clearInterval(interval);
-    }, [isFocusMode, timerStart]);
+    }, [isActive, startTime, elapsedTime]);
 
     // Save preferences
     // Save preferences & Apply Theme
@@ -218,18 +306,19 @@ export default function Dashboard() {
         }
 
         setModalOpen(false);
+        stopTimer(); // Ensure timer is reset after save
     };
 
     const toggleFocus = (): void => {
-        if (!isFocusMode) {
-            setIsFocusMode(true);
-            setTimerStart(Date.now());
-            setElapsed(0);
+        if (!isActive) {
+            // Start Default Session
+            startTimer('Focus Session', 'Deep Work');
         } else {
+            // Stop Request -> Pause Timer & Open Modal to Save
             const now = Date.now();
-            if (timerStart) setLastSession({ start: timerStart, end: now });
-            setIsFocusMode(false);
-            setTimerStart(null);
+            if (startTime) setLastSession({ start: startTime, end: now });
+
+            pauseTimer(); // Hide Overlay, keep state until Save/Cancel
             setModalOpen(true);
         }
     };
@@ -354,7 +443,46 @@ export default function Dashboard() {
                             />
                         </div>
                     </div>
-                </main>
+                    {/* FOCUS MODE OVERLAY */}
+                    {isActive && (
+                        <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center animate-in fade-in duration-500">
+                            <div className="mb-8 text-center animate-in slide-in-from-top-10 duration-700 delay-100">
+                                <div className="text-blue-400 text-sm font-bold uppercase tracking-[0.3em] mb-4 bg-blue-500/10 px-4 py-2 rounded-full border border-blue-500/20 inline-block shadow-[0_0_20px_rgba(59,130,246,0.2)]">
+                                    Deep Focus Session
+                                </div>
+                                <h2 className="text-4xl text-white font-thin tracking-wider opacity-80">
+                                    {activeSession?.course || 'Focus Session'}
+                                </h2>
+                                {activeSession?.tag && <div className="text-xl text-slate-500 mt-2 font-light">{activeSession.tag}</div>}
+                            </div>
+
+                            <div className="relative group">
+                                <div className="absolute inset-0 bg-blue-500/20 blur-[100px] rounded-full animate-pulse"></div>
+                                <div className="text-[120px] md:text-[180px] font-bold font-mono text-white tracking-widest drop-shadow-[0_0_50px_rgba(59,130,246,0.5)] tabular-nums select-none transition-all duration-300 group-hover:scale-105">
+                                    {formatTime(Math.floor(displayTime / 1000))}
+                                </div>
+                            </div>
+
+                            <div className="mt-12 flex gap-6 animate-in slide-in-from-bottom-10 duration-700 delay-200">
+                                <button
+                                    onClick={toggleFocus}
+                                    className="group relative px-10 py-4 bg-transparent border border-red-500/30 text-red-400 rounded-full font-bold uppercase tracking-widest hover:bg-red-500/10 hover:border-red-500/60 hover:shadow-[0_0_30px_rgba(239,68,68,0.2)] transition-all overflow-hidden"
+                                >
+                                    <span className="relative z-10 flex items-center gap-2">
+                                        <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span> Stop Session
+                                    </span>
+                                </button>
+                            </div>
+
+                            <div className="absolute bottom-8 w-full flex justify-center px-4">
+                                <QuoteWidget
+                                    className="max-w-2xl text-center opacity-60 hover:opacity-100 transition-opacity"
+                                    textClass="text-slate-400 text-sm md:text-base font-light italic tracking-wide"
+                                    authorClass="text-slate-500 text-xs mt-2 uppercase tracking-widest font-bold"
+                                />
+                            </div>
+                        </div>
+                    )}</main>
 
                 {/* BOTTOM NAVIGATION (Fixed) */}
                 <BottomNav
@@ -367,19 +495,17 @@ export default function Dashboard() {
                 />
 
                 {/* OVERLAYS & MODALS */}
-                <FocusModeOverlay
-                    isFocusMode={isFocusMode}
-                    elapsed={elapsed}
-                    onTerminate={toggleFocus}
-                    formatTime={formatTime}
-                    currentTime={currentTime}
-                    clockFace={preferences.clockFace}
-                />
+                {/* FocusModeOverlay removed - replaced by inline overlay */}
 
                 <AddEntryModal
                     key={isModalOpen ? (editingEntry?.id || 'new') : 'closed'}
                     isOpen={isModalOpen}
-                    onClose={() => { setModalOpen(false); setLastSession(null); setEditingEntry(null); }}
+                    onClose={() => {
+                        setModalOpen(false);
+                        setLastSession(null);
+                        setEditingEntry(null);
+                        stopTimer(); // Discard session on Cancel
+                    }}
                     onSave={handleSaveEntry}
                     uniqueCourses={uniqueCourses}
                     recentCourses={recentCourses}

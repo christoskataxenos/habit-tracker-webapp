@@ -55,6 +55,7 @@ vite.config.ts.timestamp-*
 .eslintcache
 
 # Project Specific / Temp
+V2_Plan.md
 gemini_knowledge_base/
 tobefixed.txt
 *.log

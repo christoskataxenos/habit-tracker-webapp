@@ -29,7 +29,7 @@
 
 **PULSE** is a high-performance **Daily Activity & Focus System**. It is designed to quantify **everything you do in your day**—from coding and building to fitness and logistics.
 
-> *"If you can measure it, you can master it."*
+> *"If you can measure it, you can master it."
 
 ---
 

@@ -7,7 +7,7 @@ import { persist } from 'zustand/middleware';
 import type { Entry } from '../types';
 
 // --- Κλειδί αποθήκευσης στο LocalStorage ---
-const STORAGE_KEY = import.meta.env.VITE_STORAGE_KEY || 'pulse_entries_v2';
+const STORAGE_KEY = 'pulse_entries_v2';
 
 // --- Interface για το State του Store ---
 interface EntryState {

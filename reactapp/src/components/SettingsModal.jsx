@@ -102,7 +102,7 @@ export default function SettingsModal({ isOpen, onClose, preferences, updatePref
                 </div>
 
                 <div className="mt-12 pt-6 border-t border-white/5 flex justify-between items-center text-[10px] text-slate-600 uppercase tracking-widest font-mono">
-                    <span>Pulse v1.6.0 "The Pulse Enhancement"</span>
+                    <span>Pulse v2.0.0 "The Quantified Future"</span>
                 </div>
             </div>
         </div>

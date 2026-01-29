@@ -281,23 +281,25 @@ int main() {
     printf("   1. Installer (x64 Setup .exe)\n");
     printf("   2. Portable  (x64 Standalone .exe)\n");
     printf("   3. ARM64     (Surface Pro X / Snapdragon)\n");
+    printf("   4. Universal (x64 + ARM64 Combined)\n");
+    printf("   5. Universal Portable (Multi-Arch)\n");
     set_color(10);
-    printf("   4. >> BUILD ALL WINDOWS (Split Timers)\n\n");
+    printf("   6. >> BUILD ALL WINDOWS (Split Timers)\n\n");
 
     set_color(11);
     printf("  [ LINUX - Docker Container ]\n");
     set_color(8);
-    printf("   5. Debian    (.deb Ubuntu/Kali)\n");
-    printf("   6. RedHat    (.rpm Fedora/CentOS)\n");
-    printf("   7. ARM64     (Raspberry Pi/VMs)\n");
+    printf("   7. Debian    (.deb Ubuntu/Kali)\n");
+    printf("   8. RedHat    (.rpm Fedora/CentOS)\n");
+    printf("   9. ARM64     (Raspberry Pi/VMs)\n");
     set_color(10);
-    printf("   8. >> BUILD ALL LINUX (Split Timers)\n\n");
+    printf("   10. >> BUILD ALL LINUX (Split Timers)\n\n");
 
     set_color(13);
     printf("  [ GLOBAL ]\n");
-    printf("   9. FULL DEPLOYMENT SUITE\n");
+    printf("   11. FULL DEPLOYMENT SUITE\n");
     set_color(14);
-    printf("   10. UPDATE TOOLS (Docker Pull)\n\n");
+    printf("   12. UPDATE TOOLS (Docker Pull)\n\n");
 
     set_color(12);
     printf("   0. TERMINATE & SHOW SUMMARY\n\n");
@@ -322,40 +324,51 @@ int main() {
     case 3:
       run_native_build("WINDOWS ARM64", "--win --arm64");
       break;
-    case 4: {
-      const char *t[] = {"WIN x64 INSTALLER", "WIN x64 PORTABLE", "WIN ARM64"};
+    case 4:
+      run_native_build("WINDOWS UNIVERSAL",
+                       "--win --x64 --arm64 --config.win.target=nsis");
+      break;
+    case 5:
+      run_native_build("WINDOWS PORTABLE UNIVERSAL",
+                       "--win --x64 --arm64 --config.win.target=portable");
+      break;
+    case 6: {
+      const char *t[] = {"WIN x64 INSTALLER", "WIN x64 PORTABLE", "WIN ARM64",
+                         "WIN UNIVERSAL"};
       const char *a[] = {"--win --x64 --config.win.target=nsis",
                          "--win --x64 --config.win.target=portable",
-                         "--win --arm64"};
-      run_split_build("WINDOWS SUITE", t, a, 3, 0);
+                         "--win --arm64",
+                         "--win --x64 --arm64 --config.win.target=nsis"};
+      run_split_build("WINDOWS SUITE", t, a, 4, 0);
       break;
     }
-    case 5:
+    case 7:
       run_docker_build("LINUX DEBIAN", "--linux deb --x64");
       break;
-    case 6:
+    case 8:
       run_docker_build("LINUX REDHAT", "--linux rpm --x64");
       break;
-    case 7:
+    case 9:
       run_docker_build("LINUX ARM64", "--linux --arm64");
       break;
-    case 8: {
+    case 10: {
       const char *t[] = {"LINUX DEB x64", "LINUX RPM x64", "LINUX ARM64"};
       const char *a[] = {"--linux deb --x64", "--linux rpm --x64",
                          "--linux --arm64"};
       run_split_build("LINUX SUITE", t, a, 3, 1);
       break;
     }
-    case 9: {
-      const char *t[] = {"WINDOWS x64", "WINDOWS ARM64", "LINUX x64 (DEB)",
-                         "LINUX ARM64"};
-      const char *a[] = {"--win --x64", "--win --arm64", "--linux deb --x64",
-                         "--linux --arm64"};
-      run_split_build("GLOBAL DEPLOYMENT", t, a, 4,
+    case 11: {
+      const char *t[] = {"WINDOWS x64",     "WINDOWS ARM64",   "WIN UNIVERSAL",
+                         "LINUX x64 (DEB)", "LINUX x64 (RPM)", "LINUX ARM64"};
+      const char *a[] = {"--win --x64",         "--win --arm64",
+                         "--win --x64 --arm64", "--linux deb --x64",
+                         "--linux rpm --x64",   "--linux --arm64"};
+      run_split_build("GLOBAL DEPLOYMENT", t, a, 6,
                       1); // Use Docker for global to be safe
       break;
     }
-    case 10:
+    case 12:
       run_maintenance();
       break;
     case 0:

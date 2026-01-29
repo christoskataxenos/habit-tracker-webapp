@@ -2,7 +2,7 @@
 // PULSE V2 - Stats Calculator
 // Υπολογισμός στατιστικών, XP, Level, Badges
 // ====================
-import type { Entry, Stats, Badge, Rank, CourseProgress, CourseGoals } from '../types';
+import type { Entry, Stats, Badge, Rank, CourseProgress, CourseGoals, CourseForecast } from '../types';
 
 // --- Υπολογισμός Rank βάσει Level ---
 const getRank = (level: number): Rank => {
@@ -174,4 +174,140 @@ export const calculateStats = (
 // --- Helper: Λίστα μοναδικών μαθημάτων ---
 export const getUniqueCourses = (entries: Entry[]): string[] => {
     return [...new Set(entries.map((e) => e.course))];
+};
+
+// --- Πρόβλεψη Στόχων (Predictive Analytics) ---
+export const calculateForecasts = (
+    entries: Entry[],
+    courseGoals: CourseGoals,
+    lookbackDays: number = 14
+): CourseForecast[] => {
+    const today = new Date();
+    const cutoffDate = new Date();
+    cutoffDate.setDate(today.getDate() - lookbackDays);
+
+    // Filter recent entries
+    const recentEntries = entries.filter(e => new Date(e.date) >= cutoffDate);
+
+    // Group recent hours by course
+    const recentHoursByCourse: Record<string, number> = {};
+    recentEntries.forEach(e => {
+        recentHoursByCourse[e.course] = (recentHoursByCourse[e.course] || 0) + e.hours;
+    });
+
+    // Calculate total progress per course
+    const totalHoursByCourse: Record<string, number> = {};
+    entries.forEach(e => {
+        totalHoursByCourse[e.course] = (totalHoursByCourse[e.course] || 0) + e.hours;
+    });
+
+    const forecasts: CourseForecast[] = [];
+
+    Object.entries(courseGoals).forEach(([course, goal]) => {
+        if (goal <= 0) return;
+
+        const currentHours = totalHoursByCourse[course] || 0;
+        const remaining = Math.max(0, goal - currentHours);
+
+        if (remaining === 0) {
+            forecasts.push({
+                courseName: course,
+                hoursRemaining: 0,
+                velocity: 0,
+                estimatedCompletionDate: "DONE",
+                daysRemaining: 0
+            });
+            return;
+        }
+
+        const hoursLastPeriod = recentHoursByCourse[course] || 0;
+        const velocity = hoursLastPeriod / lookbackDays; // Hrs/Day
+
+        if (velocity <= 0.01) {
+            forecasts.push({
+                courseName: course,
+                hoursRemaining: remaining,
+                velocity: 0,
+                estimatedCompletionDate: null, // "Infinity"
+                daysRemaining: null
+            });
+        } else {
+            const daysToFinish = Math.ceil(remaining / velocity);
+            const finishDate = new Date();
+            finishDate.setDate(today.getDate() + daysToFinish);
+
+            forecasts.push({
+                courseName: course,
+                hoursRemaining: remaining,
+                velocity: Number(velocity.toFixed(2)),
+                estimatedCompletionDate: finishDate.toISOString().split('T')[0],
+                daysRemaining: daysToFinish
+            });
+        }
+    });
+
+    return forecasts.sort((a, b) => (a.daysRemaining || 9999) - (b.daysRemaining || 9999));
+};
+
+// --- Smart Insights (Correlations) ---
+// --- Smart Insights (Correlations) ---
+export const calculateInsights = (entries: Entry[]) => {
+    if (!entries || entries.length === 0) return null;
+
+    // 1. Init Counters
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayHours = new Array(7).fill(0);
+    const hourFreq = new Array(24).fill(0);
+    let totalDuration = 0;
+    let validEntriesCount = 0;
+
+    // 2. Process Entries
+    entries.forEach(e => {
+        // Day Stats
+        if (!e.date) return;
+        const d = new Date(e.date);
+
+        // VALIDATION: Skip invalid dates
+        if (isNaN(d.getTime())) return;
+
+        const dayIndex = d.getDay();
+        if (dayIndex >= 0 && dayIndex < 7) {
+            dayHours[dayIndex] += (e.hours || 0);
+        }
+
+        totalDuration += (e.hours || 0);
+        validEntriesCount++;
+
+        // Hour Stats (Frequency of starting at this hour)
+        if (e.startTime) {
+            const hour = parseInt(e.startTime.split(':')[0]);
+            if (!isNaN(hour) && hour >= 0 && hour < 24) {
+                hourFreq[hour]++;
+            }
+        }
+    });
+
+    if (validEntriesCount === 0) return null;
+
+    // 3. Find Maxima
+    let maxDayIndex = dayHours.indexOf(Math.max(...dayHours));
+    if (maxDayIndex === -1) maxDayIndex = 0; // Fallback
+
+    const maxHourIndex = hourFreq.indexOf(Math.max(...hourFreq));
+    const avgSession = totalDuration / validEntriesCount;
+
+    // 4. Determine "Time of Day" Label
+    let timeLabel = "Anytime";
+    if (maxHourIndex >= 5 && maxHourIndex < 12) timeLabel = "Morning Person";
+    else if (maxHourIndex >= 12 && maxHourIndex < 17) timeLabel = "Afternoon Focus";
+    else if (maxHourIndex >= 17 && maxHourIndex < 22) timeLabel = "Evening Grinder";
+    else timeLabel = "Night Owl";
+
+    return {
+        bestDay: days[maxDayIndex],
+        bestDayTotal: (dayHours[maxDayIndex] || 0).toFixed(1),
+        goldenHour: `${maxHourIndex}:00 - ${maxHourIndex + 1}:00`,
+        goldenHourLabel: timeLabel,
+        avgSession: avgSession.toFixed(1)
+    };
 };

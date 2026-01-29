@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Zap, FilePlus2, BarChart3, Settings } from 'lucide-react';
+import { LayoutDashboard, Zap, FilePlus2, BarChart3, Settings, ExternalLink } from 'lucide-react';
 
 export default function BottomNav({ activeTab, onTabChange, onFocusClick, onManualLogClick, onDataClick, onSettingsClick }) {
     return (
@@ -23,7 +23,7 @@ export default function BottomNav({ activeTab, onTabChange, onFocusClick, onManu
             </button>
 
             {/* 3. FOCUS (Center) - Silver Edition */}
-            <div className="relative -top-8">
+            <div className="relative -top-8 flex flex-col items-center group/main">
                 <button
                     onClick={onFocusClick}
                     aria-label="Toggle Focus Mode"
@@ -32,6 +32,15 @@ export default function BottomNav({ activeTab, onTabChange, onFocusClick, onManu
                     <div className="-rotate-45 flex flex-col items-center">
                         <Zap className="w-6 h-6 text-slate-900 fill-current group-hover:animate-pulse" />
                     </div>
+                </button>
+
+                {/* Pop-out HUD Button */}
+                <button
+                    onClick={() => window.open('#/hud', 'PulseHUD', 'width=320,height=220,menubar=no,toolbar=no,location=no,status=no')}
+                    className="absolute -right-10 top-4 p-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/50 transition-all opacity-0 group-hover/main:opacity-100 translate-x-[-10px] group-hover/main:translate-x-0 duration-300"
+                    title="Open Mini-HUD"
+                >
+                    <ExternalLink className="w-4 h-4" />
                 </button>
             </div>
 

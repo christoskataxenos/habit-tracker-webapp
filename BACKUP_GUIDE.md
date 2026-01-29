@@ -1,99 +1,99 @@
 # 📦 Manual Cloud Backup Guide
 
-Αυτός ο οδηγός εξηγεί πώς να αποθηκεύσεις τα δεδομένα του PULSE στο cloud της επιλογής σου.
+This guide explains how to store your PULSE data on the cloud service of your choice.
 
 ---
 
-## 🎯 Φιλοσοφία: "Full User Control"
+## 🎯 Philosophy: "Full User Control"
 
-Το PULSE **δεν** συνδέεται απευθείας με cloud services. Αυτό σημαίνει:
-- ✅ Εσύ έχεις τον πλήρη έλεγχο των δεδομένων σου
-- ✅ Κανένα API key ή account δεν απαιτείται
-- ✅ Τα δεδομένα σου μένουν ιδιωτικά
-- ✅ Λειτουργεί με οποιοδήποτε cloud service
-
----
-
-## 📁 Βήμα 1: Εξαγωγή Δεδομένων
-
-1. Άνοιξε το **PULSE**
-2. Πήγαινε στο **Analytics Vault** (κουμπί Stats στο bottom nav)
-3. Επίλεξε **"Data Operations"**
-4. Κάνε κλικ στο **"Export TOON"** ή **"Export JSON"**
-5. Επίλεξε τη θέση αποθήκευσης
+PULSE **does not** connect directly to third-party cloud services. This means:
+- ✅ You have full ownership of your data.
+- ✅ No API keys or account registrations are required.
+- ✅ Your data remains 100% private.
+- ✅ It works with **any** cloud service provider.
 
 ---
 
-## ☁️ Βήμα 2: Αποθήκευση στο Cloud
+## 📁 Step 1: Exporting Data
+
+1. Open **PULSE**.
+2. Navigate to the **Analytics Vault** (Stats button in the bottom navigation).
+3. Select **"Data Operations"**.
+4. Click on **"Export TOON"** or **"Export JSON"**.
+5. Choose your desired save location.
+
+---
+
+## ☁️ Step 2: Saving to the Cloud
 
 ### Google Drive
-1. Άνοιξε τον φάκελο `Google Drive` στον υπολογιστή σου
-2. Δημιούργησε έναν φάκελο `PULSE Backups`
-3. Μετακίνησε το exported αρχείο εκεί
-4. Θα συγχρονιστεί αυτόματα
+1. Open your `Google Drive` folder on your computer.
+2. Create a folder named `PULSE Backups`.
+3. Save or move the exported file there.
+4. It will sync automatically.
 
 ### Dropbox
-1. Άνοιξε τον φάκελο `Dropbox` 
-2. Δημιούργησε έναν φάκελο `PULSE Backups`
-3. Μετακίνησε το exported αρχείο εκεί
+1. Open your `Dropbox` folder.
+2. Create a folder named `PULSE Backups`.
+3. Save or move the exported file there.
 
 ### OneDrive
-1. Άνοιξε τον φάκελο `OneDrive`
-2. Δημιούργησε έναν φάκελο `PULSE Backups`
-3. Μετακίνησε το exported αρχείο εκεί
+1. Open your `OneDrive` folder.
+2. Create a folder named `PULSE Backups`.
+3. Save or move the exported file there.
 
-### Άλλες επιλογές
+### Other Options
 - **iCloud Drive** (macOS)
 - **Nextcloud** (Self-hosted)
 - **Syncthing** (P2P)
-- Οποιοδήποτε synced folder!
+- Any synced folder on your system!
 
 ---
 
-## 📥 Βήμα 3: Επαναφορά Δεδομένων
+## 📥 Step 3: Restoring Data
 
-1. Αντέγραψε το backup αρχείο στον υπολογιστή
-2. Άνοιξε το **PULSE**
-3. Πήγαινε στο **Analytics Vault** > **Data Operations**
-4. Κάνε κλικ στο **"Import"**
-5. Επίλεξε το αρχείο backup
+1. Ensure the backup file is available on your computer.
+2. Open **PULSE**.
+3. Go to **Analytics Vault** > **Data Operations**.
+4. Click on **"Import"**.
+5. Select your backup file to restore.
 
 ---
 
-## 🔄 Αυτόματο Backup (Power User Tip)
+## 🔄 Automatic Workflow (Power User Tip)
 
-Για αυτόματο backup, μπορείς να αποθηκεύεις τα exports απευθείας σε έναν cloud-synced φάκελο:
+For a seamless workflow, you can save your exports directly into a cloud-synced folder:
 
 ### Windows
-Όταν κάνεις export, επίλεξε ως θέση αποθήκευσης:
+When exporting, navigate to:
 ```
 C:\Users\[Username]\Google Drive\PULSE Backups\
 ```
 
-### Ονοματολογία αρχείων
-Χρησιμοποίησε ημερομηνία στο όνομα:
+### Naming Convention
+We recommend including the date in your filename for easier versioning:
 ```
 pulse_backup_2026-01-28.toon
 ```
 
 ---
 
-## 📋 Συχνότητα Backup
+## 📋 Backup Frequency Recommendations
 
-| Χρήση | Συνιστώμενη Συχνότητα |
+| Usage | Recommended Frequency |
 |-------|----------------------|
-| Καθημερινή | Εβδομαδιαίο backup |
-| Περιστασιακή | Μηνιαίο backup |
-| Πριν updates | Πάντα! |
+| Daily Heavy Use | Weekly Backup |
+| Casual Use | Monthly Backup |
+| Before Updates | **ALWAYS!** |
 
 ---
 
-## 🔒 Ασφάλεια
+## 🔒 Security & Privacy
 
-- Τα TOON/JSON αρχεία είναι **plain text** - μπορείς να τα διαβάσεις με οποιοδήποτε editor
-- Αν θέλεις encryption, χρησιμοποίησε **7-Zip** με password
-- Τα cloud services συνήθως κρυπτογραφούν τα αρχεία κατά τη μεταφορά
+- **Transparency:** TOON/JSON files are **plain text**. You can open and read them with any text editor.
+- **Encryption:** If you require extra security, compress the file using **7-Zip** (or similar tools) with a password before uploading.
+- **Transmission:** Most major cloud providers encrypt your files during transfer and storage.
 
 ---
 
-*Τελευταία ενημέρωση: 2026-01-28*
+*Last Updated: 2026-01-28*

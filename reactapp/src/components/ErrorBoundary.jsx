@@ -30,14 +30,27 @@ class ErrorBoundary extends React.Component {
                         <p className="text-slate-500 mb-10 leading-relaxed font-light">
                             Something went wrong with the interface. Don't worry, your focus data is safe.
                         </p>
-                        <button
-                            onClick={() => window.location.reload()}
-                            className="w-full btn-silver py-4 text-black hover:bg-white"
-                        >
-                            Restart System
-                        </button>
+                        <div className="flex flex-col gap-3">
+                            <button
+                                onClick={() => window.location.reload()}
+                                className="w-full btn-silver py-4 text-black hover:bg-white"
+                            >
+                                Restart System
+                            </button>
+                            <button
+                                onClick={() => {
+                                    if (window.confirm("This will clear all local settings and data. Are you sure?")) {
+                                        localStorage.clear();
+                                        window.location.reload();
+                                    }
+                                }}
+                                className="w-full py-2 text-[10px] text-slate-500 hover:text-red-400 uppercase tracking-widest transition-colors"
+                            >
+                                Emergency Clear Cache
+                            </button>
+                        </div>
                         <p className="mt-6 text-[10px] text-slate-700 uppercase tracking-[0.2em] font-bold">
-                            Error Boundary Active // v1.6
+                            Error Boundary Active // v2.21
                         </p>
                     </div>
                 </div>

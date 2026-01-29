@@ -1,7 +1,7 @@
 {
   "name": "pulse-tracker",
   "private": true,
-  "version": "1.6.0",
+  "version": "2.0.0",
   "description": "Keep your rhythm alive. A high-performance habit tracker for the disciplined.",
   "author": "Christos Kataxenos <chris@example.com>",
   "maintainer": "Christos Kataxenos <chris@example.com>",
@@ -17,7 +17,8 @@
     "electron:build": "npm run build && electron-builder --win --x64",
     "electron:build:linux": "npm run build && electron-builder --linux",
     "electron:build:linux:arm64": "npm run build && electron-builder --linux --arm64",
-    "electron:build:win:arm64": "npm run build && electron-builder --win --arm64"
+    "electron:build:win:arm64": "npm run build && electron-builder --win --arm64",
+    "electron:build:win:multi": "npm run build && electron-builder --win --x64 --arm64"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -36,6 +37,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
@@ -47,10 +50,12 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "jsdom": "^27.4.0",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.9.3",
     "vite": "^7.2.4",
+    "vitest": "^4.0.18",
     "wait-on": "^9.0.3"
   },
   "build": {
@@ -65,11 +70,11 @@
       "output": "../builds/${os}"
     },
     "nsis": {
-      "artifactName": "${productName} Setup ${version} ${arch}.${ext}",
+      "artifactName": "${productName}.Setup.${version}.${ext}",
       "license": "../TERMS.txt"
     },
     "portable": {
-      "artifactName": "${productName} Portable ${version} ${arch}.${ext}"
+      "artifactName": "${productName}.Portable.${version}.${ext}"
     },
     "win": {
       "icon": "build/icon.png",

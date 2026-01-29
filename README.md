@@ -1,24 +1,25 @@
-# PULSE PROTOCOL v1.6.0
+# PULSE PROTOCOL v2.0.0
 > *Bio-Digital Focus Enhancement Environment*
 
 <div align="center">
 
-## 📥 DOWNLOAD LATEST (v1.6.0)
+## 📥 DOWNLOAD LATEST (v2.0.0)
 
 ### 🪟 WINDOWS
 *Universal Support (x64 & ARM64)*
 
 | 💿 **INSTALLER** | 🎒 **PORTABLE** |
 | :---: | :---: |
-| [![Windows Installer](https://img.shields.io/badge/Download-Setup.exe-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/PULSE.Setup.1.6.0.exe) | [![Windows Portable](https://img.shields.io/badge/Download-Portable.exe-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/PULSE.Portable.1.6.0.exe) |
+| [![Windows Installer](https://img.shields.io/badge/Download-Setup.exe-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0/PULSE.Setup.2.0.0.exe) | [![Windows Portable](https://img.shields.io/badge/Download-Portable.exe-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0/PULSE.Portable.2.0.0.exe) |
 | *Recommended* | *No Install Required* |
 
 ### 🐧 LINUX
+*Architecture Note: **x64** (Intel/AMD) packages are labeled as **amd64** (.deb) or **x86_64** (.rpm).*
 
-| PACKAGE TYPE | 💻 **x64** (Intel/AMD) | ⚡ **ARM64** (RPi / Mac VM) |
+| PACKAGE TYPE | 💻 **x64** (Amd64 / x86_64) | ⚡ **ARM64** (aarch64) |
 | :--- | :---: | :---: |
-| **.DEB** <br> *(Ubuntu, Debian)* | [![Deb x64](https://img.shields.io/badge/Download-amd64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/pulse-tracker_1.6.0_amd64.deb) | [![Deb ARM](https://img.shields.io/badge/Download-arm64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/pulse-tracker_1.6.0_arm64.deb) |
-| **.RPM** <br> *(Fedora, RHEL)* | [![RPM x64](https://img.shields.io/badge/Download-x86__64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/pulse-tracker-1.6.0.x86_64.rpm) | [![RPM ARM](https://img.shields.io/badge/Download-aarch64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/v1.6/pulse-tracker-1.6.0.aarch64.rpm) |
+| **.DEB** <br> *(Ubuntu, Debian)* | [![Deb x64](https://img.shields.io/badge/Download-amd64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0/pulse-tracker_2.0.0_amd64.deb) | [![Deb ARM](https://img.shields.io/badge/Download-arm64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0/pulse-tracker_2.0.0_arm64.deb) |
+| **.RPM** <br> *(Fedora, RHEL)* | [![RPM x64](https://img.shields.io/badge/Download-x86__64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0/pulse-tracker-2.0.0.x86_64.rpm) | [![RPM ARM](https://img.shields.io/badge/Download-aarch64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0/pulse-tracker-2.0.0.aarch64.rpm) |
 
 </div>
 
@@ -28,7 +29,7 @@
 
 **PULSE** is a high-performance **Daily Activity & Focus System**. It is designed to quantify **everything you do in your day**—from coding and building to fitness and logistics.
 
-> *"If you can measure it, you can master it."
+> *"If you can measure it, you can master it."*
 
 ---
 
@@ -37,19 +38,19 @@ The system is built as a high-performance desktop application:
 
 ### PULSE VISUAL (`/reactapp`)
 > *The Flagship Experience*
-- **Tech Stack:** React, Electron, TailwindCSS, Recharts, Framer Motion.
+- **Tech Stack:** React 19, TypeScript, Electron, Zustand, TailwindCSS, Recharts.
 - **Features:**
   - 💎 **Glassmorphic UI:** A stunning, futuristic interface in Dark or Light mode.
-  - ✨ **Micro-Animations (v1.6):** Framer Motion transitions and celebratory confetti.
+  - 🔮 **Predictive Analytics (v2.0):** AI-driven goal forecasts and behavioral correlation insights.
+  - ⏱️ **Focus HUD:** A compact, always-on-top timer window for distraction-free work.
+  - ✨ **Micro-Animations:** Framer Motion transitions and celebratory confetti.
   - 🔥 **Activity Streaks:** Visual feedback for consistency.
-  - 🎯 **Velocity Chart:** 7-day volume visualization on the main Feed.
+  - 📊 **Analytics Vault 3.0:** Redesigned Operations Hub for deep statistics and smart data merge.
   - 🌓 **Dual-Theme Engine:** 
     - **Dark Protocol:** The signature deep space interface.
     - **Frost & Silver:** A monochromatic, high-contrast Light Mode.
-    - **System Sync:** Auto-detects your OS theme preference.
   - 🏆 **Gamification Engine:** Earn XP, Level Up, and unlock Ranks (Initiate -> Architect).
-  - 📊 **Analytics Vault 2.5:** Redesigned Operations Hub for deep statistics and smart data merge.
-  - 💾 **Local Vault:** 100% private JSON/CSV storage with native OS Save Dialogs.
+  - 💾 **Local Vault:** 100% private JSON/CSV storage with native OS Save Dialogs and Smart Merge.
 
 ---
 
@@ -59,17 +60,7 @@ The system is built as a high-performance desktop application:
 1. Navigate to `\reactapp`.
 2. Run `npm install` (first time only).
 3. **Development:** Run `npm run dev` for hot-reload.
-4. **Production Build:** Run `npm run electron:build` to generate a `.exe` installer.
-
----
-
-### 🐳 DOCKER (Universal / Server)
-*Ideal for shared access on a local network (LAN).*
-
-1. Navigate to `\reactapp`.
-2. Run: `docker-compose up -d --build`
-3. Access the app via browser at: `http://localhost:5173`
-   * *(Or use your PC's IP address to access from Tablet/Phone)*
+4. **Production Build:** Run `npm run electron:build` (or use `PulseBuilder.exe`) to generate a `.exe` installer.
 
 ---
 
@@ -89,10 +80,10 @@ The system is built as a high-performance desktop application:
 - **1 Hour** = 100 XP
 - **Level Up** every 1000 XP (10 Hours).
 - **Ranks:**
-  - `LVL 01-09`: **INITIATE**
-  - `LVL 10-24`: **OPERATOR**
-  - `LVL 25-49`: **NETRUNNER**
-  - `LVL 50-99`: **VANGUARD**
+  - `LVL 00-09`: **NOVICE**
+  - `LVL 10-24`: **APPRENTICE**
+  - `LVL 25-49`: **ADEPT**
+  - `LVL 50-99`: **EXPERT**
   - `LVL 100+`: **ARCHITECT**
 
 ## 📜 HISTORY & UPDATES
@@ -103,4 +94,4 @@ Special thanks to the community for their feedback and support:
 - **[@giwgos99](https://github.com/giwgos99)**: For identifying critical bugs in the Focus Mode logic and suggesting the CSV Import feature.
 
 ---
-*System Version: 1.6.0 "The Pulse Enhancement"*
+*System Version: 2.0.0 "The Quantified Future"*

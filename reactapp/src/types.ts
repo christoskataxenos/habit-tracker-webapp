@@ -13,8 +13,8 @@ export interface Entry {
     startTime: string;          // Μορφή HH:MM (24ωρο)
     endTime: string;            // Μορφή HH:MM (24ωρο)
     hours: number;              // Υπολογισμένη διάρκεια σε ώρες
+    topic?: string;             // Σημειώσεις χρήστη / Θέμα μελέτης
     focusScore?: number;        // Βαθμολογία εστίασης 1-10 (προαιρετικό)
-    notes?: string;             // Σημειώσεις χρήστη
     timestamp: number;          // Unix timestamp δημιουργίας
 }
 
@@ -57,6 +57,15 @@ export interface CourseProgress {
     name: string;
     hours: number;
     goal: number;
+}
+
+// --- Προβλέψεις (Forecasts) ---
+export interface CourseForecast {
+    courseName: string;
+    hoursRemaining: number;
+    velocity: number; // Hours per day (last 14 days)
+    estimatedCompletionDate: string | null; // ISO Date or null if no velocity
+    daysRemaining: number | null;
 }
 
 // --- Βαθμίδες (Ranks) ---

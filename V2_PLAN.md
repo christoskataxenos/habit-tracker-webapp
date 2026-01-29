@@ -41,7 +41,7 @@
         - Reduced `backdrop-blur-2xl` → `backdrop-blur-md` (glass-silver)
         - Reduced `backdrop-blur-xl` → `backdrop-blur-sm` (modals)
     - [x] Απενεργοποίηση animation στη Pie Chart για ταχύτερο rendering.
-    - [ ] Βελτίωση τυπογραφίας και spacing για καλύτερη αναγνωσιμότητα.
+    - [x] Βελτίωση τυπογραφίας και spacing για καλύτερη αναγνωσιμότητα.
 - [x] **Advanced Visuals**
     - [x] **Heatmaps**: GitHub-style activity heatmap component. (`components/ActivityHeatmap.tsx`)
         - Grid visualization με 12 εβδομάδες δραστηριότητας
@@ -61,30 +61,38 @@
 ## 📊 Φάση 4: Analytics & Επιστημονική Προσέγγιση (The "Intelligence")
 *Στόχος: Παροχή ουσιαστικών insights στον χρήστη.*
 
-- [ ] **Correlations Engine**
-    - [ ] Ανάπτυξη αλγορίθμου που συνδέει διαφορετικά habits (π.χ. Ύπνος vs Workouts).
-- [ ] **Predictive Analytics**
-    - [ ] Υλοποίηση Linear Regression για την πρόβλεψη της προόδου.
-- [ ] **Web Workers**
-    - [ ] Μεταφορά των βαριών υπολογισμών stats σε Web Workers για να μην "παγώνει" το UI.
+- [x] **Correlations Engine**
+    - [x] Υλοποίηση "Smart Insights" (Power Day, Golden Hour, Avg Session).
+    - [ ] (Future) Advanced Correlations with Sleep/Workout data.
+- [x] **Predictive Analytics**
+    - [x] Goal Forecasting Logic & UI (Linear Projection based on recent velocity).
 
-## 💻 Φάση 5: System Integration (The "Integration")
-*Στόχος: Καλύτερη ενσωμάτωση στο λειτουργικό σύστημα.*
+## 💻 Φάση 5: System Integration & Data Safety
+*Στόχος: Καλύτερη ενσωμάτωση και ασφάλεια δεδομένων.*
 
-- [ ] **Mini-Focus HUD**
-    - [ ] Δημιουργία ενός compact "Always-on-Top" παραθύρου (HUD).
-- [ ] **System Tray Integration**
-    - [ ] Υλοποίηση background persistence.
-    - [ ] Tray menu για γρήγορο logging.
-- [ ] **Export Engine**
-    - [ ] Δημιουργία "Pulse Architect" reports σε PDF και Image format.
+- [x] **Data Safety (Backup System)**
+    - [x] **Export Engine**: Full Data Backup (JSON) for safety.
+    - [x] **Import Engine**: Restore functionality (Merge/Replace Modals).
+- [x] **Mini-Focus HUD**
+    - [x] Δημιουργία ενός compact "Pop-out" παραθύρου (HUD).
+    - [x] Global Timer State (Zustand) για συγχρονισμό.
+- [x] **System Tray Integration**
+    - [x] Υλοποίηση "Always-on-Top" style window via Pop-out logic.
+
+## 🔮 Future / V3 Ideas (On Hold)
+- [ ] **Advanced Predictive Models** (Regression) - *Only if linear projection is insufficient.*
+- [ ] **Web Workers** - *Optimization for 5000+ entries.*
 
 ## 🧪 Φάση 6: Διασφάλιση Ποιότητας & Testing
-- [ ] **Unit Testing** (Vitest) για τους αλγόριθμους XP και stats.
-- [ ] **Integration Testing** για τα stores και το DB layer.
+- [x] **Unit Testing** (Vitest) για τους αλγόριθμους XP και stats.
+- [x] **Integration Testing** για τα stores και το DB layer.
 
 ---
 
 ### 📝 Σημειώσεις:
 - Κάθε αλλαγή στον κώδικα θα συνοδεύεται από σχόλια στα Ελληνικά (όπως ζητήθηκε).
-- Η χρήση του **TOON** θα είναι κεντρική για το AI-ready portability.
+- Η χρήση του **TOON** είναι κεντρική για το AI-ready portability.
+
+---
+**STATUS: V2.0 ARCHITECTURE COMPLETED & STABLE** 🏆
+

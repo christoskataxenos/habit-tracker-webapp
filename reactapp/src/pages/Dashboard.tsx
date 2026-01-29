@@ -110,61 +110,83 @@ export default function Dashboard() {
         const MIGRATION_KEY = 'pulse_v1_to_v2_migration_complete';
         const isMigrated = localStorage.getItem(MIGRATION_KEY);
 
-        if (!isMigrated) {
-            console.log('🚀 Checking for V1 Legacy Data...');
+        // Run migration if not done, OR if done but the new store is empty (failsafe)
+        if (!isMigrated || (entries.length === 0)) {
+            console.log('🚀 Scanning for Protocol Data (Legacy Survival Mode)...');
 
-            // 1. Storage Keys from V1
-            const V1_STORAGE_KEY = 'toon_study_tracker_v1';
-            const V1_ROUTINES_KEY = 'pulse_routines_v1';
-            const V1_GOAL_KEY = 'ascend_daily_goal';
-            const V1_COURSE_GOALS_KEY = 'pulse_course_goals_v1';
+            // List of potential legacy keys used in various versions
+            const ENTRY_KEYS = ['toon_study_tracker_v1', 'pulse_entries', 'study_tracker_v1', 'pulse_v1_data'];
+            const ROUTINE_KEYS = ['pulse_routines_v1', 'pulse_routines'];
+            const GOAL_KEYS = ['ascend_daily_goal', 'pulse_daily_goal'];
+            const COURSE_GOAL_KEYS = ['pulse_course_goals_v1', 'pulse_course_goals'];
 
             try {
-                // Entries Migration
-                const legacyEntriesRaw = localStorage.getItem(V1_STORAGE_KEY);
-                if (legacyEntriesRaw) {
-                    const legacyEntries = JSON.parse(legacyEntriesRaw);
-                    if (Array.isArray(legacyEntries) && legacyEntries.length > 0) {
-                        console.log(`📦 Found ${legacyEntries.length} legacy entries. Migrating...`);
-                        // Standardize format if necessary (V2 uses similar format but with focusScore)
-                        const standardized = legacyEntries.map((e: any) => ({
-                            ...e,
-                            focusScore: e.focusScore || e.score || 5, // V1 used 'score' occasionally or lacked it
-                            timestamp: e.timestamp || Date.now()
-                        }));
-                        useEntryStore.getState().importEntries(standardized);
+                // 1. Entries Migration
+                let migratedAny = false;
+
+                for (const key of ENTRY_KEYS) {
+                    const raw = localStorage.getItem(key);
+                    if (raw) {
+                        try {
+                            const data = JSON.parse(raw);
+                            if (Array.isArray(data) && data.length > 0) {
+                                console.log(`📦 [RECOVERY] Found ${data.length} entries in [${key}]`);
+                                const standardized = data.map((e: any) => ({
+                                    ...e,
+                                    topic: e.topic || e.notes || 'Legacy Entry',
+                                    focusScore: e.focusScore || e.score || 5,
+                                    timestamp: e.timestamp || Date.now(),
+                                    id: e.id || crypto.randomUUID()
+                                }));
+                                useEntryStore.getState().importEntries(standardized);
+                                migratedAny = true;
+                                break;
+                            }
+                        } catch (e) { console.error(`Failed to parse ${key}`, e); }
+                    } else {
+                        console.log(`🔍 [RECOVERY] Key [${key}] is empty.`);
                     }
                 }
 
-                // Routines Migration
-                const legacyRoutinesRaw = localStorage.getItem(V1_ROUTINES_KEY);
-                if (legacyRoutinesRaw) {
-                    const legacyRoutines = JSON.parse(legacyRoutinesRaw);
-                    if (Array.isArray(legacyRoutines) && legacyRoutines.length > 0) {
-                        console.log(`🔄 Found ${legacyRoutines.length} legacy routines. Migrating...`);
-                        legacyRoutines.forEach((r: any) => {
-                            useRoutineStore.getState().addRoutine({
-                                ...r,
-                                id: r.id || crypto.randomUUID()
+                // 2. Routines Migration
+                for (const key of ROUTINE_KEYS) {
+                    const raw = localStorage.getItem(key);
+                    if (raw) {
+                        try {
+                            const data = JSON.parse(raw);
+                            if (Array.isArray(data) && data.length > 0) {
+                                data.forEach((r: any) => {
+                                    useRoutineStore.getState().addRoutine({
+                                        ...r,
+                                        id: r.id || crypto.randomUUID()
+                                    });
+                                });
+                                break;
+                            }
+                        } catch (e) { }
+                    }
+                }
+
+                // 3. Settings Migration
+                for (const key of GOAL_KEYS) {
+                    const raw = localStorage.getItem(key);
+                    if (raw) {
+                        setDailyGoal(parseFloat(raw));
+                        break;
+                    }
+                }
+
+                for (const key of COURSE_GOAL_KEYS) {
+                    const raw = localStorage.getItem(key);
+                    if (raw) {
+                        try {
+                            const data = JSON.parse(raw);
+                            Object.entries(data).forEach(([course, hours]) => {
+                                updateCourseGoal(course, Number(hours));
                             });
-                        });
+                            break;
+                        } catch (e) { }
                     }
-                }
-
-                // Settings Migration
-                const legacyDailyGoal = localStorage.getItem(V1_GOAL_KEY);
-                if (legacyDailyGoal) {
-                    console.log(`🎯 Migrating daily goal: ${legacyDailyGoal}`);
-                    setDailyGoal(parseFloat(legacyDailyGoal));
-                }
-
-                const legacyCourseGoalsRaw = localStorage.getItem(V1_COURSE_GOALS_KEY);
-                if (legacyCourseGoalsRaw) {
-                    const legacyCourseGoals = JSON.parse(legacyCourseGoalsRaw);
-                    console.log(`📊 Migrating course goals...`);
-                    Object.entries(legacyCourseGoals).forEach(([course, hours]) => {
-                        updateCourseGoal(course, Number(hours));
-                    });
                 }
 
                 // Mark as migrated so we don't repeat and duplicate on every reload
@@ -172,8 +194,8 @@ export default function Dashboard() {
                 console.log('✅ V1 to V2 Migration Successful.');
 
                 // Show a small notification or just reload if data was imported
-                if (legacyEntriesRaw || legacyRoutinesRaw) {
-                    // Optional: reload or show toast
+                if (migratedAny) {
+                    console.log('🔄 Hybrid recovery detected. Refreshing view...');
                 }
             } catch (err) {
                 console.error('❌ Data Migration Failed:', err);
@@ -187,7 +209,7 @@ export default function Dashboard() {
     }, []);
 
     useEffect(() => {
-        let interval: NodeJS.Timeout;
+        let interval: any;
         if (isActive && startTime) {
             // Update UI every second
             const tick = () => {
@@ -227,7 +249,7 @@ export default function Dashboard() {
         // Listen for system changes ONLY if (preferences.theme === 'system')
         if (preferences.theme === 'system') {
             const mediaQuery = window.matchMedia('(prefers-color-scheme: light)');
-            const handler = (e) => {
+            const handler = (e: any) => {
                 if (e.matches) document.documentElement.classList.add('light');
                 else document.documentElement.classList.remove('light');
             };
@@ -341,7 +363,7 @@ export default function Dashboard() {
             startTime: protocol.startTime,
             endTime: protocol.endTime,
             tag: protocol.tag || 'Deep Work',
-            notes: protocol.topic || 'Conducted per Protocol',
+            topic: protocol.topic || 'Conducted per Protocol',
         });
         // Feedback
         confetti({
@@ -514,7 +536,7 @@ export default function Dashboard() {
                     initialCourse={editingEntry?.course || smartCourse || ''}
                     initialTopic={editingEntry?.topic || ''}
                     initialTag={editingEntry?.tag || ''}
-                    initialScore={editingEntry?.score || 5}
+                    initialScore={editingEntry?.focusScore || 5}
                     initialDate={editingEntry?.date || (lastSession ? (() => {
                         const d = new Date();
                         d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
@@ -546,7 +568,7 @@ export default function Dashboard() {
                     onClose={() => setIsDayDetailOpen(false)}
                     dateStr={selectedDate}
                     entries={selectedDate ? entries.filter(e => e.date === selectedDate) : []}
-                    routines={selectedDate ? routines.filter(r => r.days.includes(new Date(selectedDate).getDay())) : []}
+                    routines={selectedDate ? routines.filter(r => r.daysOfWeek.includes(new Date(selectedDate).getDay())) : []}
                     onAddEntry={() => setModalOpen(true)}
                     onEdit={handleEditEntry}
                     onDelete={deleteEntry}

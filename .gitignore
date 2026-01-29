@@ -35,13 +35,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Android / Capacitor
-reactapp/android/.gradle/
-reactapp/android/app/build/
-reactapp/android/build/
-reactapp/android/local.properties
-reactapp/android/*.iml
-reactapp/android/.idea/
+# Android / Legacy
+reactapp/android/
 
 # IDE & OS
 .idea/
@@ -51,8 +46,15 @@ reactapp/android/.idea/
 .DS_Store
 Thumbs.db
 Desktop.ini
-ehthumbs.db
+.directory
+
+# Vite & Tools
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+.eslintcache
 
 # Project Specific / Temp
 gemini_knowledge_base/
 tobefixed.txt
+*.log
+logs/

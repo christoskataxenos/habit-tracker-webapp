@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { X, Calendar, PieChart, BarChart as BarIcon, Download, Upload, Sunrise, Moon, Flame, Zap, Crown, Sword, Anchor, Hammer, Book, Heart, Trophy, Medal, FileText, Target, Database, Cloud, RefreshCw, AlertTriangle, ShieldCheck, GitMerge } from 'lucide-react';
+import { X, Calendar, PieChart, BarChart as BarIcon, Download, Upload, Sunrise, Moon, Flame, Zap, Crown, Sword, Anchor, Hammer, Book, Heart, Trophy, Medal, FileText, Target, Database, Cloud, RefreshCw, AlertTriangle, ShieldCheck, GitMerge, Sun, Clock, Check } from 'lucide-react';
 import {
     BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
     PieChart as RechartsPie, Pie, Cell, Legend
 } from 'recharts';
+import { calculateForecasts, calculateInsights } from '../utils/statsCalculator';
 import ActivityHeatmap from './ActivityHeatmap';
 
 const COLORS = ['#3b82f6', '#06b6d4', '#8b5cf6', '#d946ef', '#f97316', '#10b981', '#64748b'];
@@ -61,6 +62,14 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
             .sort((a, b) => b.value - a.value)
             .slice(0, 6); // Top 6
     }, [filteredEntries]);
+
+    // 4. Forecasts (AI Predictions)
+    const forecasts = useMemo(() => {
+        if (!entries || !courseGoals) return [];
+        return calculateForecasts(entries, courseGoals, 30); // 30 Days Lookback for stability
+    }, [entries, courseGoals]);
+
+    const insights = useMemo(() => calculateInsights(entries), [entries]);
 
     if (!isOpen) return null;
 
@@ -143,7 +152,11 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
                         return result;
                     };
 
-                    const lines = content.split('\n').filter(l => l.trim());
+                    let lines = content.split('\n').filter(l => l.trim());
+                    // Skip optional Excel separator line (sep=,)
+                    if (lines.length > 0 && lines[0].startsWith('sep=')) {
+                        lines = lines.slice(1);
+                    }
                     if (lines.length < 2) throw new Error('Invalid CSV format');
 
                     const newEntries = lines.slice(1).map(line => {
@@ -179,9 +192,9 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
 
     const executeSmartMerge = () => {
         if (!pendingImport) return;
-        const STORAGE_KEY = 'toon_study_tracker_v1';
-        const ROUTINES_KEY = 'pulse_routines_v1';
-        const COURSE_GOALS_KEY = 'pulse_course_goals_v1';
+        const STORAGE_KEY = 'pulse_entries_v2';
+        const ROUTINES_KEY = 'pulse_routines_v2';
+        const COURSE_GOALS_KEY = 'pulse_settings_v2';
 
         if (pendingImport.type === 'json') {
             const data = pendingImport.data;
@@ -377,19 +390,25 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                                     <button
                                         onClick={() => {
+                                            // CSV Export
+                                            // CSV Export - Use Semicolon for compatibility with Greek/Euro Excel
                                             const headers = ['ID', 'Course', 'Date', 'Hours', 'Start Time', 'End Time', 'Topic', 'Tag', 'Focus Score'];
                                             const rows = entries.map(e => [
                                                 e.id,
-                                                `"${e.course.replace(/"/g, '""')}"`,
+                                                `"${(e.course || '').replace(/"/g, '""')}"`,
                                                 e.date,
                                                 e.hours,
-                                                e.startTime,
-                                                e.endTime,
+                                                e.startTime || '',
+                                                e.endTime || '',
                                                 `"${(e.topic || '').replace(/"/g, '""')}"`,
-                                                e.tag,
-                                                e.score || '-'
+                                                `"${(e.tag || '').replace(/"/g, '""')}"`,
+                                                e.focusScore || '-'
                                             ]);
-                                            const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+
+                                            // Add BOM (\uFEFF) so Excel recognizes UTF-8 (Greek characters)
+                                            // Delimiter: Semicolon (;)
+                                            const BOM = '\uFEFF';
+                                            const csvContent = BOM + [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
                                             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
                                             const url = URL.createObjectURL(blob);
                                             const a = document.createElement('a');
@@ -546,39 +565,126 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
                                 <ActivityHeatmap entries={entries} period="quarter" isLightMode={isLightMode} />
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div className="bg-black/20 p-6 rounded-2xl border border-white/5">
-                                    <div className="text-slate-500 text-xs uppercase tracking-widest mb-2">Total Focus</div>
-                                    <div className="text-4xl text-white font-thin">{totalHours.toFixed(1)}<span className="text-sm text-slate-600 ml-1">h</span></div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div className={`p-4 rounded-2xl border ${isLightMode ? 'bg-white border-slate-200' : 'bg-black/20 border-white/5'}`}>
+                                    <div className="text-slate-500 text-[10px] uppercase tracking-widest mb-1">Total Focus</div>
+                                    <div className={`text-3xl font-thin ${isLightMode ? 'text-slate-800' : 'text-white'}`}>{totalHours.toFixed(1)}<span className="text-sm text-slate-500 ml-1">h</span></div>
                                 </div>
-                                <div className="bg-black/20 p-6 rounded-2xl border border-white/5">
-                                    <div className="text-slate-500 text-xs uppercase tracking-widest mb-2">Activity Count</div>
-                                    <div className="text-4xl text-white font-thin">{filteredEntries.length}</div>
+                                <div className={`p-4 rounded-2xl border ${isLightMode ? 'bg-white border-slate-200' : 'bg-black/20 border-white/5'}`}>
+                                    <div className="text-slate-500 text-[10px] uppercase tracking-widest mb-1">Activity Count</div>
+                                    <div className={`text-3xl font-thin ${isLightMode ? 'text-slate-800' : 'text-white'}`}>{filteredEntries.length}</div>
                                 </div>
-                                <div className="bg-black/20 p-6 rounded-2xl border border-white/5">
-                                    <div className="text-slate-500 text-xs uppercase tracking-widest mb-2">Top Subject</div>
-                                    <div className="text-xl text-white font-medium truncate">{subjectData[0]?.name || 'No Data'}</div>
-                                    <div className="text-xs text-blue-400 font-mono mt-1">{subjectData[0] ? subjectData[0].value.toFixed(1) : '0.0'}h</div>
+                                <div className={`p-4 rounded-2xl border ${isLightMode ? 'bg-white border-slate-200' : 'bg-black/20 border-white/5'}`}>
+                                    <div className="text-slate-500 text-[10px] uppercase tracking-widest mb-1">Top Subject</div>
+                                    <div className={`text-lg font-medium truncate ${isLightMode ? 'text-slate-800' : 'text-white'}`}>{subjectData[0]?.name || 'No Data'}</div>
+                                    <div className="text-[10px] text-blue-500 font-mono mt-0.5">{subjectData[0] ? subjectData[0].value.toFixed(1) : '0.0'}h</div>
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[350px]">
-                                <div className="bg-black/20 p-6 rounded-2xl border border-white/5 flex flex-col">
-                                    <h4 className="text-slate-400 text-xs uppercase tracking-widest mb-6 flex items-center gap-2">
-                                        <BarIcon className="w-4 h-4" /> Daily Output
+                            {insights && (
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 my-4 animate-in fade-in slide-in-from-bottom-5">
+                                    <div className={`p-3 rounded-xl border flex items-center gap-3 ${isLightMode ? 'bg-indigo-50 border-indigo-100' : 'bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border-indigo-500/20'}`}>
+                                        <div className={`p-2 rounded-lg ${isLightMode ? 'bg-indigo-100 text-indigo-600' : 'bg-indigo-500/20 text-indigo-300'}`}>
+                                            <Calendar className="w-5 h-5" />
+                                        </div>
+                                        <div>
+                                            <div className={`text-[9px] uppercase tracking-widest font-bold ${isLightMode ? 'text-indigo-600' : 'text-indigo-200'}`}>Power Day</div>
+                                            <div className={`text-lg font-bold ${isLightMode ? 'text-slate-800' : 'text-white'}`}>{insights.bestDay}</div>
+                                            <div className={`text-[9px] ${isLightMode ? 'text-indigo-600/70' : 'text-indigo-300 opacity-80'}`}>{insights.bestDayTotal}h total</div>
+                                        </div>
+                                    </div>
+
+                                    <div className={`p-3 rounded-xl border flex items-center gap-3 ${isLightMode ? 'bg-amber-50 border-amber-100' : 'bg-gradient-to-br from-amber-500/10 to-orange-500/10 border-amber-500/20'}`}>
+                                        <div className={`p-2 rounded-lg ${isLightMode ? 'bg-amber-100 text-amber-600' : 'bg-amber-500/20 text-amber-300'}`}>
+                                            <Sun className="w-5 h-5" />
+                                        </div>
+                                        <div>
+                                            <div className={`text-[9px] uppercase tracking-widest font-bold ${isLightMode ? 'text-amber-600' : 'text-amber-200'}`}>Golden Hour</div>
+                                            <div className={`text-lg font-bold ${isLightMode ? 'text-slate-800' : 'text-white'}`}>{insights.goldenHour}</div>
+                                            <div className={`text-[9px] ${isLightMode ? 'text-amber-600/70' : 'text-amber-300 opacity-80'}`}>{insights.goldenHourLabel}</div>
+                                        </div>
+                                    </div>
+
+                                    <div className={`p-3 rounded-xl border flex items-center gap-3 ${isLightMode ? 'bg-emerald-50 border-emerald-100' : 'bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border-emerald-500/20'}`}>
+                                        <div className={`p-2 rounded-lg ${isLightMode ? 'bg-emerald-100 text-emerald-600' : 'bg-emerald-500/20 text-emerald-300'}`}>
+                                            <Clock className="w-5 h-5" />
+                                        </div>
+                                        <div>
+                                            <div className={`text-[9px] uppercase tracking-widest font-bold ${isLightMode ? 'text-emerald-600' : 'text-emerald-200'}`}>Avg Session</div>
+                                            <div className={`text-lg font-bold ${isLightMode ? 'text-slate-800' : 'text-white'}`}>{insights.avgSession}h</div>
+                                            <div className={`text-[9px] ${isLightMode ? 'text-emerald-600/70' : 'text-emerald-300 opacity-80'}`}>Consistency Metric</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-[340px]">
+                                {/* AI FORECASTS REPLACING BARCHART */}
+                                <div className={`p-6 rounded-2xl border flex flex-col relative overflow-hidden group h-full ${isLightMode ? 'bg-white border-slate-200' : 'bg-black/20 border-white/5'}`}>
+                                    <h4 className="text-slate-400 text-xs uppercase tracking-widest mb-4 flex items-center gap-2 relative z-10 shrink-0">
+                                        <Zap className="w-4 h-4 text-amber-500" /> AI Predictive Goals
                                     </h4>
-                                    <div className="flex-1 min-h-0">
-                                        <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-                                            <BarChart data={dailyData}>
-                                                <XAxis dataKey="date" stroke="#475569" fontSize={10} tickLine={false} axisLine={false} />
-                                                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} />
-                                                <Bar dataKey="hours" fill={barColor} radius={[4, 4, 0, 0]} />
-                                            </BarChart>
-                                        </ResponsiveContainer>
+
+                                    <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 relative z-10 min-h-0">
+                                        {forecasts.length === 0 ? (
+                                            <div className="h-full flex flex-col items-center justify-center opacity-50 gap-3">
+                                                <div className={`p-3 rounded-full border ${isLightMode ? 'bg-slate-50 border-slate-200' : 'bg-white/5 border-white/5'}`}>
+                                                    <Target className="w-6 h-6 text-slate-400" />
+                                                </div>
+                                                <div className={`text-xs font-light text-center ${isLightMode ? 'text-slate-500' : 'text-slate-400'}`}>
+                                                    No active predictions.<br />
+                                                    <button
+                                                        onClick={() => setCurrentView('goals')}
+                                                        className="text-xs text-blue-500 hover:text-blue-600 underline mt-1"
+                                                    >
+                                                        Set Goals
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="grid grid-cols-1 gap-3">
+                                                {forecasts.map((f) => (
+                                                    <div key={f.courseName} className={`p-3 rounded-xl border transition-all flex flex-col gap-2 ${isLightMode ? 'bg-slate-50 hover:bg-slate-100 border-slate-200' : 'bg-white/5 hover:bg-white/10 border-white/5'}`}>
+                                                        <div className="flex justify-between items-center">
+                                                            <span className={`text-xs font-bold truncate pr-2 ${isLightMode ? 'text-slate-800' : 'text-white'}`} title={f.courseName}>{f.courseName}</span>
+                                                            <span className={`text-[10px] font-mono font-bold ${f.velocity > 0 ? 'text-emerald-400' : 'text-slate-400'}`}>
+                                                                {f.velocity > 0 ? f.velocity + 'h/d' : 'STALLED'}
+                                                            </span>
+                                                        </div>
+
+                                                        {f.estimatedCompletionDate === 'DONE' ? (
+                                                            <div className="text-emerald-400 text-[10px] font-bold flex items-center gap-1">
+                                                                <Check className="w-3 h-3" /> DONE
+                                                            </div>
+                                                        ) : f.daysRemaining === null ? (
+                                                            <div className="text-slate-400 text-[10px] italic">Not enough data to forecast</div>
+                                                        ) : (
+                                                            <div className="flex justify-between items-end">
+                                                                <div className="text-blue-400 font-mono font-bold text-sm leading-none">
+                                                                    {new Date(f.estimatedCompletionDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                                                                </div>
+                                                                <div className={`text-[10px] font-mono ${isLightMode ? 'text-slate-600' : 'text-slate-300'}`}>
+                                                                    {f.daysRemaining}d left
+                                                                </div>
+                                                            </div>
+                                                        )}
+
+                                                        {f.estimatedCompletionDate !== 'DONE' && (
+                                                            <div className="w-full h-1 bg-black/40 rounded-full overflow-hidden">
+                                                                <div
+                                                                    className="h-full bg-blue-500/50"
+                                                                    style={{ width: `${Math.min(100, Math.max(5, (1 - (f.hoursRemaining / (f.hoursRemaining + (f.velocity * 30)))) * 100))}%` }}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
-                                <div className="bg-black/20 p-6 rounded-2xl border border-white/5 flex flex-col">
+                                <div className={`p-6 rounded-2xl border flex flex-col ${isLightMode ? 'bg-white border-slate-200' : 'bg-black/20 border-white/5'}`}>
                                     <h4 className="text-slate-400 text-xs uppercase tracking-widest mb-6 flex items-center gap-2">
                                         <PieChart className="w-4 h-4" /> Subject Distribution
                                     </h4>
@@ -597,10 +703,56 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
                     )}
                 </div>
             </div>
+            {/* --- RESTORE MODAL --- */}
+            {pendingImport && (
+                <div className="absolute inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6 animate-in fade-in duration-200">
+                    <div className="bg-slate-900 border border-white/10 p-8 rounded-3xl max-w-md w-full shadow-2xl space-y-6 transform animate-in zoom-in-95 duration-200">
+                        <div className="flex items-center gap-4 text-fuchsia-400">
+                            <Upload className="w-8 h-8" />
+                            <h3 className="text-2xl font-bold text-white">Restore Backup?</h3>
+                        </div>
+
+                        <div className="space-y-4">
+                            <p className="text-slate-300 text-sm">
+                                Found {pendingImport.type === 'json' ? 'Full System Snapshot' : `${pendingImport.entryCount} Entries`}.
+                            </p>
+
+                            {pendingImport.type === 'json' ? (
+                                <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+                                    <p className="text-red-400 text-xs font-bold uppercase mb-1 flex items-center gap-2"><AlertTriangle className="w-3 h-3" /> Warning</p>
+                                    <p className="text-red-200 text-xs leading-relaxed">This action will <strong className="text-white">DELETE</strong> all current data and replace it with the backup content. This cannot be undone.</p>
+                                </div>
+                            ) : (
+                                <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl">
+                                    <p className="text-blue-400 text-xs font-bold uppercase mb-1 flex items-center gap-2"><GitMerge className="w-3 h-3" /> Merge Mode</p>
+                                    <p className="text-blue-200 text-xs leading-relaxed">New entries will be added to your existing data. No existing data will be overwritten.</p>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="flex gap-3 pt-2">
+                            <button onClick={() => setPendingImport(null)} className="flex-1 py-3 rounded-xl hover:bg-white/5 text-slate-400 font-bold text-sm transition-colors border border-transparent hover:border-white/10">
+                                Cancel
+                            </button>
+                            {pendingImport.type === 'json' ? (
+                                <button onClick={executeFullRestore} className="flex-1 py-3 bg-red-600 hover:bg-red-500 text-white rounded-xl font-bold text-sm transition-colors shadow-lg shadow-red-900/20 flex items-center justify-center gap-2">
+                                    <RefreshCw className="w-4 h-4" /> REPLACE ALL
+                                </button>
+                            ) : (
+                                <button onClick={executeSmartMerge} className="flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-sm transition-colors shadow-lg shadow-blue-900/20 flex items-center justify-center gap-2">
+                                    <Upload className="w-4 h-4" /> IMPORT
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

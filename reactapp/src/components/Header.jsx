@@ -29,7 +29,7 @@ export default function Header({
             {isElectron && (
                 <div className="fixed top-0 left-0 w-full h-8 z-[200] flex justify-between items-center draggable-header pl-4 pr-1 select-none">
                     <div className="text-[10px] text-slate-600 font-mono tracking-widest opacity-50 hover:opacity-100 transition-opacity">
-                        PULSE_OS v1.6
+                        PULSE_OS v2.0.0
                     </div>
 
                     <div className="flex items-center h-full non-draggable">
@@ -85,7 +85,7 @@ export default function Header({
                         {/* GAMIFICATION HUD (Moved under Logo) */}
                         <div className="hidden md:flex items-center gap-3 animate-in fade-in duration-700 slide-in-from-left-4 ml-1 md:ml-2">
                             <div className="text-[9px] bg-white/5 px-1.5 py-0.5 rounded text-slate-400 font-mono border border-white/5 tracking-wider">
-                                LVL <span className="text-white font-bold">{level}</span>
+                                LVL <span className="text-white font-bold">{level || 1}</span>
                             </div>
 
                             <div className="flex items-center gap-2">
@@ -97,10 +97,10 @@ export default function Header({
                                 {rank === 'ARCHITECT' && <Crown className="w-3.5 h-3.5 text-purple-500" />}
 
                                 <span className={`hidden lg:inline text-[9px] uppercase tracking-widest font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.1)] ${rank === 'NOVICE' ? 'text-slate-400' :
-                                        rank === 'APPRENTICE' ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]' :
-                                            rank === 'ADEPT' ? 'text-emerald-400 drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]' :
-                                                rank === 'EXPERT' ? 'text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' :
-                                                    'text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]'
+                                    rank === 'APPRENTICE' ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]' :
+                                        rank === 'ADEPT' ? 'text-emerald-400 drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]' :
+                                            rank === 'EXPERT' ? 'text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' :
+                                                'text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]'
                                     }`}>
                                     {rank}
                                 </span>
@@ -116,12 +116,12 @@ export default function Header({
                             <div className="w-16 md:w-24 h-0.5 bg-slate-800 rounded-full overflow-hidden relative">
                                 <div
                                     className={`h-full shadow-[0_0_10px_currentColor] transition-all duration-1000 ease-out ${rank === 'NOVICE' ? 'bg-slate-500 text-slate-500' :
-                                            rank === 'APPRENTICE' ? 'bg-cyan-500 text-cyan-500' :
-                                                rank === 'ADEPT' ? 'bg-emerald-500 text-emerald-500' :
-                                                    rank === 'EXPERT' ? 'bg-amber-500 text-amber-500' :
-                                                        'bg-purple-500 text-purple-500'
+                                        rank === 'APPRENTICE' ? 'bg-cyan-500 text-cyan-500' :
+                                            rank === 'ADEPT' ? 'bg-emerald-500 text-emerald-500' :
+                                                rank === 'EXPERT' ? 'bg-amber-500 text-amber-500' :
+                                                    'bg-purple-500 text-purple-500'
                                         }`}
-                                    style={{ width: `${progress}%` }}
+                                    style={{ width: `${progress || 0}%` }}
                                 ></div>
                             </div>
                         </div>

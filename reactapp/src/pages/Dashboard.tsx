@@ -42,7 +42,7 @@ interface SessionData {
 
 interface Preferences {
     theme: 'dark' | 'light' | 'system';
-    clockFace: 'standard' | 'retro';
+    clockFace: 'standard' | 'flip' | 'minimal';
 }
 
 export default function Dashboard() {
@@ -158,7 +158,8 @@ export default function Dashboard() {
                                 data.forEach((r: any) => {
                                     useRoutineStore.getState().addRoutine({
                                         ...r,
-                                        id: r.id || crypto.randomUUID()
+                                        id: r.id || crypto.randomUUID(),
+                                        daysOfWeek: r.daysOfWeek || []
                                     });
                                 });
                                 break;
@@ -201,6 +202,57 @@ export default function Dashboard() {
                 console.error('❌ Data Migration Failed:', err);
             }
         }
+    }, []);
+
+    // --- SYNC ENGINE (Multi-Window Consistency) ---
+    useEffect(() => {
+        const handleStorageSync = (e: StorageEvent) => {
+            // Listen for changes from HUD or other windows
+            if (e.key === 'pulse_entries_v2') {
+                console.log('🔄 Syncing Entries from Storage...');
+                useEntryStore.persist.rehydrate();
+            }
+            if (e.key === 'pulse_timer_state' || e.key === 'pulse_active_timer_v2') {
+                console.log('🔄 Syncing Timer from Storage...');
+                useTimerStore.persist.rehydrate();
+            }
+            if (e.key === 'pulse_finish_trigger' && e.newValue) {
+                // Remote Stop Triggered -> Capture State & Pause
+                console.log('🏁 Remote Session Termination Detected');
+
+                // 1. FORCE PERSISTENCE REHYDRATION
+                useTimerStore.persist.rehydrate();
+
+                const now = Date.now();
+                const timerState = useTimerStore.getState();
+
+                // 2. CAPTURE DATA Authoritatively
+                if (timerState.isActive && timerState.startTime) {
+                    setLastSession({
+                        start: timerState.startTime - timerState.elapsedTime,
+                        end: now
+                    });
+                } else if (timerState.elapsedTime > 0) {
+                    // Already paused but has time
+                    setLastSession({
+                        start: now - timerState.elapsedTime,
+                        end: now
+                    });
+                }
+
+                // 3. FORCE OVERLAY HIDE - Explicitly stop activity
+                timerState.pauseTimer();
+
+                // 4. OPEN MODAL
+                setModalOpen(true);
+
+                // 5. CLEANUP
+                localStorage.removeItem('pulse_finish_trigger');
+            }
+        };
+
+        window.addEventListener('storage', handleStorageSync);
+        return () => window.removeEventListener('storage', handleStorageSync);
     }, []);
 
     useEffect(() => {
@@ -435,7 +487,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* RIGHT: FEED */}
-                    <div id="dashboard-feed-panel" className={`${activeTab === 'feed' ? 'block' : 'hidden lg:block'} h-full glass-silver rounded-3xl flex flex-col overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5`}>
+                    <div id="dashboard-feed-panel" className={`${activeTab === 'feed' ? 'block' : 'hidden lg:block'} h-full glass-silver rounded-3xl flex flex-col overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5 max-w-full lg:max-w-[400px]`}>
                         <div className="p-4 border-b border-white/5 bg-black/20 backdrop-blur-md flex justify-between items-center shrink-0">
                             <h2 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
                                 <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_#3b82f6]"></span>
@@ -465,59 +517,25 @@ export default function Dashboard() {
                             />
                         </div>
                     </div>
-                    {/* FOCUS MODE OVERLAY */}
-                    {isActive && (
-                        <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center animate-in fade-in duration-500">
-                            <div className="mb-8 text-center animate-in slide-in-from-top-10 duration-700 delay-100">
-                                <div className="text-blue-400 text-sm font-bold uppercase tracking-[0.3em] mb-4 bg-blue-500/10 px-4 py-2 rounded-full border border-blue-500/20 inline-block shadow-[0_0_20px_rgba(59,130,246,0.2)]">
-                                    Deep Focus Session
-                                </div>
-                                <h2 className="text-4xl text-white font-thin tracking-wider opacity-80">
-                                    {activeSession?.course || 'Focus Session'}
-                                </h2>
-                                {activeSession?.tag && <div className="text-xl text-slate-500 mt-2 font-light">{activeSession.tag}</div>}
-                            </div>
-
-                            <div className="relative group">
-                                <div className="absolute inset-0 bg-blue-500/20 blur-[100px] rounded-full animate-pulse"></div>
-                                <div className="text-[120px] md:text-[180px] font-bold font-mono text-white tracking-widest drop-shadow-[0_0_50px_rgba(59,130,246,0.5)] tabular-nums select-none transition-all duration-300 group-hover:scale-105">
-                                    {formatTime(Math.floor(displayTime / 1000))}
-                                </div>
-                            </div>
-
-                            <div className="mt-12 flex gap-6 animate-in slide-in-from-bottom-10 duration-700 delay-200">
-                                <button
-                                    onClick={toggleFocus}
-                                    className="group relative px-10 py-4 bg-transparent border border-red-500/30 text-red-400 rounded-full font-bold uppercase tracking-widest hover:bg-red-500/10 hover:border-red-500/60 hover:shadow-[0_0_30px_rgba(239,68,68,0.2)] transition-all overflow-hidden"
-                                >
-                                    <span className="relative z-10 flex items-center gap-2">
-                                        <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span> Stop Session
-                                    </span>
-                                </button>
-                            </div>
-
-                            <div className="absolute bottom-8 w-full flex justify-center px-4">
-                                <QuoteWidget
-                                    className="max-w-2xl text-center opacity-60 hover:opacity-100 transition-opacity"
-                                    textClass="text-slate-400 text-sm md:text-base font-light italic tracking-wide"
-                                    authorClass="text-slate-500 text-xs mt-2 uppercase tracking-widest font-bold"
-                                />
-                            </div>
-                        </div>
-                    )}</main>
+                </main>
 
                 {/* BOTTOM NAVIGATION (Fixed) */}
                 <BottomNav
-                    activeTab={activeTab}
-                    onTabChange={setActiveTab}
                     onFocusClick={toggleFocus}
                     onManualLogClick={() => setModalOpen(true)}
-                    onDataClick={handleOpenAnalytics}
+                    onDataClick={() => handleOpenAnalytics('stats')}
                     onSettingsClick={() => setIsSettingsOpen(true)}
                 />
 
                 {/* OVERLAYS & MODALS */}
-                {/* FocusModeOverlay removed - replaced by inline overlay */}
+                <FocusModeOverlay
+                    isFocusMode={isActive}
+                    elapsed={Math.floor(displayTime / 1000)}
+                    formatTime={formatTime}
+                    onTerminate={toggleFocus}
+                    currentTime={currentTime}
+                    clockFace={preferences.clockFace}
+                />
 
                 <AddEntryModal
                     key={isModalOpen ? (editingEntry?.id || 'new') : 'closed'}
@@ -533,9 +551,9 @@ export default function Dashboard() {
                     recentCourses={recentCourses}
                     initialStartTime={editingEntry?.startTime || (lastSession ? new Date(lastSession.start).toTimeString().slice(0, 5) : '')}
                     initialEndTime={editingEntry?.endTime || (lastSession ? new Date(lastSession.end).toTimeString().slice(0, 5) : '')}
-                    initialCourse={editingEntry?.course || smartCourse || ''}
+                    initialCourse={editingEntry?.course || activeSession?.course || smartCourse || ''}
                     initialTopic={editingEntry?.topic || ''}
-                    initialTag={editingEntry?.tag || ''}
+                    initialTag={editingEntry?.tag || activeSession?.tag || ''}
                     initialScore={editingEntry?.focusScore || 5}
                     initialDate={editingEntry?.date || (lastSession ? (() => {
                         const d = new Date();
@@ -568,7 +586,7 @@ export default function Dashboard() {
                     onClose={() => setIsDayDetailOpen(false)}
                     dateStr={selectedDate}
                     entries={selectedDate ? entries.filter(e => e.date === selectedDate) : []}
-                    routines={selectedDate ? routines.filter(r => r.daysOfWeek.includes(new Date(selectedDate).getDay())) : []}
+                    routines={selectedDate ? routines.filter(r => r.daysOfWeek && r.daysOfWeek.includes(new Date(selectedDate).getDay())) : []}
                     onAddEntry={() => setModalOpen(true)}
                     onEdit={handleEditEntry}
                     onDelete={deleteEntry}

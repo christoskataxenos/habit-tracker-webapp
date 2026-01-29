@@ -16,13 +16,14 @@ export default function QuoteWidget({
     textClass = "text-slate-400 text-right",
     authorClass = ""
 }) {
-    // Refs to maintain the shuffle deck state across renders without causing re-renders themselves
-    // We create a deck of indices [0, 1, 2, ... N] and shuffle them.
-    // We pick one by one until the deck is exhausted, then re-shuffle.
-    const deckRef = useRef([]);
-    const pointerRef = useRef(0);
+    // 1. Initial Shuffle (Safe for render via useMemo)
+    const initialDeck = React.useMemo(() => getShuffledIndices(quotes.length), []);
 
-    const [currentQuote, setCurrentQuote] = useState(null);
+    // 2. Refs to maintain the shuffle deck state across rotations
+    const deckRef = useRef(initialDeck);
+    const pointerRef = useRef(1);
+
+    const [currentQuote, setCurrentQuote] = useState(quotes[initialDeck[0]] || { text: "Keep pushing.", author: "System" });
     const [isVisible, setIsVisible] = useState(true);
 
     const pickNextQuote = () => {
@@ -41,9 +42,6 @@ export default function QuoteWidget({
     };
 
     useEffect(() => {
-        // Initial Pick
-        setCurrentQuote(pickNextQuote());
-
         // Setup Rotation Timer
         const interval = setInterval(() => {
             setIsVisible(false); // Start fade out

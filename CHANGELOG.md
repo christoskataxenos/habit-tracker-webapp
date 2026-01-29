@@ -2,6 +2,75 @@
 
 All notable changes to the **Pulse Protocol** (formerly Study Tracker) project will be documented in this file.
 
+## [v2.0.8] - 2026-01-29 - "Total Control"
+### Fixed
+- **UI Layering (Critical):** Increased Save Log modal z-index to 300, ensuring it always appears above the Focus Mode overlay.
+- **HUD Synchronization:** Re-engineered the Save sequence to pause the timer *before* signaling the main app, guaranteeing the overlay disappears instantly.
+- **Metadata Persistence:** The Save Log now correctly inherits the Kurs/Tag data directly from the active session.
+- **Feed Layout:** Final containment fixes for the Activity Feed to prevent horizontal scrolling on all resolutions.
+
+## [v2.0.7] - 2026-01-29 - "Precision Engine"
+### Fixed
+- **HUD-to-Dashboard Handoff (Critical):** Fixed a race condition where terminating a session from the HUD would sometimes fail to trigger the Save Log or lose the final duration data. 
+- **Time Capture Fidelity:** Re-engineered the sync logic to ensure 100% accurate time-tracking when bridging from tactical (HUD) to detailed (Dashboard) modes.
+- **Improved Stability:** Fortified the storage event listener to handle high-frequency cross-window updates.
+
+## [v2.0.6] - 2026-01-29 - "Tactical Handoff"
+### Added
+- **Detailed HUD Logging:**
+  - **Remote Triggering:** HUD "Save" now triggers the detailed `AddEntryModal` in the main Dashboard window instead of a quick-save.
+  - **Workflow Optimization:** HUD automatically closes after signaling, allowing the user to provide full session metadata in the main app.
+  - **Enhanced Sync Engine:** Strengthened the cross-window communication for reliable session handovers.
+
+### Fixed
+- **Feed/Timeline Layout:** Resolved horizontal overflow issues in the Activity Feed and metallic cards, ensuring correct responsive behavior.
+- **Visual Trim:** Cleanup of the Bottom Navigation for improved consistency.
+
+## [v2.0.5] - 2026-01-29 - "Tactical Pivot"
+### Changed
+- **Navigation Overhaul:**
+  - **HUD Primacy:** Replaced the "Dashboard" nav button with a dedicated "HUD" pop-out trigger. 
+  - **Distraction-Free UX:** Streamlined the bottom bar by removing redundant navigation, acknowledging that main views (Stats, Settings, Logs) are already modal-based.
+  - **Clean Layout:** Removed the secondary HUD floating button next to the center Focus control for a cleaner, balanced interface.
+
+## [v2.0.3] - 2026-01-29 - "Remote Control"
+### Added
+- **HUD Session Management:**
+  - **Finish & Save:** Introduced a "Stop" (Square) button in the Mini-HUD that triggers a specialized save flow.
+  - **Direct Entry Commit:** Users can now commit focus sessions to their log directly from the HUD window without needing to interact with the main dashboard.
+  - **Discard Workflow:** Added a secure discard flow with confirmation for accidental session terminations.
+  - **HUD History Persistence:** Integrated `useEntryStore` into the HUD controller for autonomous data operations.
+
+### Changed
+- **Visual Feedback:** Added a high-contrast "Save Session?" confirmation view in the HUD with Discard, Build, and Back controls.
+- **Icon Set Expansion:** Integrated `Square`, `Check`, and `Trash2` into the HUD UI for clearer semantic actions.
+
+## [v2.0.2] - 2026-01-29 - "Stability Matrix"
+### Added
+- **Migration Fortification:** Improved recovery logic for legacy routines, ensuring mandatory fields like `daysOfWeek` are correctly initialized during V1 -> V2 data transition.
+- **Enhanced Type Safety:** Added defensive checks in filtering logic to prevent `TypeError` when processing malformed or incomplete data objects.
+
+### Fixed
+- **Calendar Crash (Critical):** Resolved a "White Screen of Death" triggered by clicking a day in the calendar when legacy routine data was missing recurrence arrays.
+- **Console Warnings:** Suppressed benign Recharts `width(0)` warnings by optimizing `ResponsiveContainer` interaction with hidden layout panels.
+
+## [v2.0.1] - 2026-01-29 - "Refined Focus"
+### Added
+- **Mini-HUD Upgrades:**
+  - **Dynamic Scaling:** HUD text and elements now scale intelligently to fit compact window sizes.
+  - **Interactivity:** Integrated a dedicated Close (X) button and a draggable header region for better desktop management.
+- **UX Stability:**
+  - **Focus Theme Restoration:** Re-enabled selection and rendering of all Focus Mode themes (Terminal, Retro, Zen Minimal) from the Dashboard.
+  - **Dual-Theme Focus Fix:** Completely refactored Focus Mode for Light Mode ("Frost Focus"), ensuring high contrast and zero "mixed mode" artifacts.
+
+### Changed
+- **Version Uniformity:** Synchronized system versioning across Package, Header, HUD, and Error Boundaries to v2.0.1.
+- **HUD Access:** Made the Pop-out HUD button always visible in the Bottom Navigation for faster access.
+
+### Fixed
+- **UI Persistence:** Fixed a bug where Focus Mode themes were being ignored in favor of inline defaults.
+- **Layout Overflow:** Resolved text clipping issues in the Mini-HUD by implementing better padding and font-size clamping.
+
 ## [v2.0.0] - 2026-01-28 - "The Quantified Future"
 ### Added
 - **Predictive Analytics Engine:**

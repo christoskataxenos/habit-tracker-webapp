@@ -1,7 +1,7 @@
 {
   "name": "pulse-tracker",
   "private": true,
-  "version": "2.0.0",
+  "version": "2.0.8",
   "description": "Keep your rhythm alive. A high-performance habit tracker for the disciplined.",
   "author": "Christos Kataxenos <chris@example.com>",
   "maintainer": "Christos Kataxenos <chris@example.com>",

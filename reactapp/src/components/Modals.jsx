@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Target, X, Edit3, Trash2, Mic, MicOff, Calendar, Clock, Activity, Zap, Plus, Check, Settings } from 'lucide-react';
 import { useVoiceInput } from '../hooks/useVoiceInput';
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 
 export function GoalModal({ isOpen, onClose, currentGoal, onSave }) {
     const [goal, setGoal] = useState(currentGoal);
@@ -11,14 +11,14 @@ export function GoalModal({ isOpen, onClose, currentGoal, onSave }) {
         <AnimatePresence>
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                    <motion.div
+                    <Motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
                         className="absolute inset-0 bg-black/90 backdrop-blur-md"
                     />
-                    <motion.div
+                    <Motion.div
                         initial={{ scale: 0.9, opacity: 0, y: 20 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -34,7 +34,7 @@ export function GoalModal({ isOpen, onClose, currentGoal, onSave }) {
                             <button onClick={onClose} className="flex-1 py-3 text-xs text-slate-500 uppercase tracking-widest hover:text-white border border-transparent hover:border-white/10 rounded-xl transition-all">Cancel</button>
                             <button onClick={() => { onSave(goal); onClose(); }} className="flex-[2] btn-silver py-3">Update</button>
                         </div>
-                    </motion.div>
+                    </Motion.div>
                 </div>
             )}
         </AnimatePresence>
@@ -133,15 +133,15 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
-                    <motion.div
+                <div className="fixed inset-0 z-[300] flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+                    <Motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
                         className="absolute inset-0 bg-black/90 backdrop-blur-md"
                     />
-                    <motion.div
+                    <Motion.div
                         initial={{ y: 50, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: 50, opacity: 0 }}
@@ -326,7 +326,7 @@ export function AddEntryModal({ isOpen, onClose, onSave, recentCourses = [], ini
                                 <button type="submit" className="flex-1 btn-silver py-4 text-black hover:bg-white">Commit Log</button>
                             </div>
                         </form>
-                    </motion.div>
+                    </Motion.div>
                 </div>
             )}
         </AnimatePresence>
@@ -376,14 +376,14 @@ export function DayDetailModal({ isOpen, onClose, dateStr, entries, routines = [
         <AnimatePresence>
             {isOpen && dateStr && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                    <motion.div
+                    <Motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
                         className="absolute inset-0 bg-black/95 backdrop-blur-sm"
                     />
-                    <motion.div
+                    <Motion.div
                         initial={{ scale: 0.95, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.95, opacity: 0 }}
@@ -539,7 +539,7 @@ export function DayDetailModal({ isOpen, onClose, dateStr, entries, routines = [
                                 </div>
                             )}
                         </div>
-                    </motion.div>
+                    </Motion.div>
                 </div>
             )}
         </AnimatePresence>
@@ -594,14 +594,14 @@ export function DataManagementModal({ isOpen, onClose }) {
         <AnimatePresence>
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                    <motion.div
+                    <Motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
                         className="absolute inset-0 bg-black/90 backdrop-blur-md"
                     />
-                    <motion.div
+                    <Motion.div
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.9, opacity: 0 }}
@@ -643,7 +643,7 @@ export function DataManagementModal({ isOpen, onClose }) {
                                 PULSE_OS SECURE STORAGE
                             </p>
                         </div>
-                    </motion.div>
+                    </Motion.div>
                 </div>
             )}
         </AnimatePresence>

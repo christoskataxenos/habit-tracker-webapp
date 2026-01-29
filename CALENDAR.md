@@ -1,6 +1,107 @@
 # 📅 PULSE PROJECT CHRONICLES
 > *Official Development Log & Timeline*
 
+## 2026-01-29: ROADMAP EXPANSION (Planning v2.1.0)
+**Focus:** Aesthetic Synchronization & System Harmony.
+
+- **Objective:** Deepen the integration between UI themes and auxiliary windows.
+- **Decision:** HUD Light Mode support deferred to the next major update (v2.1.0) to prioritize core stability in the current cycle.
+- **Planning:** Prepared theme-awareness logic and storage listeners for the upcoming release.
+
+---
+
+## 2026-01-29: TOTAL CONTROL (v2.0.8)
+**Focus:** UI Layering & Absolute State Consistency.
+
+### 🛡️ Phase 19: The Iron Bridge
+- **Objective:** Ensure the Focus Overlay never blocks the Save Log and data is perfectly inherited.
+- **Actions:**
+  - **Z-Index Dominance:** Repositioned modals to z-300 to override focus overlays.
+  - **Serial Execution:** HUD now pauses locally *then* signals, ensuring the Dashboard state follows flawlessly.
+  - **Context Inheritance:** Mapped active session metadata (Course/Tag) directly into the Save Log fields.
+- **Outcome:** The most stable bridge in Pulse history. Total control over the focus-to-log transition.
+
+---
+
+## 2026-01-29: THE PRECISION ENGINE (v2.0.7)
+**Focus:** Absolute Fidelity & Timing Logic.
+
+### ⚙️ Phase 18: Precision Overload
+- **Objective:** Eliminate any discrepancies in session duration when saving from HUD.
+- **Actions:**
+  - **Logic Shift:** HUD now signals *before* pausing, allowing Dashboard to calculate the final frame with 100% accuracy.
+  - **Rehydration Audit:** Added forced store rehydration on remote signals to ensure zero data staleness.
+- **Outcome:** Perfect synchronization. The bridge is now rock-solid.
+
+---
+
+## 2026-01-29: THE TACTICAL HANDOFF (v2.0.6)
+**Focus:** Full Workflow Integration & Layout Robustness.
+
+### 🌉 Phase 17: The Bridge
+- **Objective:** Enable detailed session logging when terminating from the HUD.
+- **Actions:**
+  - **Remote Signaling:** Rebuilt HUD termination to trigger the main Dashboard's `AddEntryModal` via Storage events.
+  - **UI Fortification:** Fixed horizontal overflow in the Feed component to ensure a perfectly stable layout.
+- **Outcome:** A seamless bridge between tactical (HUD) and strategic (Dashboard) modes.
+
+---
+
+## 2026-01-29: THE TACTICAL PIVOT (v2.0.5)
+**Focus:** Navigational Purity & Workspace Optimization.
+
+### 🧩 Phase 16: HUD Primacy
+- **Objective:** Re-orient the UI to treat the Mini-HUD as the primary tactical window.
+- **Actions:**
+  - **Nav Overhaul:** Swapped the "Dash" button with a direct HUD controller in the BottomBar.
+  - **Interface Pruning:** Eliminated redundant HUD triggers and acknowledged the modal-only workflow for auxiliary tools (Stats, Setup).
+- **Outcome:** A lean, mean, focus-driven machine. The main Dashboard now serves as a high-level background while the BottomBar drives the action.
+
+---
+
+## 2026-01-29: REMOTE CONTROL (v2.0.3)
+**Focus:** HUD Autonomy & UX Continuity.
+
+### 🎮 Phase 15: The HUD Evolution
+- **Objective:** Enable full session management from the Mini-HUD window.
+- **Actions:**
+  - **Standalone Logic:** Integrated `useEntryStore` into `HUD.tsx` to allow autonomous data commits.
+  - **The "Square" Action:** Added a termination button that pauses the timer and triggers a "Save/Discard" decision view.
+  - **UX Polish:** Designed a compact confirmation UI for the HUD to maintain its focus-first philosophy.
+- **Outcome:** The HUD is now a primary controller, no longer requiring the main dashboard for session completion.
+
+---
+
+## 2026-01-29: STABILITY MATRIX (v2.0.2)
+**Focus:** Data Longevity, Migration Safety & Error Boundaries.
+
+### 🛡️ Phase 14: The Resilience Patch
+- **Objective:** Ensure 100% stability even with corrupted or legacy data structures.
+- **Actions:**
+  - **Defensive Filtering:** Implemented safe-access patterns for routines in `Dashboard.tsx`, preventing crashes on incomplete objects.
+  - **Migration Fortification:** Upgraded the V1 -> V2 engine to auto-initialize missing arrays (e.g., `daysOfWeek`) during recovery.
+  - **Recharts Optimization:** Reduced console noise by optimizing `ResponsiveContainer` initialization.
+- **Outcome:** **Rock Solid.** The app now handles legacy data edge cases with grace.
+
+---
+
+## 2026-01-29: THE REFINED FOCUS (v2.0.1)
+**Focus:** UI Stability, Theme Integrity & HUD Polish.
+
+### ✨ Phase 13: Focus & UX Hotfixes
+- **Objective:** Finalize the v2 architecture by resolving the last remaining UI friction points.
+- **Actions:**
+  - **Focus Mode Restoration:** Fully re-integrated the dedicated `FocusModeOverlay` component, fixing the bug that forced a "mixed" Dark/Light mode.
+  - **Frost Focus (Light Theme):** Refactored the Focus Engine to support a pure monochromatic Silver/Frost aesthetic in Light Mode.
+  - **Mini-HUD 2.0:** 
+    - Implemented a compact, draggable pop-out window.
+    - Added a dedicated Close (X) button for easy exit.
+    - Optimized font-scaling to prevent text clipping in small windows.
+  - **Sync & Branding:** Updated all system labels and binaries to identity as **v2.0.1**.
+- **Outcome:** **System 100% Optimized.** The transition to V2 is complete and stable.
+
+---
+
 ## 2026-01-28: THE QUANTIFIED FUTURE (v2.0)
 **Focus:** Professional Architecture & Predictive Analytics.
 

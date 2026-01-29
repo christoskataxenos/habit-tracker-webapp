@@ -214,7 +214,7 @@
 
 /* 2. Interactive Metallic Cards */
 .card-metallic {
-  @apply bg-gradient-to-br from-slate-800/40 to-slate-900/40 border border-white/5 rounded-xl transition-all duration-300;
+  @apply bg-gradient-to-br from-slate-800/40 to-slate-900/40 border border-white/5 rounded-xl transition-all duration-300 w-full max-w-full overflow-hidden truncate;
 }
 
 .card-metallic:hover {
@@ -484,85 +484,86 @@
 
 /* --- FOCUS OVERLAY LIGHT MODE FIXES --- */
 /* 1. Main Container Override */
+#focus-overlay-container {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
 .light #focus-overlay-container {
-  background-color: rgba(255, 255, 255, 0.95) !important;
-  background-image: none !important;
+  background-color: #f8fafc !important;
+  /* slate-50 */
   color: #0f172a !important;
   /* slate-900 */
 }
 
-/* 2. Text Override */
-.light #focus-overlay-container .text-white {
+/* 2. Text Override & Utilities */
+.text-white-glow {
+  color: white;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.light .text-white-glow {
   color: #0f172a !important;
   text-shadow: none !important;
 }
 
-.light #focus-overlay-container .text-slate-300 {
-  color: #475569 !important;
-  /* slate-600 */
+.text-white-pure {
+  color: white !important;
 }
 
-.light #focus-overlay-container .text-slate-500 {
-  color: #94a3b8 !important;
-  /* slate-400 */
-  font-weight: 500;
+.light .text-white-pure {
+  color: white !important;
+  /* Keep white on RED button */
 }
 
 /* 3. Zen Minimal Clock */
 .light #focus-overlay-container h2 {
   color: #0f172a !important;
-  text-shadow: 0 0 30px rgba(0, 0, 0, 0.1) !important;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* 4. Terminal / Hacking Style - CLEAN VERSION (No Scanlines) */
-.light #focus-overlay-container .text-emerald-500\/50,
-.light #focus-overlay-container .text-emerald-400,
-.light #focus-overlay-container .text-emerald-700\/50,
-.light #focus-overlay-container .text-emerald-800,
-.light #focus-overlay-container .text-emerald-600 {
-  color: #1e293b !important;
-  /* Slate-800 mostly black */
-  border-color: #cbd5e1 !important;
-  background-image: none !important;
-  /* KILL SCANLINES */
-  background-color: transparent !important;
+/* 4. Terminal Style (Light Mode) */
+.light .text-emerald-400 {
+  color: #059669 !important;
+  /* Stronger emerald for light bg */
   text-shadow: none !important;
-  /* No Glow */
 }
 
-/* Container for the clock numbers specifically */
-.light #focus-overlay-container div.tracking-widest.font-mono {
-  background-image: none !important;
-  /* Double Kill Scanlines */
-  background-color: rgba(241, 245, 249, 0.5) !important;
-  /* Slate-100/50 */
-  border: 1px solid #cbd5e1 !important;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+.light .text-emerald-500\/50 {
+  color: #10b981 !important;
+  opacity: 0.6 !important;
 }
 
-/* KILL SCANLINES COMPLETELY IN LIGHT MODE */
-.light #focus-overlay-container .scanlines-layer {
-  display: none !important;
+.light .text-emerald-700\/50,
+.light .text-emerald-800 {
+  color: #334155 !important;
+  /* Slate-700 */
 }
 
-.light #focus-overlay-container .bg-emerald-500 {
-  background-color: #334155 !important;
-  /* Slate-700 Cursor */
-  box-shadow: none !important;
+.light .bg-emerald-500 {
+  background-color: #059669 !important;
 }
 
-/* 5. Flip Clock inside Focus Mode */
-.light #focus-overlay-container .flip-card {
-  background-color: #f1f5f9 !important;
-  /* slate-100 */
+.light .scanlines-layer {
+  opacity: 0.05 !important;
+}
+
+/* 5. Flip Clock (Light Mode) */
+.light .flip-container {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+.light .flip-card {
+  background-color: #ffffff !important;
   border-color: #cbd5e1 !important;
+}
+
+.light .flip-text {
   color: #0f172a !important;
 }
 
 /* 6. Aurora Gradient Override - Make it Frosty Blue */
-.light #focus-overlay-container .bg-\[conic-gradient\(from_0deg\,transparent_0deg\,rgba\(59\,130\,246\,0\.1\)_90deg\,transparent_180deg\,rgba\(147\,51\,234\,0\.1\)_270deg\,transparent_360deg\)\] {
-  opacity: 0.8 !important;
+.light #focus-aurora-bg {
+  opacity: 0.2 !important;
   filter: saturate(150%) hue-rotate(180deg);
 }
 

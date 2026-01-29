@@ -19,7 +19,6 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
     // Theme Detection
     const isLightMode = document.documentElement.classList.contains('light');
     const chartColors = isLightMode ? COLORS_LIGHT : COLORS;
-    const barColor = isLightMode ? '#64748b' : '#3b82f6';
     const tooltipStyle = isLightMode
         ? { backgroundColor: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px' }
         : { backgroundColor: '#000', border: '1px solid #333', borderRadius: '8px' };
@@ -40,16 +39,6 @@ export default function AnalyticsModal({ isOpen, onClose, entries, badges = [], 
 
     // 1. Total Stats
     const totalHours = filteredEntries.reduce((acc, curr) => acc + parseFloat(curr.hours), 0);
-
-    // 2. Data for Bar Chart (Hours per Day)
-    const dailyData = useMemo(() => {
-        const map = {};
-        filteredEntries.forEach(e => {
-            const d = new Date(e.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-            map[d] = (map[d] || 0) + parseFloat(e.hours);
-        });
-        return Object.keys(map).map(date => ({ date, hours: map[date] }));
-    }, [filteredEntries]);
 
     // 3. Data for Pie Chart (Subject Distribution)
     const subjectData = useMemo(() => {

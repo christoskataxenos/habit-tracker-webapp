@@ -1,16 +1,16 @@
-# PULSE PROTOCOL v2.0.0
+# PULSE PROTOCOL v2.0.8
 > *Bio-Digital Focus Enhancement Environment*
 
 <div align="center">
 
-## 📥 DOWNLOAD LATEST (v2.0.0)
+## 📥 DOWNLOAD LATEST RELEASE
 
 ### 🪟 WINDOWS
 *Universal Support (x64 & ARM64)*
 
 | 💿 **INSTALLER** | 🎒 **PORTABLE** |
 | :---: | :---: |
-| [![Windows Installer](https://img.shields.io/badge/Download-Setup.exe-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0/PULSE.Setup.2.0.0.exe) | [![Windows Portable](https://img.shields.io/badge/Download-Portable.exe-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0/PULSE.Portable.2.0.0.exe) |
+| [![Windows Installer](https://img.shields.io/badge/Download-Setup.exe-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0.8/PULSE.Setup.2.0.8.exe) | [![Windows Portable](https://img.shields.io/badge/Download-Portable.exe-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0.8/PULSE.Portable.2.0.8.exe) |
 | *Recommended* | *No Install Required* |
 
 ### 🐧 LINUX
@@ -18,8 +18,8 @@
 
 | PACKAGE TYPE | 💻 **x64** (Amd64 / x86_64) | ⚡ **ARM64** (aarch64) |
 | :--- | :---: | :---: |
-| **.DEB** <br> *(Ubuntu, Debian)* | [![Deb x64](https://img.shields.io/badge/Download-amd64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0/pulse-tracker_2.0.0_amd64.deb) | [![Deb ARM](https://img.shields.io/badge/Download-arm64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0/pulse-tracker_2.0.0_arm64.deb) |
-| **.RPM** <br> *(Fedora, RHEL)* | [![RPM x64](https://img.shields.io/badge/Download-x86__64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0/pulse-tracker-2.0.0.x86_64.rpm) | [![RPM ARM](https://img.shields.io/badge/Download-aarch64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0/pulse-tracker-2.0.0.aarch64.rpm) |
+| **.DEB** <br> *(Ubuntu, Debian)* | [![Deb x64](https://img.shields.io/badge/Download-amd64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0.8/pulse-tracker_2.0.8_amd64.deb) | [![Deb ARM](https://img.shields.io/badge/Download-arm64.deb-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0.8/pulse-tracker_2.0.8_arm64.deb) |
+| **.RPM** <br> *(Fedora, RHEL)* | [![RPM x64](https://img.shields.io/badge/Download-x86__64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0.8/pulse-tracker-2.0.8.x86_64.rpm) | [![RPM ARM](https://img.shields.io/badge/Download-aarch64.rpm-294172?style=for-the-badge&logo=fedora&logoColor=white)](https://github.com/christoskataxenos/habit-tracker-webapp/releases/download/V2.0.8/pulse-tracker-2.0.8.aarch64.rpm) |
 
 </div>
 
@@ -94,4 +94,4 @@ Special thanks to the community for their feedback and support:
 - **[@giwgos99](https://github.com/giwgos99)**: For identifying critical bugs in the Focus Mode logic and suggesting the CSV Import feature.
 
 ---
-*System Version: 2.0.0 "The Quantified Future"*
+*System Version: 2.0.8 "Total Control"*

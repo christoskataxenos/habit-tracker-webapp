@@ -6,7 +6,7 @@ class ErrorBoundary extends React.Component {
         this.state = { hasError: false };
     }
 
-    static getDerivedStateFromError(error) {
+    static getDerivedStateFromError(_error) {
         return { hasError: true };
     }
 
@@ -49,8 +49,8 @@ class ErrorBoundary extends React.Component {
                                 Emergency Clear Cache
                             </button>
                         </div>
-                        <p className="mt-6 text-[10px] text-slate-700 uppercase tracking-[0.2em] font-bold">
-                            Error Boundary Active // v2.21
+                        <p className="mt-6 text-[10px] text-slate-700 uppercase tracking-[0.4em] font-bold">
+                            Error Boundary Active // v2.22
                         </p>
                     </div>
                 </div>

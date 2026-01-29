@@ -27,7 +27,7 @@ function createWindow() {
 
     // --- HUD WINDOW HANDLER ---
     // Intercepts window.open('.../hud') call from React
-    mainWindow.webContents.setWindowOpenHandler(({ url, frameName }) => {
+    mainWindow.webContents.setWindowOpenHandler(({ _url, frameName }) => {
         if (frameName === 'PulseHUD') {
             return {
                 action: 'allow',

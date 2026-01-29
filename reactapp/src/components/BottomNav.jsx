@@ -1,16 +1,16 @@
 import React from 'react';
 import { LayoutDashboard, Zap, FilePlus2, BarChart3, Settings, ExternalLink } from 'lucide-react';
 
-export default function BottomNav({ activeTab, onTabChange, onFocusClick, onManualLogClick, onDataClick, onSettingsClick }) {
+export default function BottomNav({ onFocusClick, onManualLogClick, onDataClick, onSettingsClick }) {
     return (
         <nav className="fixed bottom-0 left-0 right-0 h-20 bg-black/40 backdrop-blur-2xl border-t border-white/5 z-40 flex items-center justify-around px-6 pb-2 safe-area-pb">
-            {/* 1. DASHBOARD */}
+            {/* 1. HUD POP-OUT */}
             <button
-                onClick={() => onTabChange('dashboard')}
-                className={`flex flex-col items-center gap-1 transition-all ${activeTab === 'dashboard' ? 'text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]' : 'text-slate-500 hover:text-white'}`}
+                onClick={() => window.open('#/hud', 'PulseHUD', 'width=320,height=220,menubar=no,toolbar=no,location=no,status=no')}
+                className="flex flex-col items-center gap-1 text-slate-500 hover:text-cyan-400 transition-all group"
             >
-                <LayoutDashboard className="w-6 h-6" />
-                <span className="text-[10px] font-bold uppercase tracking-widest">Dash</span>
+                <ExternalLink className="w-6 h-6 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]" />
+                <span className="text-[10px] font-bold uppercase tracking-widest">HUD</span>
             </button>
 
             {/* 2. ANALYTICS (Combines Stats + Vault) */}
@@ -32,15 +32,6 @@ export default function BottomNav({ activeTab, onTabChange, onFocusClick, onManu
                     <div className="-rotate-45 flex flex-col items-center">
                         <Zap className="w-6 h-6 text-slate-900 fill-current group-hover:animate-pulse" />
                     </div>
-                </button>
-
-                {/* Pop-out HUD Button */}
-                <button
-                    onClick={() => window.open('#/hud', 'PulseHUD', 'width=320,height=220,menubar=no,toolbar=no,location=no,status=no')}
-                    className="absolute -right-10 top-4 p-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/50 transition-all opacity-0 group-hover/main:opacity-100 translate-x-[-10px] group-hover/main:translate-x-0 duration-300"
-                    title="Open Mini-HUD"
-                >
-                    <ExternalLink className="w-4 h-4" />
                 </button>
             </div>
 

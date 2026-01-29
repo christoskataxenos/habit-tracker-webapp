@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 import { Shield, Database, Lock, CheckCircle, ArrowRight, X } from 'lucide-react';
 
 export default function OnboardingModal({ isOpen, onComplete }) {
@@ -23,7 +23,7 @@ export default function OnboardingModal({ isOpen, onComplete }) {
         <AnimatePresence>
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                 {/* Backdrop / Φόντο */}
-                <motion.div
+                <Motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -31,7 +31,7 @@ export default function OnboardingModal({ isOpen, onComplete }) {
                 />
 
                 {/* Modal Container */}
-                <motion.div
+                <Motion.div
                     initial={{ scale: 0.9, opacity: 0, y: 20 }}
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -54,7 +54,7 @@ export default function OnboardingModal({ isOpen, onComplete }) {
 
                     <div className="p-8 md:p-12">
                         {step === 1 ? (
-                            <motion.div
+                            <Motion.div
                                 initial={{ x: 20, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 className="space-y-6 text-center"
@@ -77,9 +77,9 @@ export default function OnboardingModal({ isOpen, onComplete }) {
                                         <p className="text-[10px] text-slate-500">Your data, your rules.</p>
                                     </div>
                                 </div>
-                            </motion.div>
+                            </Motion.div>
                         ) : (
-                            <motion.div
+                            <Motion.div
                                 initial={{ x: 20, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 className="space-y-6"
@@ -120,7 +120,7 @@ export default function OnboardingModal({ isOpen, onComplete }) {
                                         Συνεχίζοντας, αποδέχεστε ότι το Pulse είναι μια τοπική εφαρμογή και τα δεδομένα σας παραμένουν στη δική σας κατοχή.
                                     </p>
                                 </div>
-                            </motion.div>
+                            </Motion.div>
                         )}
 
                         {/* Pagination & Action Button */}
@@ -149,7 +149,7 @@ export default function OnboardingModal({ isOpen, onComplete }) {
                             </button>
                         </div>
                     </div>
-                </motion.div>
+                </Motion.div>
             </div>
         </AnimatePresence>
     );

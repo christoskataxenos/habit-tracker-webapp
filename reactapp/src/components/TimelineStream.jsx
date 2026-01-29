@@ -1,6 +1,6 @@
 import React from 'react';
 import { AlignLeft, Edit3, Trash2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 import { vibrate, HapticPatterns } from '../utils/haptics';
 
 // Helper to format decimal hours to HH:MM:SS
@@ -29,7 +29,7 @@ const TimelineStream = ({ entries, onDelete, onEdit }) => {
 
             <AnimatePresence mode="popLayout">
                 {entries.map((entry) => (
-                    <motion.div
+                    <Motion.div
                         key={entry.id}
                         layout
                         initial={{ opacity: 0, x: -20 }}
@@ -76,7 +76,7 @@ const TimelineStream = ({ entries, onDelete, onEdit }) => {
                                 </button>
                             </div>
                         </div>
-                    </motion.div>
+                    </Motion.div>
                 ))}
             </AnimatePresence>
         </div >

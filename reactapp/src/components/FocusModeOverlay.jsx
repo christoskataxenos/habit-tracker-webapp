@@ -2,13 +2,13 @@ import React from 'react';
 import { Zap, Square } from 'lucide-react';
 import QuoteWidget from './QuoteWidget';
 import FlipClock from './FlipClock';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 
 export default function FocusModeOverlay({ isFocusMode, elapsed, onTerminate, formatTime, currentTime, clockFace = 'standard' }) {
     return (
         <AnimatePresence>
             {isFocusMode && (
-                <motion.div
+                <Motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -17,7 +17,7 @@ export default function FocusModeOverlay({ isFocusMode, elapsed, onTerminate, fo
                 >
                     {/* Background Glows (Aurora) */}
                     <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                        <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-[conic-gradient(from_0deg,transparent_0deg,rgba(59,130,246,0.1)_90deg,transparent_180deg,rgba(147,51,234,0.1)_270deg,transparent_360deg)] animate-[spin_20s_linear_infinite] blur-3xl opacity-50"></div>
+                        <div id="focus-aurora-bg" className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-[conic-gradient(from_0deg,transparent_0deg,rgba(59,130,246,0.1)_90deg,transparent_180deg,rgba(147,51,234,0.1)_270deg,transparent_360deg)] animate-[spin_20s_linear_infinite] blur-3xl opacity-50"></div>
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/10 rounded-full blur-[100px] animate-pulse"></div>
                     </div>
 
@@ -25,7 +25,7 @@ export default function FocusModeOverlay({ isFocusMode, elapsed, onTerminate, fo
                     <div className="w-full max-w-4xl flex items-center justify-between px-6 md:px-12 relative z-10 shrink-0">
                         <div className="text-left">
                             <h3 className="text-slate-500 text-sm md:text-xl uppercase tracking-[0.4em] mb-2">Focus Mode</h3>
-                            <div className="text-2xl md:text-4xl text-white font-light tracking-widest mb-2">ENGAGED</div>
+                            <div className="text-2xl md:text-4xl text-white-glow font-light tracking-widest mb-2">ENGAGED</div>
                             <div className="text-lg md:text-2xl text-slate-300 font-mono tracking-wider opacity-80 backdrop-blur-md">
                                 {currentTime ? currentTime.toLocaleTimeString('en-GB', { hour12: false }) : '--:--:--'}
                             </div>
@@ -42,7 +42,7 @@ export default function FocusModeOverlay({ isFocusMode, elapsed, onTerminate, fo
                                 <FlipClock elapsed={elapsed} />
                             </div>
                         ) : clockFace === 'minimal' ? (
-                            <h2 className="text-white font-light tracking-wide font-sans leading-none select-none relative z-10 text-center transition-all duration-500"
+                            <h2 className="text-white-glow font-light tracking-wide font-sans leading-none select-none relative z-10 text-center transition-all duration-500"
                                 style={{ fontSize: 'clamp(5rem, 15vw, 12rem)', textShadow: '0 0 50px rgba(255,255,255,0.1)' }}>
                                 {formatTime(elapsed)}
                             </h2>
@@ -79,13 +79,13 @@ export default function FocusModeOverlay({ isFocusMode, elapsed, onTerminate, fo
                     <div className="relative z-10 shrink-0 mb-8 md:mb-0">
                         <button
                             onClick={onTerminate}
-                            className="group flex items-center gap-4 px-10 py-5 md:px-16 md:py-8 bg-red-600 hover:bg-red-500/90 text-white rounded-2xl transition-all shadow-[0_10px_40px_-10px_rgba(220,38,38,0.4)] hover:scale-105 active:scale-95 border border-red-500/30"
+                            className="group flex items-center gap-4 px-10 py-5 md:px-16 md:py-8 bg-red-600 hover:bg-red-500/90 text-white-pure rounded-2xl transition-all shadow-[0_10px_40px_-10px_rgba(220,38,38,0.4)] hover:scale-105 active:scale-95 border border-red-500/30"
                         >
                             <Square className="w-6 h-6 md:w-8 md:h-8 fill-current" />
                             <span className="font-bold text-lg md:text-xl uppercase tracking-[0.2em] drop-shadow-none">Terminate</span>
                         </button>
                     </div>
-                </motion.div>
+                </Motion.div>
             )}
         </AnimatePresence>
     );

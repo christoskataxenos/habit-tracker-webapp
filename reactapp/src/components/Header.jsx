@@ -8,7 +8,6 @@ export default function Header({
     level = 1,
     rank = "NOVICE",
     progress = 0,
-    badges = [],
     currentStreak = 0
 }) {
     const isElectron = window && window.process && window.process.type;
@@ -29,7 +28,7 @@ export default function Header({
             {isElectron && (
                 <div className="fixed top-0 left-0 w-full h-8 z-[200] flex justify-between items-center draggable-header pl-4 pr-1 select-none">
                     <div className="text-[10px] text-slate-600 font-mono tracking-widest opacity-50 hover:opacity-100 transition-opacity">
-                        PULSE_OS v2.0.0
+                        PULSE_OS v2.0.8
                     </div>
 
                     <div className="flex items-center h-full non-draggable">
